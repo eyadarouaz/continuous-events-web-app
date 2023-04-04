@@ -1,0 +1,102 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+<nav class="navbar fixed-top bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand mb-0 h1" href="home" style="color:black;">
+        Continuous Events
+        </a>
+        <ul class="nav nav-underline" style="font-size: 15px;">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="home">Events</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="home">News</a>
+            </li>
+        </ul>
+        <div role="button" [matMenuTriggerFor]="menu">
+            <img src="https://mdbcdn.b-cdn.net/img/new/avatars/8.webp" class="rounded-circle " style="width: 35px;;" alt="Avatar" />
+        
+            <mat-menu #menu="matMenu" >
+                <button mat-menu-item>
+                    <mat-icon>account_circle</mat-icon>
+                    <span>Profile</span>
+                </button>
+                <button mat-menu-item>
+                    <mat-icon>settings</mat-icon>
+                    <span>Settings</span>
+                </button>
+                <mat-divider></mat-divider>
+                <button mat-menu-item (click)="logout()">
+                    <mat-icon>logout</mat-icon>
+                    <span>Logout</span>
+                </button>
+                <button mat-menu-item disabled>
+                    <mat-icon>voicemail</mat-icon>
+                    <span>Check voice mail</span>
+                </button>
+            </mat-menu>
+        </div>
+    
+    </div>
+</nav>
+
+
+
+
+
+
+
+<!-- <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="home">Continuous Events</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="home">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="home">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled">Disabled</a>
+          </li>
+        </ul>
+        <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="home" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle " style="width: 25px;;" alt="Avatar" />
+            </a>
+            <div class="dropdown-menu" style="justify-content: left;">
+              <li><a class="dropdown-item" href="home"><span class="material-symbols-outlined">
+                account_circle
+                </span> Profile</a></li>
+              <li><a class="dropdown-item" href="home"><span class="material-symbols-outlined">settings</span>Settings</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="home"><span class="material-symbols-outlined">
+                logout
+                </span>Logout</a></li>
+            </div>
+        </div>
+      </div>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" >
+        <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+        </button>
+        <button mat-menu-item disabled>
+            <mat-icon>voicemail</mat-icon>
+            <span>Check voice mail</span>
+        </button>
+    </mat-menu>
+    </div>
+  </nav> -->
+
+

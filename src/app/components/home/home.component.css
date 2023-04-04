@@ -1,0 +1,7 @@
+.main-div {
+    background-image: url('src/assets/images/home-background.jpg');
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
+    
+}
