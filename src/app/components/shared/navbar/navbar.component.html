@@ -5,14 +5,14 @@
         <a class="navbar-brand mb-0 h1" href="home" style="color:black;">
         Continuous Events
         </a>
-        <ul class="nav nav-underline" style="font-size: 15px;">
-            <li class="nav-item">
+        <ul class="nav nav-underline" style="font-size: 15px">
+            <li class="nav-item" style="width: 150px; text-align: center; font-size: 16px;">
               <a class="nav-link active" aria-current="page" href="home">Home</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" style="width: 150px; text-align: center; font-size: 16px;">
               <a class="nav-link" href="home">Events</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" style="width: 150px; text-align: center; font-size: 16px;">
               <a class="nav-link" href="home">News</a>
             </li>
         </ul>
@@ -20,7 +20,7 @@
             <img src="https://mdbcdn.b-cdn.net/img/new/avatars/8.webp" class="rounded-circle " style="width: 35px;;" alt="Avatar" />
         
             <mat-menu #menu="matMenu" >
-                <button mat-menu-item>
+                <button mat-menu-item routerLink="/profile">
                     <mat-icon>account_circle</mat-icon>
                     <span>Profile</span>
                 </button>
@@ -32,10 +32,6 @@
                 <button mat-menu-item (click)="logout()">
                     <mat-icon>logout</mat-icon>
                     <span>Logout</span>
-                </button>
-                <button mat-menu-item disabled>
-                    <mat-icon>voicemail</mat-icon>
-                    <span>Check voice mail</span>
                 </button>
             </mat-menu>
         </div>

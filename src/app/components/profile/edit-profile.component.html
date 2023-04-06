@@ -1,0 +1,58 @@
+<div style="width: 800px;height: 500px;top:400px;">
+    <h1 mat-dialog-title>Edit Your Profile</h1>
+    <div mat-dialog-content>
+        <form #editForm="ngForm" (ngSubmit)="save(editForm)">
+            <div>
+                <p class="text-muted">Personal Info</p>
+                <div style="float: left">
+                    <label for="firstname" style="font-size: small;">First Name</label>
+                    <div class="input-group mb-3" style="width:220px;">
+                        <input type="text" class="form-control" ngModel name="firstName" placeholder="firstname" aria-label="firstname" aria-describedby="basic-addon1" style="top: 1vh;" >
+                    </div>
+                </div>
+
+                <div style="position: relative; left: 20px">
+                    <label for="lastname" style="font-size: small;">Last Name</label>
+                    <div class="input-group mb-3" style="width:220px;">
+                        <input type="text" class="form-control" ngModel name="lastName" placeholder="lastname" aria-label="lastname" aria-describedby="basic-addon1" style="top: 1vh;">
+                    </div> 
+                </div>
+
+                <div style="float: left">
+                    <label for="mobile" style="font-size: small;">Mobile</label>
+                    <div class="input-group mb-3" style="width:220px;">
+                        <span class="input-group-text" id="basic-addon1">+216</span>
+                        <input type="tel" class="form-control" ngModel name="mobile" placeholder="mobile" aria-label="mobile" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <div style="position: relative; left: 20px">
+                    <label for="birthday" style="font-size: small;">Birthday</label>
+                    <div class="input-group mb-3" style="width:220px;">
+                        <input type="date" class="form-control" ngModel name="birthday" aria-label="birthday" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+            </div><br>  
+            
+            <div>
+                <p class="text-muted">Change Password</p>
+                <div style="float: left">
+                    <label for="currentpwd" style="font-size: small;">Current Password</label>
+                    <div class="input-group mb-3" style="width:220px;">
+                        <input type="password" class="form-control" ngModel name="currentPassword" aria-label="currentpwd" aria-describedby="basic-addon1" style="top: 1vh;">
+                    </div>
+                </div>
+
+                <div style="position: relative; left: 20px">
+                    <label for="newpwd" style="font-size: small;">New Password</label>
+                    <div class="input-group mb-3" style="width:220px;">
+                        <input type="password" class="form-control" ngModel name="newPassword" aria-label="firstname" aria-describedby="basic-addon1" style="top: 1vh;" >
+                    </div>
+                </div>
+            </div>
+            <div mat-dialog-actions style="justify-content: right;" >
+                <button mat-raised-button mat-dialog-close>Cancel</button>
+                <button mat-raised-button type="submit" >Save</button>
+            </div>
+        </form>
+    </div>
+  </div>

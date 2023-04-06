@@ -22,8 +22,9 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { EditProfileComponent, ProfileComponent } from './components/profile/profile.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 
 
@@ -35,7 +36,9 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     ForgotPasswordComponent,
     ResetPasswordComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    ProfileComponent,
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,

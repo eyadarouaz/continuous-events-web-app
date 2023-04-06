@@ -24,7 +24,7 @@ export class AuthService {
         const fetchedToken = localStorage.getItem('token');
         if (fetchedToken) {
             try {
-                const decryptedToken = atob(fetchedToken);
+                const decryptedToken = (fetchedToken);
                 this.verifyToken(decryptedToken).toPromise().then((res: any) => {
                 if (res.statusCode) {
                     localStorage.setItem('token', fetchedToken);
@@ -52,7 +52,7 @@ export class AuthService {
         this.http.post(ENDPOINT_URL + '/login', {login, password})
         .subscribe((res: any) => {
             const token = res.data.access_token;
-            const encryptedToken = btoa(token);
+            const encryptedToken = (token);
             if (!token) {
                 console.log('Authentication failed')
             } localStorage.setItem('token', encryptedToken);    
