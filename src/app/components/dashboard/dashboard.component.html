@@ -1,0 +1,67 @@
+<div class="container" style="height: 1000px">
+    <div style="margin-bottom: 30px;"><span style="font-size: 35px;">Dashboard</span></div>
+    <div *ngFor="let panel of panels">
+        <mat-expansion-panel style="float:left; margin-bottom: 50px;" [expanded]="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>{{panel.name}}</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div style="margin-top: 5px;">
+                <img src="{{panel.icon}}"
+                style="width: 50px;float: left;"/>
+                <p style="font-size: 35px;position: relative; left: 10px;top:7px">{{panel.value}}</p>
+            </div>
+        </mat-expansion-panel>
+    </div>
+    <div>
+        <mat-card style="width: fit-content;">
+            <mat-card-header style="margin-bottom: 10px;">
+                <mat-card-title>Manage Members</mat-card-title>
+                <button mat-raised-button (click)="openDialog()" style="margin-left: auto; margin-right: 10px;background-color: #0275d8;color:white">New member</button>
+            </mat-card-header>
+            <mat-card-content style=" height: 300px;overflow: auto;">
+                <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z0"> 
+                    <ng-container *ngFor="let column of columns" [matColumnDef]="column.name">
+                        
+                        <ng-container *ngIf="column.name !== 'edit' && column.name !== 'delete' ">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ column.header }} </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{column.cell(row)}}
+                            </td>
+                        </ng-container>
+                        <ng-container *ngIf="column.name === 'edit' ">
+                            <th mat-header-cell *matHeaderCellDef> {{ column.header }} </th>
+                            <td mat-cell *matCellDef="let row"><button mat-raised-button>Edit</button></td>
+                        </ng-container>
+                        <ng-container *ngIf="column.name === 'delete' ">
+                            <th mat-header-cell *matHeaderCellDef> {{ column.header }} </th>
+                            <td mat-cell *matCellDef="let row">
+                                <mat-icon role="button" (click)="selectedId = row.id" data-bs-toggle="modal" data-bs-target="#exampleModal" title="Delete">delete_forever</mat-icon>
+                            </td>
+                        </ng-container>
+                    </ng-container>
+                
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns;  sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Delete member</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to permanently delete this member?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border: 0;">Cancel</button>
+                <button type="button" class="btn btn-primary" (click)="deleteUser(selectedId)" style="background:#C41E3A; border: 0;">Delete</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
