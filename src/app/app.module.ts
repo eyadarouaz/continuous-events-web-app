@@ -25,6 +25,11 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { EditProfileComponent, ProfileComponent } from './components/profile/profile.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { AddMemberComponent,DashboardComponent } from './components/dashboard/dashboard.component';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatTableModule} from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 
@@ -38,7 +43,9 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     NavbarComponent,
     SidebarComponent,
     ProfileComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    DashboardComponent,
+    AddMemberComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +71,11 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     MatButtonToggleModule,
     MatProgressBarModule,
     MatButtonModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatExpansionModule,
+    MatTableModule,
+    MatSortModule,
+    MatCheckboxModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

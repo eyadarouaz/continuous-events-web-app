@@ -31,6 +31,7 @@ export class AuthService {
                 }
                 }).catch((err: HttpErrorResponse) => {
                 if (err) {
+                    alert("Your session is over! You will be redirected to the login page.");
                     localStorage.removeItem('token');
                     this.router.navigateByUrl('/login').then();
                 }
