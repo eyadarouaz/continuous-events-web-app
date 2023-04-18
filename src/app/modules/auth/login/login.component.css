@@ -1,0 +1,28 @@
+.main-div{
+    height: 93vh;
+    justify-content: right ;
+    align-items: center;
+}
+
+.content-div{
+    margin-top: 8vh;
+}
+mat-form-field{
+    width: 100%;
+}
+
+mat-card-title{
+    margin-top: 7vh;
+    margin-left: 2vh;
+    font-size: 32px;
+
+}
+.body-style{
+    background-image: url("src/assets/images/login-background.png");
+    background-size: cover;
+    background-position: center;
+}
+.forgot-dialog{
+    width: 450px;
+    height: 400px;
+}

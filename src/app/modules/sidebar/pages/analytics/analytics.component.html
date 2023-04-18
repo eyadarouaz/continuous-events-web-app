@@ -1,0 +1,40 @@
+<head>
+    <title>Dashboard - Analytics | Continuous Events</title>
+</head>
+<div class="container" style="height: 1000px; background-color: whitesmoke;">
+    <div style="margin-bottom: 30px;"><span style="font-size: 35px;">Dashboard</span></div>
+    <div>
+        <mat-expansion-panel style="float:left; margin-bottom: 50px;" [expanded]="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Members</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div>
+                <img src="assets/images/group.png" style="width: 60px;float: left;" />
+                <p style="font-size: 40px;position: relative; left: 10px; top: 18px">{{membersCount}}</p>
+            </div>
+            <a style="position:absolute;
+            bottom:0;
+            right:0;" href="home">Manage..</a>
+        </mat-expansion-panel>
+        <mat-expansion-panel style="float:left; margin-bottom: 50px;" [expanded]="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Events</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div>
+                <img src="assets/images/events.png" style="width: 60px;float: left;" />
+                <p style="font-size: 40px;position: relative; left: 10px; top: 18px">{{eventsCount}}</p>
+            </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel style="float:left; margin-bottom: 50px;" [expanded]="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Polls</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div>
+                <img src="assets/images/polling.png" style="width: 60px;float: left;" />
+                <p style="font-size: 40px;position: relative; left: 10px; top: 18px">{{surveysCount}}</p>
+            </div>
+        </mat-expansion-panel>
+    </div>
+    
+    
+</div>

@@ -1,0 +1,49 @@
+.testimonial-card {
+  border: 0;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+}
+
+.testimonial-card .card-up {
+  height: 120px;
+  overflow: hidden;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  }
+  
+  .testimonial-card .avatar {
+  width: 110px;
+  margin-top: -60px;
+  margin-left: 30px;
+  overflow: hidden;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  }
+
+  .row .col {
+    width: 340px
+  }
+
+label {
+  font-size: smaller;
+}
+
+/* .header img {
+    float: left ;
+    top: 150px;
+    width: 200px;
+    border-radius: 15px;
+  }
+  
+  .header h1 {
+    position: relative;
+    top: 75px;
+    left: 50px;
+    font-size: 30px;
+  }
+
+  .header p, ul {
+    position: relative;
+    left: 50px;
+    font-size: 15px;
+  } */
+
