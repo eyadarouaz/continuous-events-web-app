@@ -1,12 +1,13 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit} from "@angular/core";
 import { FormControl, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { AuthService } from "src/app/core/services/auth.service";
+
 
 @Component({
     selector: 'app-reset-password',
     templateUrl: './reset-password.component.html',
-    styleUrls: []
+    styleUrls: ['./reset-password.component.css']
   })
 export class ResetPasswordComponent implements OnInit{
   public verifCode: string|null = ''
@@ -19,7 +20,6 @@ export class ResetPasswordComponent implements OnInit{
    confirmPass = new FormControl('', [Validators.required]);
 
     ngOnInit() {
-      
       this.verifCode = localStorage.getItem('reset_code');
       this.token = localStorage.getItem('reset_token');
       this.router.navigate(
