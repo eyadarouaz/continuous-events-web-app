@@ -1,18 +1,18 @@
 import { Component, ViewChild } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
+import { Router } from "@angular/router";
 import { AuthService } from "src/app/core/services/auth.service";
 import { UserService } from "src/app/core/services/user.service";
-import { ProfileComponent } from "src/app/modules/sidebar/pages/profile/profile.component";
 
 @Component({
-    selector: 'nav-cmp',
+    selector: 'app-nav',
     templateUrl: './navbar.component.html',
     styleUrls: []
   })
   export class NavbarComponent {
 
     constructor(private authService: AuthService,
-      private userService: UserService,) {
+      private userService: UserService,
+      private router: Router,) {
         const token = this.authService.userToken;
         if(token){
           this.userService.getProfile()
@@ -28,6 +28,10 @@ import { ProfileComponent } from "src/app/modules/sidebar/pages/profile/profile.
       }
       id = ''
       image='assets/images/default_profile_image.webp'
+
+    profile() {
+      this.router.navigateByUrl('/profile')
+    }
 
     logout() {
       this.authService.logout();
