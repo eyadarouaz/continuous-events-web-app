@@ -11,7 +11,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { LoginComponent } from './login/login.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import {MatGridListModule} from '@angular/material/grid-list';
+
 
 
 
@@ -22,8 +22,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
     ResetPasswordComponent
   ],
   imports: [
-    SharedModule,
-    MatGridListModule
+    SharedModule
   ],
 })
 export class AuthModule { }
