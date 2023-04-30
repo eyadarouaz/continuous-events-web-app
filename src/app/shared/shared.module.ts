@@ -9,6 +9,7 @@ import { MatCardModule } from '@angular/material/card';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MatMenuModule } from '@angular/material/menu';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import {MatDividerModule} from '@angular/material/divider';
     MatButtonModule,
     MatCardModule,
     MatMenuModule,
-    NavbarComponent
+    NavbarComponent,
+    MatGridListModule
   ],
 })
 export class SharedModule { }
