@@ -15,6 +15,10 @@ export class AuthService {
      private toast: ToastrService) {
         this.validateToken();
     }
+    
+    get userRole() {
+        return localStorage.getItem('role');
+    }
 
     get userToken() {
         return localStorage.getItem('token');
@@ -28,11 +32,13 @@ export class AuthService {
                 this.verifyToken(decryptedToken).toPromise().then((res: any) => {
                 if (res.statusCode) {
                     localStorage.setItem('token', fetchedToken);
+                    // localStorage.setItem('role', res.data.user.role);
+                    
                 }
                 }).catch((err: HttpErrorResponse) => {
                 if (err) {
-                    alert("Your session is over! You will be redirected to the login page.");
                     localStorage.removeItem('token');
+                    localStorage.removeItem('role');
                     this.router.navigateByUrl('/login').then();
                 }
                 });
@@ -40,12 +46,13 @@ export class AuthService {
                 // @ts-ignore
             catch (err: DOMException) {
                 localStorage.removeItem('token');
+                localStorage.removeItem('role');
                 console.log('Authentication failed');
             }
         }
     }
 
-    verifyToken(token: string) {
+    verifyToken(token: any) {
         return this.http.post(ENDPOINT_URL + '/verify-token', {token});
     }
 
@@ -54,15 +61,28 @@ export class AuthService {
         .subscribe((res: any) => {
             const token = res.data.access_token;
             const encryptedToken = (token);
-            if (!token) {
-                console.log('Authentication failed')
-            } localStorage.setItem('token', encryptedToken);    
-            this.router.navigateByUrl('/home').then();
-        })
+            localStorage.setItem('token', encryptedToken);
+            localStorage.setItem('activeRoute', 'Home');
+            this.verifyToken(encryptedToken)
+            .subscribe((res: any) => {
+                if(res.statusCode) {
+                    localStorage.setItem('role', res.data.user.role)
+                }
+            })
+            this.toast.success('Logged in successfully!')
+            setTimeout(() => this.router.navigateByUrl('/home').then(), 1000)
+            
+        },
+        (err: any) => {
+            this.toast.error('Invalid credentials')
+        }
+        )
+        
     }
 
     logout() {
         localStorage.removeItem('token');
+        localStorage.removeItem('role');
         this.router.navigateByUrl('/login').then();
     }
 
@@ -91,5 +111,7 @@ export class AuthService {
             }
         })
     }
+
+    
 
 }
