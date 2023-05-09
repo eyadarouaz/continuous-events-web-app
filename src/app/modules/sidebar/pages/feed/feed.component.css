@@ -1,0 +1,139 @@
+
+
+mat-card {
+  margin-bottom: 20px;
+
+}
+.example-card {
+    max-width: 500px;
+    margin-left: 120px;
+    margin-right: 100px;
+  }
+  
+  .example-header-image {
+    background-image: url('http://localhost:3000/user/1/profile-photo');
+    background-size: cover;
+  }
+  
+  .testimonial-card {
+    border-radius: 10px;
+    border: 0;
+    width: 450px;
+    
+  }
+
+  .card-up {
+    height: 220px;
+    overflow: hidden;
+  }
+
+.details {
+  height: 80px;
+  background: #ffff;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.424);
+  width:500px;
+  margin:auto;
+  margin-bottom: 10px;
+}
+
+/* .event:hover {
+  background-color: rgba(245, 245, 245, 0.719);
+  border-radius: 20px;
+} */
+
+
+figure {
+  margin-right: 20px;
+  margin-top: 0;
+  width: 50px;
+  height: 45px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  position: relative;
+}
+figure:before {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 28px;
+  border-radius: 10px 10px 0 0;
+  background-image: -webkit-linear-gradient(white 0%,#edeeef 100%);
+  background-image: -moz-linear-gradient(white 0%,#edeeef 100%);
+  background-image: -o-linear-gradient(white 0%,#edeeef 100%);
+  background-image: linear-gradient(white 0%,#edeeef 100%);
+}
+figure header {
+  width: 50px;
+  height: 14px;
+  position: absolute;
+  top: -1px;
+  background-color: #fa565a;
+  border-radius: 10px 10px 0 0;
+  border-bottom: 3px solid #e5e5e5;
+  font: 200 10px/14px Arial, Helvetica, Geneva, sans-serif;
+  letter-spacing: 0.5px;
+  color: #fff;
+  text-align: center;
+}
+figure section {
+  width: 50px;
+  height: 38px;
+  position: absolute;
+  top: 15px;
+  font: 400 22px/22px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+  letter-spacing: -2px;
+  color: #4c566b;
+  text-align: center;
+  z-index: 10;
+}
+figure section:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 7px;
+  width: 2px;
+  height: 9px;
+  background-image: -webkit-linear-gradient(#b5bdc5 0%,#e5e5e5 100%);
+  background-image: -moz-linear-gradient(#b5bdc5 0%,#e5e5e5 100%);
+  background-image: -o-linear-gradient(#b5bdc5 0%,#e5e5e5 100%);
+  background-image: linear-gradient(#b5bdc5 0%,#e5e5e5 100%);
+}
+figure section:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 7px;
+  right: 0;
+  width: 2px;
+  height: 9px;
+  background-image: -webkit-linear-gradient(#b5bdc5 0%,#e5e5e5 100%);
+  background-image: -moz-linear-gradient(#b5bdc5 0%,#e5e5e5 100%);
+  background-image: -o-linear-gradient(#b5bdc5 0%,#e5e5e5 100%);
+  background-image: linear-gradient(#b5bdc5 0%,#e5e5e5 100%);
+}
+
+canvas {
+  height: 100%; /* we need these for full-screen effect */
+  width: 100%;
+}
+
+.button {
+  width: 220px;
+  margin-top: 8px;
+  margin-left: 28px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border-radius: 10px;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+.button:hover {
+  background-color: #5D3FD3;
+  box-shadow: 0px 10px 15px #5d3fd37b;
+  color: #fff;
+  transform: translateY(-5px);
+}
