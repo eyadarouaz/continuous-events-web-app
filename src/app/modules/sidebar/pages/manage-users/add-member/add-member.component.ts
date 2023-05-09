@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { NgForm } from "@angular/forms";
-import { UserService } from "src/app/core/services/user.service";
+import { UserService } from "../../../../../core/services/user.service";
 
 @Component({
     selector: 'add-member-cmp',

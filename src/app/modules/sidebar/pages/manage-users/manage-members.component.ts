@@ -1,10 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
-import { UserService } from "src/app/core/services/user.service";
+import { UserService } from "../../../../core/services/user.service";
 import { MatDialog } from "@angular/material/dialog";
 import { User } from "../../../../core/models/user.interface";
 import { EditMemberComponent } from './edit-member/edit-member.component';
 import { AddMemberComponent } from "./add-member/add-member.component";
+import { ToastrService } from "ngx-toastr";
 
   @Component({
     selector: 'app-manage-members',
@@ -13,7 +14,7 @@ import { AddMemberComponent } from "./add-member/add-member.component";
   })
   export class ManageMembersComponent implements OnInit {
     constructor(private userService: UserService,
-      public dialog: MatDialog,) {}
+      public dialog: MatDialog,public toast: ToastrService,) {}
 
   users: User[] = [];
   selectedId: number = 0;
@@ -23,6 +24,11 @@ import { AddMemberComponent } from "./add-member/add-member.component";
       name: 'id',
       header: 'ID',
       cell: (user: User) => `${user.id}`
+    },
+    {
+      name: 'image',
+      header: '',
+      cell: (user: User) => `${user.image}`,
     },
     {
       name: 'username',
@@ -50,31 +56,71 @@ import { AddMemberComponent } from "./add-member/add-member.component";
   ngOnInit(): void {
     this.userService.getUsers()
       .subscribe((res: any) => {
+
         if (res.statusCode) {
           res.data.list.forEach((element: any) => {
-            this.users.push({ id: element.id, username: element.username, email: element.email, joinedOn: element.createdAt });
+            let pic = 'assets/images/default_profile_image.webp'
+            if (element.profileImage) {
+              pic = `http://localhost:3000/user/${element.id}/profile-photo`;
+            }
+            this.users.push({ id: element.id, image: pic, username: element.username, 
+              email: element.email, joinedOn: new Date(element.createdAt).toDateString() });
           });
           this.dataSource = new MatTableDataSource(this.users);
         }
       });
     }
 
+    refresh() {
+      this.users = []
+      this.userService.getUsers()
+      .subscribe((res: any) => {
+        res.data.list.forEach((element: any) => {
+          let pic = 'assets/images/default_profile_image.webp'
+          if (element.profileImage) {
+            pic = `http://localhost:3000/user/${element.id}/profile-photo`;
+          }
+          this.users.push({ id: element.id, image: pic, username: element.username, 
+            email: element.email, joinedOn: new Date(element.createdAt).toDateString() });
+        });
+        this.dataSource = new MatTableDataSource(this.users);
+        console.log('refreshed')
+      })
+    }
+
+    applyFilter(event: Event) {
+      const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+
     openAddDialog() {
         const dialogRef = this.dialog.open(AddMemberComponent);
+        dialogRef.afterClosed().subscribe(() => {
+          this.waitRefresh()
+        })
     }
 
     openEditDialog(): void {
         const dialogRef = this.dialog.open(EditMemberComponent, {
-          data: { selectedId: this.selectedId }
+          data: { selectedId: this.selectedId, users: this.users }
         });
+        dialogRef.afterClosed().subscribe(() => {
+          this.waitRefresh()
+        })
     }
 
     deleteUser(id: number) {
     this.userService.deleteUser(id)
         .subscribe((res: any) => {
         if (res.statusCode) {
-        //   this.toast.success('User deleted successfully')
+          this.toast.success('User deleted successfully')
         }
         })
+    }
+
+    waitRefresh() {
+      setTimeout(() => {
+        this.refresh();
+     }, 1000);
     }
 }
