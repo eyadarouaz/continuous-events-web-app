@@ -1,0 +1,88 @@
+<head>
+    <title>Profile | Continuous Events</title>
+</head>
+<section style="margin-left: 20px;">
+    <div class="row text-center">
+        <div class="col-md-4 mb-5 mb-md-0">
+            <div class="card testimonial-card">
+                <div class="card-up" style="background-image: url('assets/images/card-up-wallpaper.jpg');"></div>
+                <div class="avatar mx-auto bg-white">
+                    <img src="{{image}}"
+                    class="rounded-circle img-fluid"/>
+                </div>
+                <div class="card-body">
+                    <p class="mb-3" style="font-size: 25px;font-weight: 700; color: #6F8FAF">{{firstName}} {{lastName}}</p>
+                    <p class="text-muted" style="font-size: 17px;">@{{username}}</p>
+                    <hr />
+                    <div class="row text-center">
+                        <div class="col-md-4 mb-5 mb-md-0">
+                            <p>15</p>
+                            Posts
+                        </div>
+                        <div class="col-md-4 mb-5 mb-md-0">
+                            <p>16</p>Comments
+                        </div>
+                        <div class="col-md-4 mb-5 mb-md-0">
+                            <p>21</p>Likes
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-5 mb-md-0">
+            <div class="card testimonial-card" style="width:630px;margin-bottom: 20px;margin-left: 60px;min-height: 420px;">
+              <div class="card-body" style="text-align: left;">
+                <h1 style="margin-left: 10px;margin-top: 10px;font-size: 28px;font-weight: 500;">About</h1><br>
+                    <div class="text-muted" style="font-size: 16px; margin-left: 10px;">GENERAL INFORMATION</div><hr><br>
+                    <div class="row" style="font-size: 18px;margin-left: 30px;margin-bottom: 10px;">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-5">
+                                    <strong style="font-weight: 500;font-size: 16px;">First Name :</strong>
+                                </div>
+                                <div class="col-5">{{firstName}}</div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-5">
+                                    <strong style="font-weight: 500;font-size: 16px;">Last Name :</strong>
+                                </div>
+                                <div class="col-5">{{lastName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="font-size: 18px;margin-left: 30px;margin-bottom: 50px;">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-5">
+                                    <strong style="font-weight: 500;font-size: 16px;">Roles :</strong>
+                                </div>
+                                <div class="col-5">{{role}}</div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-5">
+                                    <strong style="font-weight: 500;font-size: 16px;">Birthday :</strong>
+                                </div>
+                                <div class="col-5">{{birthday}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-muted" style="font-size: 16px;margin-left: 10px;">CONTACT INFORMATION</div><hr><br>
+                    <div class="row" style="font-size: 18px;margin-left: 30px;">
+                        <div class="col">
+                            <strong style="font-weight: 500;font-size: 16px;">Email Address :</strong><br> {{email}}
+                        </div>
+                        <div class="col">
+                            <strong style="font-weight: 500;font-size: 16px;">Mobile :</strong><br> {{mobile}}
+                        </div>
+                    </div>
+              </div>
+              <!-- <button mat-raised-button style="width: 30%; margin-bottom: 20px;margin-top: 10px;margin-left: 230px;">Send Message</button> -->
+            </div>
+        </div>
+    </div>
+</section>
+

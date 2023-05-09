@@ -1,0 +1,38 @@
+.testimonial-card {
+    border: 0;
+    width: 400px;
+    min-height:420px;
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+  }
+  
+  .testimonial-card .card-up {
+    height: 130px;
+    overflow: hidden;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    }
+    
+    .testimonial-card .avatar {
+    width: 140px;
+    margin-top: -60px;
+    margin-left: 30px;
+    overflow: hidden;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    }
+  
+    .row .col {
+      width: 340px
+    }
+  
+  label {
+    font-size: smaller;
+  }
+  .card-body .text-center p {
+    font-size: 32px; 
+    font-weight: 500;
+  }
+  
+  
+  
+  
