@@ -1,0 +1,100 @@
+<head>
+    <title>Events - {{title}} | Continuous Events</title>
+</head>
+<section style="padding-bottom: 20px;">
+    <mat-card style="width:950px;min-height: 520px; margin: auto;">
+        <div class="row">
+            <div class="col">
+                <img src={{image}}
+                style="width: 550px; height:350px">
+                <mat-card *ngIf="role=='Admin'" role="button" data-bs-toggle="modal" data-bs-target="#photoModal" style="margin-top: -28px; margin-left: 15px; width: 50px; height: 50px; border-radius: 50%;">
+                    <mat-icon role="button" style="width: 40px;text-align: center;margin-top:12px; margin-left: 5px;">edit</mat-icon>
+                </mat-card>
+                <div style="margin-left: 10px;">
+                    <h1 style="margin-top: 20px;"><strong>Description</strong></h1>
+                <p>{{description}}</p>
+                </div>
+            </div>
+            <div class="col" >
+                <div style="margin-left: 310px;margin-top: 10px; font-weight: 600;">
+                    <a href="/events" style="font-size: 16px; color: gray;text-decoration: none;">Back</a>
+                    <span class="material-symbols-outlined" style="vertical-align: middle;font-size: 20px;color: gray;font-weight: 600;">
+                        chevron_right
+                    </span>
+                </div>
+                <div style="margin-top: 30px;">
+                    <h3 style="color: rgb(104, 108, 238);"><strong>Wed 23</strong></h3>
+                    <div style="min-height:50px;font-size: 32px;font-weight: 700;line-height: 30px;margin-bottom: 25px;">
+                        {{title}}
+                        <span class="badge badge-default" [ngClass]="{'text-bg-primary': status === 'Scheduled', 'text-bg-secondary': status === 'Completed', 'text-bg-success': status === 'Happening' }"
+                        style="vertical-align: middle;font-size: 12px;">{{status}}</span>
+                    </div>
+                    <div style="min-height:80px;">
+                        <div class="row" style="margin-left: 10px;" *ngIf="attendees.length > 0">
+                            <div class="col-1" style="margin-left: -10px;" *ngFor="let attendee of attendees; let i=index">
+                                <img title={{attendee.user.firstName}} src="http://localhost:3000/user/{{attendee.user.id}}/profile-photo" 
+                                class="rounded-circle shadow-4"
+                                style="width: 32px;" alt="Avatar" *ngIf="i<3" />
+                            </div>
+                            <div class="col-8" style="margin-top: 5px; " role="button" data-bs-toggle="modal" data-bs-target="#registrationsModal">
+                                <strong style="color: rgb(104, 108, 238);"><span *ngIf="attendees.length > 3" >+ {{attendeesNumber}} others</span> registered</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button [disabled]="status === 'Completed'" mat-raised-button (click)="register()" style="width:93%; margin-bottom: 5px;">Register</button><br>
+                    <button mat-raised-button style="width:93%;">Join group chat</button>
+                    <div style="font-size: 16px;font-weight: 700; margin-top:50px">Date and Time</div>
+                    <p>{{start}} - {{end}}</p>
+                    <div style="font-size: 16px;font-weight: 700;">Location</div>
+                    <div>{{location}}</div>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+</section>
+
+<!-- Edit Photo Modal -->
+<div class="modal fade" id="photoModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Upload image</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form [formGroup]="editPhotoForm" (ngSubmit)="submitPhoto()">
+            <div class="modal-body">
+                <input (change)="onFileSelect($event)" type="file">
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </form>
+      </div>
+    </div>
+</div>
+
+<!-- Registrations Modal -->
+<div class="modal fade" id="registrationsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content" style="padding-bottom: 10px;">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Registrations</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div style="overflow-y: scroll;overflow-x: hidden;max-height:450px;">
+            <div class="row" *ngFor="let attendee of attendees" style="margin-top: 10px;;margin-left: 20px;">
+                <div class="col-2">
+                    <img title={{attendee.user.firstName}} src="http://localhost:3000/user/{{attendee.user.id}}/profile-photo" 
+                    class="rounded-circle shadow-4"
+                    style="width: 50px;" alt="Avatar"/>
+                </div>
+                <div class="col" style="font-size: 20px;margin-top: 14px;">
+                    {{attendee.user.username}}
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>

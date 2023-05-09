@@ -1,0 +1,64 @@
+<head>
+  <title>Events | Continuous Events</title>
+</head>
+<section>
+    <div class="row">
+      <div class="col">
+        <mat-card style="margin-bottom: 25px; height: 180px;border-radius: 10px;overflow: hidden;">
+          <div class="row">
+            <div class="col-1">
+              <img src="assets/images/discover-events.png" style="width: 250px;margin-top: 4px;">
+            </div>
+            <div class="col-7" style="margin-top:50px;margin-left:180px;font-size: 36px;text-align: center;color: #5f80e2;">
+              <strong>Discover Our Events</strong>
+              <form class="d-flex input-group" style="margin-top: 30px;">
+                <input
+                  name="searchInput" [(ngModel)]="searchInput"
+                  type="search"
+                  class="form-control rounded"
+                  placeholder="Search Events"
+                  aria-label="Search"
+                  aria-describedby="search-addon"
+                  style="width: 300px;"
+                />
+              </form>
+            </div>
+          </div>
+        </mat-card>
+        <mat-card *ngFor="let event of events | search: searchInput" style="margin-bottom: 12px;">
+          <div class="row" [ngClass]="{myClass: event.status == 'Completed'}" style="padding-top:15px; padding-bottom: 15px;padding-left: 10px;">
+            <div class="col-2" style="width:220px;">
+              <img src={{event.image}} style="width: 200px; height:120px; border-radius: 10px;">
+            </div>
+            <div class="col-8">
+              <div style="font-size: 20px; font-weight: 500;">
+                {{event.title}}
+                <span class="badge badge-default" [ngClass]="{'text-bg-primary': event.status === 'Scheduled', 'text-bg-secondary': event.status === 'Completed', 'text-bg-success': event.status === 'Happening' }"
+                style="vertical-align: middle;font-size: 12px;">{{event.status}}</span>
+              </div>
+              <p class="text-muted" style="margin-top: 3px;">
+                <span class="material-symbols-outlined" style="vertical-align: sub;font-size: 18px;">location_on</span>
+                {{event.location}}
+              </p>
+              <div style="height:40px; overflow: hidden;margin-bottom: 8px;">{{event.description}}</div>
+              <button class="button"  style="width: 120px;margin-left: 350px;" routerLink="/events/{{event.id}}">View Event</button>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-4" style="float: right;">
+        <mat-card  style="position: fixed;background: white;width: 350px">
+          <div style="width: 300px;margin: auto;height:450px; ">
+            <mat-calendar [dateClass]="dateClass" [(selected)]="selected" style="width: 100%"></mat-calendar>
+            <div *ngFor="let event of events" style="margin-top:10px">
+              <div *ngIf="selected?.toDateString() == event.date">
+                <strong> 📅 {{event.title}}</strong>
+                <div>🕑 {{event.time}}</div>
+                <div>📍 {{event.location}}</div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </section>
