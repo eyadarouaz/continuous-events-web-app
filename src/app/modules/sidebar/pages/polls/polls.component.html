@@ -1,0 +1,51 @@
+<head>
+    <title>Polls | Continuous Events</title>
+</head>
+  <section>
+      <div class="row">
+        <div class="col">
+          <mat-card style="margin-bottom: 32px; height: 180px;border-radius: 10px;overflow: hidden;">
+            <div class="row">
+              <div class="col-1">
+                
+              </div>
+              <div class="col-7" style="margin-top:50px;margin-left:180px;font-size: 36px;text-align: center;color: #5f80e2;">
+                <strong>Public Polls</strong>
+                <form class="d-flex input-group" style="margin-top: 30px;">
+                  <input
+                    type="search"
+                    class="form-control rounded"
+                    placeholder="Search Polls"
+                    aria-label="Search"
+                    aria-describedby="search-addon"
+                    style="width: 400px;"
+                  />
+                </form>
+              </div>
+            </div>
+          </mat-card>
+          <mat-card *ngFor="let poll of polls" style="margin-bottom: 30px;">
+            <div style="padding-top:35px; padding-bottom: 15px;padding-left: 35px;line-height: 30px;">
+              <button mat-raised-button style="width: 100px;float: right;
+              border-radius: 20px;margin-top: -45px;margin-right: 30px;color:black;
+              box-shadow: 0px 5px 10px #3a0afa97;background-color: #fff;" disabled>
+                {{poll.votes}} votes
+              </button>
+              <div style="font-size: 28px; font-weight: 550;width:500px">
+                {{poll.question}}
+              </div>
+              <div class="row">
+                <div class="col-10">
+                  <p >Due :<strong style="color: rgb(236, 4, 4);"> {{poll.dueDate}}</strong></p>
+                </div>
+                <div class="col-2">
+                  <div class="wrap"><button class="button" mat-raised-button style="width: 120px;float: right;margin-right: 20px;" routerLink="/polls/{{poll.id}}">View Poll</button></div>
+                </div>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+    </div>
+</section>
+   
+  

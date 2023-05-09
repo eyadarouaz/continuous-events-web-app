@@ -1,0 +1,100 @@
+<head>
+    <title>Dashboard - Manage Events | Continuous Events</title>
+</head>
+<p style="color: rgba(2, 1, 17, 0.379);font-size: 24px;margin-bottom: 20px;">Dashboard / <strong style="font-weight: 550;color: rgba(2, 1, 17, 0.63)">Manage Polls</strong></p>
+<mat-card style="margin: 2vh;">
+    <mat-card-header style="margin-bottom: 10px;">
+        <mat-card-title>Manage Polls</mat-card-title>
+        <button mat-raised-button (click)="openAddDialog()"
+            style="margin-left: auto; margin-right: 10px;background-color: #0275d8;color:white">
+            <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 5px;">
+                add
+            </span><span>Create a poll</span></button>
+    </mat-card-header>
+    <mat-card-content style=" height: 380px;overflow: auto;">
+        <div class="row" style="width: 550px"> 
+            <div class="col">
+                <mat-form-field style="width: 300px;">
+                    <mat-label>Search Polls</mat-label>
+                    <input matInput (keyup)="applyFilter($event)"  #input>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field appearance="fill" style="width: 150px;">
+                    <mat-label>Status</mat-label>
+                    <mat-select (selectionChange)="changed(status)" [formControl]="status">
+                        <mat-option value="Scheduled">Live</mat-option>
+                        <mat-option value="Finished">Ended</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z0">
+            <ng-container *ngFor="let column of columns" [matColumnDef]="column.name">
+
+                <ng-container *ngIf="column.name !== 'actions' ">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ column.header }} </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{column.cell(row)}}
+                    </td>
+                </ng-container>
+                <ng-container *ngIf="column.name === 'actions' ">
+                    <th mat-header-cell *matHeaderCellDef> {{ column.header }} </th>
+                    <td mat-cell *matCellDef="let row">
+                        <button mat-icon-button [matMenuTriggerFor]="menu"  aria-label="Example icon-button with a menu"
+                        (click)="selectedId = row.id" >
+                            <mat-icon>more_vert</mat-icon>
+                            </button>
+                    </td>
+                </ng-container>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns;  sticky: true"></tr>
+            <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
+            <tr
+                mat-row
+                (click)="clickedRows.add(row)"
+                [class.demo-row-is-clicked]="clickedRows.has(row)"
+                *matRowDef="let row; columns: displayedColumns;"
+            ></tr>
+        </table>
+    </mat-card-content>
+</mat-card>
+
+
+<!-- Menu -->
+<mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="openEditDialog()">
+        <span class="material-symbols-outlined">border_color</span>
+        <span>Edit</span>
+    </button>
+    <button mat-menu-item 
+    data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <span class="material-symbols-outlined">delete</span>
+        <span>Delete</span>
+    </button>
+  </mat-menu>
+
+  <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Poll</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this poll?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    style="border: 0;">Cancel</button>
+                <button type="button" class="btn btn-primary" 
+                    style="background:#C41E3A; border: 0;" data-bs-dismiss="modal" (click)="deletePoll(selectedId); waitRefresh()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

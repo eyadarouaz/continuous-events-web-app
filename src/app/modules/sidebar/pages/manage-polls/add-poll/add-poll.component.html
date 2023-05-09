@@ -1,0 +1,43 @@
+<h1 mat-dialog-title><mat-icon style="vertical-align: sub; margin-right: 5px;">bar_chart</mat-icon>Create a poll</h1>
+<mat-dialog-content >
+  <form [formGroup]="addPollForm" (ngSubmit)="onSubmit(addPollForm)">
+    <div style="width: 410px;">
+
+      <label class="text-muted">Question</label>
+      <div class="input-group mb-3" style="top: 1vh;">
+        <input  type="text"  class="form-control" formControlName="question" required>
+      </div>
+
+      <div formArrayName="option">
+        <label class="text-muted">Options</label>
+        <div
+          *ngFor="let optionGroup of option?.controls; let i = index"
+          [formGroupName]="i"
+        >
+            <div class="input-group mb-3" style="top: 1vh;">
+              <mat-icon title="remove" type="button" style="margin-top: 6px;margin-right: 5px;" (click)="removeOption(i)">highlight_off</mat-icon>
+                <input  type="text"  class="form-control" formControlName="value" placeholder="option {{i+1}}" required>
+            </div>
+        </div>
+      </div>
+      <button type="button" class="btn" (click)="addOption()" style="float: right;">
+        <span class="material-symbols-outlined" style="vertical-align: middle;">
+            add
+        </span>add option
+      </button><br>
+
+      <label class="text-muted">Due date</label>
+      <div class="input-group mb-3" style="top: 1vh;">
+        <input id="end" type="datetime-local"
+        class="form-control" formControlName="dueDate"  required>
+      </div>
+
+    </div> 
+    <mat-dialog-actions style="justify-content: right;">
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button mat-button type="submit" [mat-dialog-close]="true" style="background:#0275d8 ;color: white;">
+        Save
+      </button>
+    </mat-dialog-actions>
+  </form>
+</mat-dialog-content>

@@ -1,0 +1,48 @@
+.button {
+    width: 200px;
+    height: 45px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: none;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.button:disabled {
+    content: 'Choose an option';
+}
+
+.button:hover {
+    background-color: mediumslateblue;
+    color: #ffff;
+    transform: translateY(-5px);
+}
+
+option {
+    background-color: #ffff;
+}
+
+
+
+mat-button-toggle {
+    border-radius: 20px;
+    justify-content: left;
+}
+
+mat-button-toggle:hover {
+    transform: translateY(-5px);
+}
+
+
+.mat-button-toggle-focus {
+    background-color: transparent;
+}
+
+.mat-button-toggle-checked {
+    border: 3px solid mediumpurple;
+    background-color: #fff;
+
+}

@@ -1,0 +1,47 @@
+<head>
+    <title>Poll - {{question}} | Continuous Events</title>
+</head>
+<section>
+    <div class="row" style="padding-bottom: 15px;">
+        <div class="col-5" style="width:650px;margin-top: 30px;margin-left: 100px;">
+            <span class="badge text-bg-success" *ngIf="dueDate >= today"
+            style="margin-bottom: 10px;font-size: 16px;">Live</span>
+            <span class="badge text-bg-secondary" *ngIf="dueDate < today"
+                style="margin-bottom: 10px;font-size: 16px;">Ended</span>
+            <p style="font-size: 36px;line-height: 40px;font-weight: 500;">{{question}}</p>
+            created on {{createdAt}}
+            <mat-button-toggle-group [(ngModel)]="selectedOption" vertical style="border: 0;" *ngFor="let option of options">
+                <mat-button-toggle style="width:600px; margin-top: 15px;" value={{option.id}}  [disableRipple]="true">
+                    <div class="row" style="margin-top: 20px;margin-left:5px;text-align: left;">
+                        <div class="col-10">
+                            <h2>{{option.value}}</h2>
+                        </div>
+                        <div class="col">
+                            <h2>{{option.percentage}}%</h2>
+                        </div>
+                    </div>
+                    <!-- <mat-progress-bar mode="determinate" value="{{option.percentage}}" style="margin-left: -190px;width:700px;"></mat-progress-bar> -->
+                    <div class="progress" style="width:550px;margin: auto;height:8px">
+                        <div class="progress-bar" role="progressbar" [style.width]="option.percentage+'%'"  [attr.aria-valuenow]="33" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div style="margin-left: -500px;">
+                        <p class="text-muted"> {{option.votes}} votes</p>
+                    </div>
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+        <div class="col" style="margin-top: 195px;">
+            <!-- <a href="/polls">View all polls</a><br> -->
+            <div *ngIf="selectedOption === '' && dueDate >= today && !votedDisabled" class="tex-muted" style="font-size: 16px;">Please choose an option</div>
+            <button *ngIf="selectedOption != '' || dueDate < today || votedDisabled" class="button" mat-raised-button style="width:250px; font-size: 16px;height: 50px;
+            " (click)="vote()" [disabled]="votedDisabled || dueDate < today">Submit your vote</button><br>
+            <mat-hint *ngIf="dueDate < today" style="margin-left: 10px;margin-top: 10px;">This poll has ended ⌛</mat-hint>
+            <mat-hint *ngIf="votedDisabled && dueDate >= today" style="margin-left: 10px;margin-top: 10px;">You voted on this poll ✅</mat-hint>
+            <mat-card style="margin-top:20px;padding-left: 30px;padding-top: 20px;width:250px; height:150px">
+                <p style="line-height: 30px;">Votes</p>
+                <strong style="font-size: 64px;">{{votesNumber}}</strong><br><br>
+                <p class="tex-muted" style="font-size: 16px;margin-left:-10px">Due date: <strong style="color: rgb(213, 0, 0);"> {{dueDate.toDateString()}}</strong></p>
+            </mat-card>
+        </div>
+    </div>
+</section>
