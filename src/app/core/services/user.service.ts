@@ -53,8 +53,32 @@ export class UserService {
         })
     }
 
+    updateProfile(data: any) {
+        return this.http.put(ENDPOINT_URL + `/edit-profile`, data, {
+            headers: {
+                Authorization: `Bearer ${this.authService.userToken}`
+            },
+        })
+    }
+
     getProfile() {
         return this.http.get(ENDPOINT_URL + '/my-profile', {
+            headers: {
+                Authorization: `Bearer ${this.authService.userToken}`
+            }
+        })
+    }
+
+    getMemberProfile(id: number) {
+        return this.http.get(ENDPOINT_URL + `/${id}/profile`, {
+            headers: {
+                Authorization: `Bearer ${this.authService.userToken}`
+            }
+        })
+    }
+
+    getByUsername(username: any) {
+        return this.http.get(ENDPOINT_URL + `/${username}`, {
             headers: {
                 Authorization: `Bearer ${this.authService.userToken}`
             }
@@ -68,5 +92,13 @@ export class UserService {
             },
         })
     }
+    
 
+    changePassword(currentPassword: string, newPassword: string) {
+        return this.http.put(ENDPOINT_URL + '/change-password', {currentPassword, newPassword}, {
+            headers: {
+                Authorization: `Bearer ${this.authService.userToken}`
+            },
+        })
+    }
 }

@@ -1,41 +1,61 @@
-<section style="margin-left: 20px;">
+<head>
+    <title>My Profile | Continuous Events</title>
+</head>
+<section style="margin-left: 20px;height: 700px">
     <div class="row text-center">
         <div class="col-md-4 mb-5 mb-md-0">
-            <div class="card testimonial-card">
-                <div class="card-up" style="background-color: #A7C7E7;"></div>
+            <div class="card testimonial-card" style="width:400px">
+                <div class="card-up" style="background-image: url('assets/images/card-up-wallpaper.jpg')"></div>
                 <div class="avatar mx-auto bg-white">
-                    <img src="https://mdbcdn.b-cdn.net/img/new/avatars/8.webp"
-                    class="rounded-circle img-fluid" style="width: 300px; height: 105px;"/>
+                    <img src="{{image}}"
+                    class="rounded-circle img-fluid"/>
+                    <div class="middle">
+                        <label for="image-upload">
+                            <span class="material-symbols-outlined centered"  role="button" data-bs-toggle="modal" data-bs-target="#exampleModal" style="font-size:50px;color: rgba(128, 128, 128, 0.575);">
+                                photo_camera
+                            </span>
+                        </label>
+                    </div>
                 </div>
                 <div class="card-body">
                     <p class="mb-3" style="font-size: 25px;font-weight: 700; color: #6F8FAF">{{firstName}} {{lastName}}</p>
                     <p class="text-muted" style="font-size: 17px;">@{{username}}</p>
                     <hr />
-                    <p class="dark-grey-text mt-4">
-                    <i class="fas fa-quote-left pe-2"></i>Lorem ipsum dolor sit amet eos adipisci,
-                    consectetur adipisicing elit.
-                    </p>
+                    <div class="row text-center">
+                        <div class="col-md-4 mb-5 mb-md-0">
+                            <p>15</p>
+                            Posts
+                        </div>
+                        <div class="col-md-4 mb-5 mb-md-0">
+                            <p>16</p>Comments
+                        </div>
+                        <div class="col-md-4 mb-5 mb-md-0">
+                            <p>21</p>Likes
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mb-5 mb-md-0" style="width: 720px;">
-            <div class="card testimonial-card" style="height:350px; margin-bottom: 20px;">
+
+
+        <div class="col-md-4 mb-5 mb-md-0" style="margin-left: 60px;">
+            <div class="card testimonial-card" style="height:350px;width:642px">
               <div class="card-body" style="text-align: left;">
                 <h1>Edit profile</h1>
-                <form>      
+                <form [formGroup]="editInfoForm" (ngSubmit)="updateProfile(editInfoForm)">      
                     <div class="row">
                         <div class="col">
                             <label for="username" class="text-muted">Username</label>
                             <div class="input-group mb-3" style="top: 1vh;">
                                 <span class="input-group-text" id="basic-addon1">@</span>
-                                <input type="text" class="form-control" ngModel name="username" aria-label="username" aria-describedby="basic-addon1">
+                                <input  type="text"  class="form-control" formControlName="username" aria-label="username" aria-describedby="basic-addon1">
                             </div>
                         </div>
     
                         <div class="col">
                             <label for="lastname" class="text-muted">Email address</label>
                             <div class="input-group mb-3" >
-                                <input type="email" class="form-control" ngModel name="email" aria-label="email" aria-describedby="basic-addon1" style="top: 1vh;">
+                                <input type="email" class="form-control" formControlName="email" aria-label="email" aria-describedby="basic-addon1" style="top: 1vh;">
                             </div> 
                         </div>
                     </div>
@@ -43,14 +63,14 @@
                         <div class="col">
                             <label for="firstname" class="text-muted">First Name</label>
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" ngModel name="firstName" aria-label="firstname" aria-describedby="basic-addon1" style="top: 1vh;" >
+                                <input type="text" class="form-control" formControlName="firstName" aria-label="firstname" aria-describedby="basic-addon1" style="top: 1vh;" >
                             </div>
                         </div>
     
                         <div class="col">
                             <label for="lastname" class="text-muted">Last Name</label>
                             <div class="input-group mb-3" >
-                                <input type="text" class="form-control" ngModel name="lastName" aria-label="lastname" aria-describedby="basic-addon1" style="top: 1vh;">
+                                <input type="text" class="form-control" formControlName="lastName" aria-label="lastname" aria-describedby="basic-addon1" style="top: 1vh;">
                             </div> 
                         </div>
                     </div>
@@ -59,46 +79,66 @@
                             <label for="mobile" class="text-muted">Mobile</label>
                             <div class="input-group mb-3" style="top: 1vh">
                                 <span class="input-group-text" id="basic-addon1" >+216</span>
-                                <input type="tel" class="form-control" ngModel name="mobile"  aria-label="mobile" aria-describedby="basic-addon1">
+                                <input type="string" class="form-control" formControlName="mobile"  aria-label="mobile" aria-describedby="basic-addon1">
                             </div>
                         </div>
                         <div class="col">
                             <label for="birthday" class="text-muted">Birthday</label>
                             <div class="input-group mb-3">
-                                <input type="date" class="form-control" ngModel name="birthday" aria-label="birthday" aria-describedby="basic-addon1" style="top: 1vh">
+                                <input type="date" class="form-control" formControlName="birthday" aria-label="birthday" aria-describedby="basic-addon1" style="top: 1vh">
                             </div>
                         </div>
                     </div>
-                    <button class="btn" style="background: #4f9eed; color: white; border-radius: 2cm;">Update profile</button>
+                    <button type="submit" class="btn" style="background: #4f9eed; color: white; border-radius: 2cm;">Update profile</button>
                 </form>
               </div>
             </div>
         </div>
     </div>
-    <div style="width: 698px;margin-left: 362px;">
-        <div class="card testimonial-card" style="height:200px; margin-bottom: 20px;">
+    <div style="margin-left: 422px;">
+        <div class="card testimonial-card" style="margin-bottom: 20px;">
           <div class="card-body" style="text-align: left;">
             <h1>Change password</h1>
-            <form>                      
+            <form [formGroup]="editPwdForm" (ngSubmit)="changePassword(editPwdForm)">                      
                 <div class="row">
                     <div class="col">
                         <label for="currentpwd" class="text-muted">Current password</label>
                         <div class="input-group mb-3">
-                            <input type="password" class="form-control" ngModel name="currentPassword" aria-label="currentpwd" aria-describedby="basic-addon1" style="top: 1vh;">
+                            <input type="password" class="form-control" formControlName="currentPassword" aria-label="currentpwd" aria-describedby="basic-addon1" style="top: 1vh;">
                         </div>
                     </div>
     
                     <div class="col" >
                         <label for="newpwd" class="text-muted">New password</label>
                         <div class="input-group mb-3">
-                            <input type="password" class="form-control" ngModel name="newPassword" aria-label="firstname" aria-describedby="basic-addon1" style="top: 1vh;" >
+                            <input type="password" class="form-control" formControlName="newPassword" aria-label="firstname" aria-describedby="basic-addon1" style="top: 1vh;" >
                         </div>
                     </div>
                 </div>
+                <button type="submit" class="btn" style="background: #4f9eed; color: white; border-radius: 2cm;">Change password</button>
             </form>
           </div>
         </div>
     </div>
-    
 </section>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Change profile picture</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form [formGroup]="editPhotoForm" (ngSubmit)="submitPhoto()">
+            <div class="modal-body">
+                <input (change)="onFileSelect($event)" type="file">
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
