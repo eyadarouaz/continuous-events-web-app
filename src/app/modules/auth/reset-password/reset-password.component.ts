@@ -7,7 +7,7 @@ import { AuthService } from "src/app/core/services/auth.service";
 @Component({
     selector: 'app-reset-password',
     templateUrl: './reset-password.component.html',
-    styleUrls: ['./reset-password.component.css']
+    styleUrls: []
   })
 export class ResetPasswordComponent implements OnInit{
   public verifCode: string|null = ''
