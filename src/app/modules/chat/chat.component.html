@@ -1,0 +1,25 @@
+<script src="https://cdn.socket.io/4.3.2/socket.io.min.js"
+   integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs"
+   crossorigin="anonymous"></script>
+
+
+<head>
+ <meta charset="utf-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <title>Chat | Continuous Events</title>
+</head>
+ 
+
+ <div style="height:400px">
+   <div class="mb-3 mt-3" style="height: 400px; overflow-y: scroll;justify-content: right;">
+      <ul>
+        <li class="bg-primary p-2 rounded mb-2 text-light" *ngFor="let message of messages" style="width:fit-content">
+          <span class="fw-bolder">{{message.username}} : </span>
+          {{message.content}}
+        </li>
+      </ul>
+    </div>
+   <div style="bottom: 0px;width: 100%; ">
+     <input class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Say something..." />
+    </div>
+ </div>
