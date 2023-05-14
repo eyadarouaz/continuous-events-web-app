@@ -11,20 +11,28 @@ body {
 }
 
 .content-div{
-    margin-top: 8vh;
+    margin-top: 5vh;
+    margin-left: 3vh
 }
 mat-form-field{
     width: 100%;
 }
 
-mat-card-title{
-    margin-top: 20px;
-    margin-left: 52px;
-    font-size: 42px;
+mat-card {
+    width: 450px;
+    height: 500px
 }
 
-mat-card-subtitle{
-    margin-left: 140px;
+mat-card-title{
+    margin-top: 20px;
+    font-size: 28px;
+}
+
+.left-grid {
+    /* background: rgb(158,34,195);
+    background: linear-gradient(0deg, rgba(158,34,195,1) 0%, rgba(123,104,238,1) 100%); */
+    background: rgb(9,188,240);
+    background: linear-gradient(0deg, rgba(9,188,240,1) 0%, rgba(123,104,238,1) 27%, rgba(226,0,255,1) 100%);
 }
 
 .forgot-dialog{

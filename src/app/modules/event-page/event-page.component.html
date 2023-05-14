@@ -7,7 +7,7 @@
             <div class="col">
                 <img src={{image}}
                 style="width: 550px; height:350px">
-                <mat-card *ngIf="role=='Admin'" role="button" data-bs-toggle="modal" data-bs-target="#photoModal" style="margin-top: -28px; margin-left: 15px; width: 50px; height: 50px; border-radius: 50%;">
+                <mat-card *ngIf="role === 'Admin'" role="button" data-bs-toggle="modal" data-bs-target="#photoModal" style="margin-top: -28px; margin-left: 15px; width: 50px; height: 50px; border-radius: 50%;">
                     <mat-icon role="button" style="width: 40px;text-align: center;margin-top:12px; margin-left: 5px;">edit</mat-icon>
                 </mat-card>
                 <div style="margin-left: 10px;">
@@ -23,8 +23,8 @@
                     </span>
                 </div>
                 <div style="margin-top: 30px;">
-                    <h3 style="color: rgb(104, 108, 238);"><strong>Wed 23</strong></h3>
-                    <div style="min-height:50px;font-size: 32px;font-weight: 700;line-height: 30px;margin-bottom: 25px;">
+                    <h3 style="color: rgb(104, 108, 238);"><strong>{{topDate}}</strong></h3>
+                    <div style="min-height:50px;font-size: 32px;font-weight: 700;line-height: 37px;margin-bottom: 25px;">
                         {{title}}
                         <span class="badge badge-default" [ngClass]="{'text-bg-primary': status === 'Scheduled', 'text-bg-secondary': status === 'Completed', 'text-bg-success': status === 'Happening' }"
                         style="vertical-align: middle;font-size: 12px;">{{status}}</span>
@@ -42,8 +42,8 @@
                         </div>
                     </div>
                     
-                    <button [disabled]="status === 'Completed'" mat-raised-button (click)="register()" style="width:93%; margin-bottom: 5px;">Register</button><br>
-                    <button mat-raised-button style="width:93%;">Join group chat</button>
+                    <button class="button" [disabled]="status === 'Completed'" mat-raised-button (click)="register()" style="width:93%; margin-bottom: 5px;">Register</button><br>
+                    <!-- <button mat-raised-button style="width:93%;">Join group chat</button> -->
                     <div style="font-size: 16px;font-weight: 700; margin-top:50px">Date and Time</div>
                     <p>{{start}} - {{end}}</p>
                     <div style="font-size: 16px;font-weight: 700;">Location</div>

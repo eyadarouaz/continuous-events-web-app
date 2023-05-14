@@ -1,6 +1,6 @@
-import { AuthService } from 'src/app/core/services/auth.service';
 import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from "@angular/router";
+import { CanActivate, Router } from "@angular/router";
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Injectable({
     providedIn: 'root'
@@ -10,14 +10,14 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
   
     constructor(private router: Router, private authService: AuthService) {
     }
-    canActivate(
-      next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    canActivate(): boolean {
 
         if(!this.authService.userToken){
           this.router.navigateByUrl('/login').then();
           return false;
+        }else {
+          return true;
         }
-        return true;
       }
     
     }

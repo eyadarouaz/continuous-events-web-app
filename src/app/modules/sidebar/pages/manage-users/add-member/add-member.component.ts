@@ -3,14 +3,14 @@ import { NgForm } from "@angular/forms";
 import { UserService } from "../../../../../core/services/user.service";
 
 @Component({
-    selector: 'add-member-cmp',
+    selector: 'app-add-member',
     templateUrl: './add-member.component.html',
   })
   export class AddMemberComponent {
   
-    constructor(private userService: UserService) { }
-  
     selectedRole = 'User';
+
+    constructor(private userService: UserService) { }
   
     confirmPassword(addUserForm: NgForm) {
       const { password, confirm_password } = addUserForm.value;
@@ -25,8 +25,8 @@ import { UserService } from "../../../../../core/services/user.service";
         const role = this.selectedRole
         console.log({ username, email, password, role });
         return this.userService.addUser({ username, email, role, password })
-          .subscribe((res: any) => {
-            console.log('user added');
+          .subscribe(() => {
+            // notify
           })
       } return
     }

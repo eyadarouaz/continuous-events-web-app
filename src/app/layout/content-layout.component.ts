@@ -6,12 +6,12 @@ import { AuthService } from "./../core/services/auth.service";
     templateUrl: './content-layout.component.html',
     styleUrls: []
   })
-  export class ContentLayoutComponent {
+export class ContentLayoutComponent {
 
-    constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
-    logout() {
-      this.authService.logout();
-    }
-    
+  logout() {
+    this.authService.logout();
   }
+    
+}

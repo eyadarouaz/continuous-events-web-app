@@ -2,8 +2,8 @@ export interface Events {
     id: number;
     title: string;
     location: string;
-    startDate: Date;
-    endDate: Date;
+    startDate: string;
+    endDate: string;
     status: string;
     attendees?: number;
   }

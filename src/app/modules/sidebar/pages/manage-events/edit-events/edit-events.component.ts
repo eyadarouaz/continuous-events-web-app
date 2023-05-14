@@ -1,43 +1,48 @@
 import { Component, Inject, OnInit } from "@angular/core";
-import { UserService } from "src/app/core/services/user.service";
+import { FormControl, FormGroup } from "@angular/forms";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { FormControl, FormGroup, NgForm } from "@angular/forms";
-import { ManageEventsComponent } from "../manage-events.component";
-import { EventService } from "src/app/core/services/event.service";
 import { ToastrService } from "ngx-toastr";
+import { EventService } from "src/app/core/services/event.service";
+import { ManageEventsComponent } from "../manage-events.component";
 
 @Component({
-    selector: 'edit-event-cmp',
+    selector: 'app-edit-event',
     templateUrl: './edit-events.component.html',
   })
   export class EditEventComponent implements OnInit{
-    constructor(private userService: UserService, private eventService: EventService,
-      @Inject(MAT_DIALOG_DATA) public data: ManageEventsComponent,
-      public toast: ToastrService,) {}
 
-      editEventForm = new FormGroup({
-        title: new FormControl(),
-        description: new FormControl(),
-        startDate: new FormControl(),
-        endDate: new FormControl(),
-        location: new FormControl(),
-      });
-      status = '';
-      
+    editEventForm = new FormGroup({
+      title: new FormControl(),
+      description: new FormControl(),
+      startDate: new FormControl(),
+      endDate: new FormControl(),
+      location: new FormControl(),
+    });
+    status = '';
+
+    get id() {
+      return this.data.selectedId
+    }
+
+    constructor(
+      private eventService: EventService,
+      @Inject(MAT_DIALOG_DATA) public data: ManageEventsComponent,
+      public toast: ToastrService
+    ) {}
 
     ngOnInit(): void {
-        this.eventService.getEventById(this.id)
-        .subscribe((res: any) => {
-            this.status = res.data.status;
-            this.editEventForm.setControl('title', new FormControl(res.data.title));
-            this.editEventForm.setControl('description', new FormControl(res.data.description));
-            this.editEventForm.setControl('startDate', new FormControl(res.data.startDate.replace('Z', '')));
-            this.editEventForm.setControl('endDate', new FormControl(res.data.endDate.replace('Z', '')));
-            this.editEventForm.setControl('location', new FormControl(res.data.location));
-        })
-        const today = this.formatDate(new Date())
-        document.getElementById('start')?.setAttribute("min", today);
-        document.getElementById('end')?.setAttribute("min", today);
+      this.eventService.getEventById(this.id)
+      .subscribe((res: any) => {
+        this.status = res.data.status;
+        this.editEventForm.setControl('title', new FormControl(res.data.title));
+        this.editEventForm.setControl('description', new FormControl(res.data.description));
+        this.editEventForm.setControl('startDate', new FormControl(res.data.startDate.replace('Z', '')));
+        this.editEventForm.setControl('endDate', new FormControl(res.data.endDate.replace('Z', '')));
+        this.editEventForm.setControl('location', new FormControl(res.data.location));
+      })
+      const today = this.formatDate(new Date())
+      document.getElementById('start')?.setAttribute("min", today);
+      document.getElementById('end')?.setAttribute("min", today);
     }
 
     padTo2Digits(num: number) {
@@ -60,14 +65,10 @@ import { ToastrService } from "ngx-toastr";
       );
     }
   
-    get id() {
-      return this.data.selectedId
-    }
-
     onSubmit(editEventForm: FormGroup) {
       const data = editEventForm.value;
       return this.eventService.updateEvent(this.id, data)
-        .subscribe((res: any) => {
+        .subscribe(() => {
           this.toast.success('Event updated successfully')
         })
     }

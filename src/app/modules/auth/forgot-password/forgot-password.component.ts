@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { FormControl, Validators } from "@angular/forms";
-import { AuthService } from "src/app/core/services/auth.service";
+import { AuthService } from "./../../../core/services/auth.service";
 
 @Component({
     selector: 'app-forgot-password',

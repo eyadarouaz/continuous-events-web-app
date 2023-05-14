@@ -1,18 +1,19 @@
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
-import { UserService } from "src/app/core/services/user.service";
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { UserService } from "../../core/services/user.service";
 import { Menu } from "./../../core/models/menu.interface";
 
 
 
 @Component({
-    selector: 'sidebar-cmp',
+    selector: 'app-sidebar',
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.css'],
     animations: [
       trigger('rotatedState', [
-        state('default', style({ transform: 'rotate(0)' })),
-        state('rotated', style({ transform: 'rotate(90deg)' })),
+        state('rotated', style({ transform: 'rotate(0)' })),
+        state('default', style({ transform: 'rotate(90deg)' })),
         transition('rotated => default', animate('400ms ease-out')),
         transition('default => rotated', animate('400ms ease-in'))
       ])
@@ -20,21 +21,20 @@ import { Menu } from "./../../core/models/menu.interface";
   })
 export class SidebarComponent implements OnInit{
 
-  active: string = 'dash'
   menus: Menu[] = [
     {
       id: 1,
       icon: "home",
-      name: "Activity Stream",
+      name: "Home",
       route: "/home",
-      active: true,
+      active: false,
       menus: []
     },
     {
       id: 2,
       icon: "account_circle",
       name: "Profile",
-      route: "/home/profile",
+      route: "/profile",
       active: false,
       menus: []
     },
@@ -42,89 +42,106 @@ export class SidebarComponent implements OnInit{
       id: 3,
       icon: "event",
       name: "Events",
-      route: '/home',
+      route: '/events',
       active: false,
       menus: []
     },
     {
       id: 4,
+      icon: "bar_chart",
+      name: "Polls",
+      route: '/polls',
+      active: false,
+      menus: []
+    },
+    {
+      id: 5,
+      icon: "chat",
+      name: "Chat Room",
+      route: '/chat',
+      active: false,
+      menus: []
+    },
+    {
+      id: 6,
       icon: "dashboard",
       name: "Dashboard",
       route: '',
       active: false,
       menus: [
         {
-          id: 5,
-          icon: '',
-          name: 'Analytics',
-          route: '/home/dashboard',
-          active: false,
-          menus: []
-        },
-        {
-          id: 6,
-          icon: '',
-          name: 'Manage members',
-          route: '/home/manage-members',
-          active: false,
-          menus: []
-        },
-        {
           id: 7,
           icon: '',
-          name: 'Manage events',
-          route: '/home',
+          name: 'Analytics',
+          route: '/analytics',
           active: false,
           menus: []
         },
         {
           id: 8,
           icon: '',
+          name: 'Manage members',
+          route: '/manage-members',
+          active: false,
+          menus: []
+        },
+        {
+          id: 9,
+          icon: '',
+          name: 'Manage events',
+          route: '/manage-events',
+          active: false,
+          menus: []
+        },
+        {
+          id: 10,
+          icon: '',
           name: 'Manage polls',
-          route: '/home',
+          route: '/manage-polls',
           active: false,
           menus: []
         }
       ]
     },
   ];
-
-  constructor(private userService: UserService) {
-  }
-  public toggled = false;
-
-  @Output()
-  public onToggle: EventEmitter<boolean> = new EventEmitter();
-
   firstName = '';
   lastName = '';
   role= '';
-  state: string = 'default';
-    rotate() {
-        this.state = (this.state === 'default' ? 'rotated' : 'default');
-    }
+  state = 'default';
 
-  ngOnInit() {
-    return this.userService.getProfile()
-      .subscribe((res:any)=> {
-        if(res.statusCode){
-          this.firstName = res.data.firstName;
-          this.lastName = res.data.lastName;
-          this.role = res.data.role;
-        }
+  constructor(
+    private userService: UserService, 
+    public router: Router, 
+    public route: ActivatedRoute) {
+    this.menus.map(menu => {
+      if (menu.name == localStorage.getItem('activeRoute')) {menu.active = true;}
+      else if (this.hasMenus(menu)) {
+        menu.menus.map(sub => {
+          if (sub.name == localStorage.getItem('activeRoute')) {sub.active = true;}
+        });
+      }
     });
   }
 
-  toggle() {
-    this.toggled = !this.toggled;
-    this.onToggle.emit(this.toggled)
+  ngOnInit() {
+    return this.userService.getProfile()
+    .subscribe((res:any)=> {
+      this.firstName = res.data.firstName;
+      this.lastName = res.data.lastName;
+      this.role = res.data.role;
+    });
+  }
+
+  rotate() {
+    this.state = (this.state === 'default' ? 'rotated' : 'default');
   }
 
   hasMenus(menu: Menu): boolean {
     return menu.menus.length > 0;
   }
 
-  activate(id: any): void {
+  activate(id: any, name: any): void {
+    localStorage.setItem('activeRoute', name);
     this.menus = this.menus.map(menu => {
       if(this.hasMenus(menu)){
         menu.menus.map(sub => {

@@ -1,13 +1,8 @@
-import { AfterViewInit, Component, Inject, OnInit, ViewChild } from "@angular/core";
-import { NgForm } from "@angular/forms";
-import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
-import { ToastrService } from "ngx-toastr";
 import { EventService } from "../../../../core/services/event.service";
 import { SurveyService } from "../../../../core/services/survey.service";
 import { UserService } from "../../../../core/services/user.service";
-import { ManageMembersComponent } from "../manage-users/manage-members.component";
 
 
 @Component({
@@ -17,50 +12,66 @@ import { ManageMembersComponent } from "../manage-users/manage-members.component
 })
 export class AnalyticsComponent implements OnInit {
 
-  @ViewChild(MatSort) sort = new MatSort;
-
-  constructor(private userService: UserService,
-    private eventService: EventService,
-    private surveyService: SurveyService,
-    private toast: ToastrService) { }
+  today = new Date();
+  month = this.today.getFullYear() + '/' + (this.today.getMonth());  
 
   membersCount = new Number;
   eventsCount = new Number;
   surveysCount = new Number;
 
+  membersThisMonth:Array<any> = [];
+  eventsThisMonth:Array<any> = [];
+  pollsThisMonth:Array<any> = [];
 
-  events: Event[] = []
+  @ViewChild(MatSort) sort = new MatSort;
 
+  constructor(
+    private userService: UserService,
+    private eventService: EventService,
+    private surveyService: SurveyService
+  ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.userService.getUsers()
-      .subscribe((res: any) => {
-        if (res.statusCode) {
-          //Number of users (panel)
-          this.membersCount = res.data.count;
-        }
+    .subscribe((res: any) => {
+      //Number of users (total)
+      this.membersCount = res.data.count;
+      //Number of users (this month)
+      this.membersThisMonth = res.data.list.filter((element: any) => {
+        const created = new Date(element.createdAt);
+        const createdDate = created.getFullYear() + '/' + created.getMonth();
+        return createdDate == this.month;
       });
+    });
+
     this.eventService.getEvents()
-      .subscribe((res: any) => {
-        if (res.statusCode) {
-          //Number of events (panel)
-          this.eventsCount = res.data.count;
-          //Events (table)
-        }
+    .subscribe((res: any) => {
+      //Number of events (total)
+      this.eventsCount = res.data.count;
+      //Number of events (this month)
+      this.eventsThisMonth = res.data.list.filter((element: any) => {
+        const created = new Date(element.createdAt);
+        const createdDate = created.getFullYear() + '/' + created.getMonth();
+        return createdDate == this.month;
       });
+    });
+
     this.surveyService.getSurveys()
-      .subscribe((res: any) => {
-        if (res.statusCode) {
-          //Number of polls (panel)
-          this.surveysCount = res.data.count;
-        }
+    .subscribe((res: any) => {
+      //Number of polls (total)
+      this.surveysCount = res.data.count;
+      //Number of polls (this month)
+      this.pollsThisMonth = res.data.list.filter((element: any) => {
+        const created = new Date(element.createdAt);
+        const createdDate = created.getFullYear() + '/' + created.getMonth();
+        return createdDate == this.month;
       });
+    });
 
   }
 
-  // ngAfterViewInit() {
-  //   this.dataSource.sort = this.sort;
-  // }
+  route(id: any) {
+    localStorage.setItem('activeRoute', id);
+  }
 
-  
 }

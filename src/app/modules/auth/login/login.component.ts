@@ -1,8 +1,7 @@
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../../core/services/auth.service';
-import { Component, OnInit } from '@angular/core';
-import { FormControl, NgForm, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
 
 @Component({
@@ -10,15 +9,10 @@ import { ForgotPasswordComponent } from '../forgot-password/forgot-password.comp
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
-  constructor(private authService: AuthService, 
-    private router: Router,
-    public dialog: MatDialog) {}
+  constructor(private authService: AuthService, public dialog: MatDialog) {}
 
-  ngOnInit() {
-    
-  }
 
   login(loginForm: NgForm) {
     if (loginForm.invalid) {

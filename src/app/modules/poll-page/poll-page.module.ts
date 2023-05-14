@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from './../../shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { PollPageComponent } from './poll-page.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar';

@@ -1,20 +1,24 @@
 <head>
     <title>Login | Continuous Events</title>
 </head>
-<!-- <body style="background: #eee8e8;">
-<div style="margin: auto;padding-top: 60px;width: 900px;">
-    <mat-grid-list cols="2" style="border-radius:20px; overflow: hidden;">
-        <mat-grid-tile style="background: #430bb3;">
-            <img src="assets/images/eventlogo.png" style="width:450px">
+<body style="background-color: rgb(228, 228, 228);">
+<div style="width:820px; height:480px; margin:auto; margin-top:20px;" >
+    <mat-grid-list cols="2" rowHeight="100%">
+        <mat-grid-tile class="left-grid">
+            <img src="assets/images/Rectangle (2).png" style="width:250px">
         </mat-grid-tile>
-        <mat-grid-tile style="background: white;">
-            <mat-card style="height: 500px;">
+        <mat-grid-tile style="background-color: white;">
+            <mat-card>
                 <mat-card-header>
-                    <mat-card-title>Welcome Back! 👋</mat-card-title>
-                    <mat-card-subtitle style="margin-left: 2vh;">Login to continue</mat-card-subtitle>
+                    <mat-card-title>
+                        <img src="assets/images/login-logo.png" style="width:75px;margin-bottom: 20px;margin-left: 12px;"><br>
+                        <strong style="margin-top: 70px;margin-left:20px">Log In</strong>
+                    </mat-card-title>
+                    <mat-card-subtitle style="margin-left:20px; font-size: 13px;">Enter your username and password to continue.</mat-card-subtitle>
                 </mat-card-header>
                 <div class="content-div">
                     <mat-card-content>
+                        <div style=" width: 335px;">
                         <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
                             <mat-form-field appearance="outline">
                                 <mat-label>Username or Email</mat-label>
@@ -24,26 +28,29 @@
                                 <mat-label>Password</mat-label>
                                 <input matInput type="password" class="form-control" ngModel name="password" >
                             </mat-form-field>
-                            <button [disabled]="loginForm.invalid" type="submit" mat-raised-button style="background: #430bb3;color: white;width: 100%; margin-bottom: 5px;">Login</button>
+                            <button class="login-button" [disabled]="loginForm.invalid" type="submit" mat-raised-button style="width: 100%; margin-bottom: 5px;">Login</button>
                         </form>
                         <br>
                         <div style="text-align: center;">
-                            <button mat-button (click)="openDialog()">Forgot Password?</button>
+                            <button class="forgot-button" mat-button (click)="openDialog()">Forgot Password ?</button>
                         </div>
+                    </div>
                     </mat-card-content>
                 </div>
             </mat-card>
         </mat-grid-tile>
     </mat-grid-list>
 </div>
-</body> -->
+</body>
 
-
-<body>
+<!-- <body>
   <div class="main-div">
     <mat-card>
         <mat-card-header>
-            <mat-card-title>Welcome Back! </mat-card-title>
+            <mat-card-title>
+                <img src="assets/images/login-logo.png" style="width:120px; margin-left: 90px;"><br>
+                <strong style="margin-left: 18px;margin-top: 50px;">Welcome Back!</strong>
+            </mat-card-title>
             <mat-card-subtitle>Login to continue</mat-card-subtitle>
         </mat-card-header>
         <div class="content-div">
@@ -67,7 +74,7 @@
         </div>
     </mat-card>
 </div>
-</body>
+</body> -->
 
 
 

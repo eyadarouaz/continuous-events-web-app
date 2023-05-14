@@ -13,61 +13,61 @@ import { ToastrService } from "ngx-toastr";
     styleUrls: []
   })
   export class ManageMembersComponent implements OnInit {
-    constructor(private userService: UserService,
-      public dialog: MatDialog,public toast: ToastrService,) {}
 
-  users: User[] = [];
-  selectedId: number = 0;
-  dataSource = new MatTableDataSource(this.users);
-  columns = [
-    {
-      name: 'id',
-      header: 'ID',
-      cell: (user: User) => `${user.id}`
-    },
-    {
-      name: 'image',
-      header: '',
-      cell: (user: User) => `${user.image}`,
-    },
-    {
-      name: 'username',
-      header: 'Username',
-      cell: (user: User) => `${user.username}`,
-    },
-    {
-      name: 'email',
-      header: 'Email Address',
-      cell: (user: User) => `${user.email}`,
-    },
-    {
-      name: 'joinedOn',
-      header: 'Joined On',
-      cell: (user: User) => `${user.joinedOn}`,
-    },
-    {
-      name: 'actions',
-      header: 'Actions',
-      cell: () => '',
-    },
-  ]
-  displayedColumns = this.columns.map(c => c.name);
+    users: User[] = [];
+    selectedId = 0;
+    dataSource = new MatTableDataSource(this.users);
+    columns = [
+      {
+        name: 'id',
+        header: 'ID',
+        cell: (user: User) => `${user.id}`
+      },
+      {
+        name: 'image',
+        header: '',
+        cell: (user: User) => `${user.image}`,
+      },
+      {
+        name: 'username',
+        header: 'Username',
+        cell: (user: User) => `${user.username}`,
+      },
+      {
+        name: 'email',
+        header: 'Email Address',
+        cell: (user: User) => `${user.email}`,
+      },
+      {
+        name: 'joinedOn',
+        header: 'Joined On',
+        cell: (user: User) => `${user.joinedOn}`,
+      },
+      {
+        name: 'actions',
+        header: 'Actions',
+        cell: () => '',
+      },
+    ]
+    displayedColumns = this.columns.map(c => c.name);
 
-  ngOnInit(): void {
-    this.userService.getUsers()
+    constructor(
+      private userService: UserService,
+      public dialog: MatDialog,public toast: ToastrService
+    ) {}
+
+    ngOnInit(): void {
+      this.userService.getUsers()
       .subscribe((res: any) => {
-
-        if (res.statusCode) {
-          res.data.list.forEach((element: any) => {
-            let pic = 'assets/images/default_profile_image.webp'
-            if (element.profileImage) {
-              pic = `http://localhost:3000/user/${element.id}/profile-photo`;
-            }
-            this.users.push({ id: element.id, image: pic, username: element.username, 
-              email: element.email, joinedOn: new Date(element.createdAt).toDateString() });
-          });
-          this.dataSource = new MatTableDataSource(this.users);
+        res.data.list.forEach((element: any) => {
+        let pic = 'assets/images/default_profile_image.webp'
+        if (element.profileImage) {
+        pic = `http://localhost:3000/user/${element.id}/profile-photo`;
         }
+        this.users.push({ id: element.id, image: pic, username: element.username, 
+          email: element.email, joinedOn: new Date(element.createdAt).toLocaleDateString() });
+        });
+        this.dataSource = new MatTableDataSource(this.users);
       });
     }
 
@@ -81,11 +81,10 @@ import { ToastrService } from "ngx-toastr";
             pic = `http://localhost:3000/user/${element.id}/profile-photo`;
           }
           this.users.push({ id: element.id, image: pic, username: element.username, 
-            email: element.email, joinedOn: new Date(element.createdAt).toDateString() });
+          email: element.email, joinedOn: new Date(element.createdAt).toLocaleDateString() });
         });
         this.dataSource = new MatTableDataSource(this.users);
-        console.log('refreshed')
-      })
+      });
     }
 
     applyFilter(event: Event) {
@@ -110,12 +109,10 @@ import { ToastrService } from "ngx-toastr";
     }
 
     deleteUser(id: number) {
-    this.userService.deleteUser(id)
-        .subscribe((res: any) => {
-        if (res.statusCode) {
-          this.toast.success('User deleted successfully')
-        }
-        })
+      this.userService.deleteUser(id)
+      .subscribe(() => {
+        this.toast.success('User deleted successfully')
+      });
     }
 
     waitRefresh() {

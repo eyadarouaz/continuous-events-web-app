@@ -6,113 +6,133 @@
   <div class="row">
     <div class="col">
       <!-- Birthday -->
-      <mat-card style="width:680px;margin-bottom: 25px; height: 180px;border-radius: 10px;overflow: hidden;margin-left: 30px;" *ngIf="birthday.firstName">
+      <mat-card style="width:680px;margin-bottom: 25px; height: 180px;border-radius: 10px;overflow: hidden;margin-left: 30px;" *ngIf="birthday.firstName || birthday.username">
         <div class="row">
           <div class="col-4" style="margin-left: 70px;margin-top: 15px;">
             <img src={{birthday.image}} class="rounded-circle" style="width: 150px;box-shadow: 0px 5px 8px rgba(100, 148, 237, 0.5);"
             alt="Avatar" />
           </div>
-          <div class="col" style="margin-top: 60px;font-size: 28px;font-weight: 600;">
+          <div class="col" style="margin-top: 60px;font-size: 28px;font-weight: 600;" *ngIf="birthday.firstName">
             <div> It's {{birthday.firstName}}'s birthday <span role="button" title="click for surprise" (click)="surprise()">🎉</span></div><br>
             <button mat-raised-button class="button">Wish {{birthday.firstName}} a happy birthday</button>
           </div>
+          <div class="col" style="margin-top: 60px;font-size: 28px;font-weight: 600;" *ngIf="birthday.username && !birthday.firstName">
+            <div> It's {{birthday.username}}'s birthday <span role="button" title="click for surprise" (click)="surprise()">🎉</span></div><br>
+            <button mat-raised-button class="button">Wish {{birthday.username}} a happy birthday</button>
+          </div>
         </div>
       </mat-card>
-      <!-- Event Post -->
-      <mat-card class="example-card">
-        <mat-card-header>
-          <div mat-card-avatar class="example-header-image"></div>
-          <mat-card-title class="row" style="font-size: 16px;">
-            Mohammad Cherif
-            <span class="text-muted" style="font-size: 14px;margin-left: -8px;">created an event.</span>
-          </mat-card-title>
-          <mat-card-subtitle *ngIf="diffMin < 60">{{diffMin}} minutes ago</mat-card-subtitle>
-          <mat-card-subtitle title="{{postedOn}}" *ngIf="diffMin >= 60 && diffMin < 1440">{{diffHour}} hours ago</mat-card-subtitle>
-          <mat-card-subtitle *ngIf="diffMin >= 1440">{{diffDay}} days ago</mat-card-subtitle>
-        </mat-card-header>
-      
+      <!-- Posts -->
+      <div *ngFor="let post of posts">
+        <!-- Event Post -->
+        <mat-card class="example-card" *ngIf="post.eventPost">
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title class="row" style="font-size: 16px;">
+              {{post.user.firstName}} {{post.user.lastName}}
+              <span class="text-muted" style="font-size: 14px;margin-left: -8px;">created an event.</span>
+            </mat-card-title>
+            <!-- <mat-card-subtitle *ngIf="diffMin < 60">{{diffMin}} minutes ago</mat-card-subtitle>
+            <mat-card-subtitle title="{{postedOn}}" *ngIf="diffMin >= 60 && diffMin < 1440">{{diffHour}} hours ago</mat-card-subtitle>
+            <mat-card-subtitle *ngIf="diffMin >= 1440">{{diffDay}} days ago</mat-card-subtitle> -->
+            <mat-card-subtitle>{{post.postedOn}}</mat-card-subtitle>
+          </mat-card-header>
         
-          <div class="card-up">
-            <img src="http://localhost:3000/event/1/image" style="width: 500px; height:350px; margin-top: -7%;">
+          
+            <div class="card-up">
+              <img src="http://localhost:3000/event/1/image" style="width: 500px; height:350px; margin-top: -7%;">
+            </div>
+            <div class="row details" role="button" routerLink="/events/{{post.eventPost.id}}">
+              <div class="col-9" style="margin-left: 10px;margin-top: 8px;">
+                <div style="color: red;font-weight: 500;">{{post.eventPost.startDate}}</div>
+                <strong style="font-size: 20px;">{{post.eventPost.title}}</strong>
+                <div style="color: gray;font-weight: 400;">{{post.eventPost.location}}</div>
+              </div>
+              <div class="col">
+                
+              </div>
+            </div>
+            <div class="row" style="margin-left: 22px; margin-top: 10px;margin-bottom: 5px;">
+              <div class="col-1" style="margin-left: -25px">
+                <img class="rounded-circle" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(9).webp" style="width:26px">
+              </div>
+              <div class="col-1" style="margin-left: -25px">
+                <img class="rounded-circle" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp" style="width:26px;">
+              </div>
+              <div class="col-1" style="margin-left: -25px">
+                <img class="rounded-circle" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(1).webp" style="width:26px">
+              </div>
+              <div class="col-7" style="margin-left: -8px;margin-top: 5px;"><strong>like this</strong></div>
+              <div class="col-3"style="margin-top:5px">
+                <mat-icon style="margin-left:22px;height:18px;font-size: 15px;vertical-align: text-bottom;color: #4c73e8;">
+                  thumb_up
+                </mat-icon>
+                <strong>{{post.nbLikes}}</strong>
+                <mat-icon style="margin-left:8px;height:18px;font-size: 15px;vertical-align: text-bottom;color: rgb(171, 165, 165);">
+                  chat_bubble
+                </mat-icon>
+                <strong>0</strong>
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+            <mat-card-actions>
+            <button mat-button style="width: 50%"><mat-icon>thumb_up</mat-icon>Like</button>
+            <button mat-button style="width: 50%"><mat-icon> chat_bubble</mat-icon>Comment</button>
+          </mat-card-actions>
+        </mat-card>
+        <!-- /Event Post -->
+        <!-- Poll Post -->
+        <mat-card class="example-card" *ngIf="post.surveyPost">
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title class="row" style="font-size: 16px;">
+              {{post.user.firstName}} {{post.user.lastName}}
+              <span class="text-muted" style="font-size: 14px;margin-left: -8px;">created a poll.</span>
+            </mat-card-title>
+            <!-- <mat-card-subtitle *ngIf="diffMin < 60">{{diffMin}} minutes ago</mat-card-subtitle>
+            <mat-card-subtitle title="{{postedOn}}" *ngIf="diffMin >= 60 && diffMin < 1440">{{diffHour}} hours ago</mat-card-subtitle>
+            <mat-card-subtitle *ngIf="diffMin >= 1440">{{diffDay}} days ago</mat-card-subtitle> -->
+            <mat-card-subtitle> {{post.postedOn}}</mat-card-subtitle>
+          </mat-card-header>
+        
+          <div style="width:450px; margin-left: 30px;margin-bottom: 10px;">
+            <p style="font-size: 19px;font-weight: 500;">{{post.surveyPost.question}}</p>
+            <div style="margin-left: 20px;">
+              <ul>
+                <li *ngFor="let option of post.surveyPost.options">{{option.value}}</li>
+              </ul>
+              <button class="button" routerLink="/polls/{{post.surveyPost.id}}" mat-raised-button style="width:100%; margin-left: -16px;font-size: 14px;">Vote</button>
+            </div>
           </div>
-          <div class="row details" role="button">
-            <div class="col-9" style="margin-left: 10px;margin-top: 8px;">
-              <div style="color: red;font-weight: 500;">Wed, May 1, 2023 at 08:00</div>
-              <strong style="font-size: 20px;">Board Games Tournament</strong>
-              <div style="color: gray;font-weight: 400;">The Office</div>
+  
+          <div class="row" style="margin-left: 30px; margin-top: 10px;margin-bottom: 5px;">
+            <div class="col-1" style="margin-left: -25px" *ngFor="let user of post.users">
+              <img class="rounded-circle" src="http://localhost:3000/user/{{user.id}}/profile-photo" style="width:26px">
             </div>
-            <div class="col">
-              
-            </div>
-          </div>
-          <div class="row" style="margin-left: 22px; margin-top: 10px;margin-bottom: 5px;">
-            <div class="col-1" style="margin-left: -25px">
-              <img class="rounded-circle" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(9).webp" style="width:26px">
-            </div>
-            <div class="col-1" style="margin-left: -25px">
-              <img class="rounded-circle" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp" style="width:26px;">
-            </div>
-            <div class="col-1" style="margin-left: -25px">
-              <img class="rounded-circle" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(1).webp" style="width:26px">
-            </div>
-            <div class="col-7" style="margin-left: -8px;margin-top: 5px;"><strong>liked this</strong></div>
+            <div class="col-7" style="margin-left: -8px;margin-top: 5px;"><strong>like this</strong></div>
             <div class="col-3"style="margin-top:5px">
-              <mat-icon style="margin-left:22px;height:18px;font-size: 15px;vertical-align: text-bottom;color: #4c73e8;">thumb_up</mat-icon><strong>0 </strong>
-              <mat-icon style="margin-left:8px;height:18px;font-size: 15px;vertical-align: text-bottom;color: rgb(171, 165, 165);">chat_bubble</mat-icon><strong>0</strong>
+              <mat-icon style="margin-left:22px;height:18px;font-size: 15px;vertical-align: text-bottom;color: #4c73e8;">
+                thumb_up
+              </mat-icon>
+              <strong>{{post.nbLikes}}</strong>
+              <mat-icon style="margin-left:8px;height:18px;font-size: 15px;vertical-align: text-bottom;color: rgb(171, 165, 165);">
+                chat_bubble
+              </mat-icon>
+              <strong>0</strong>
             </div>
           </div>
           <mat-divider></mat-divider>
           <mat-card-actions>
-          <button mat-button style="width: 50%"><mat-icon>thumb_up</mat-icon>Like</button>
-          <button mat-button style="width: 50%"><mat-icon> chat_bubble</mat-icon>Comment</button>
-        </mat-card-actions>
-      </mat-card>
+            <button mat-button style="width: 50%"><mat-icon>thumb_up</mat-icon>Like</button>
+            <button mat-button style="width: 50%"><mat-icon> chat_bubble</mat-icon>Comment</button>
+          </mat-card-actions>
+        </mat-card>
+        <!-- /Poll Event -->
+      </div>
+      <!-- /Posts -->
 
-      <!-- Poll Post -->
-      <mat-card class="example-card">
-        <mat-card-header>
-          <div mat-card-avatar class="example-header-image"></div>
-          <mat-card-title class="row" style="font-size: 16px;">
-            Mohammad Cherif
-            <span class="text-muted" style="font-size: 14px;margin-left: -8px;">created a poll.</span>
-          </mat-card-title>
-          <mat-card-subtitle *ngIf="diffMin < 60">{{diffMin}} minutes ago</mat-card-subtitle>
-          <mat-card-subtitle title="{{postedOn}}" *ngIf="diffMin >= 60 && diffMin < 1440">{{diffHour}} hours ago</mat-card-subtitle>
-          <mat-card-subtitle *ngIf="diffMin >= 1440">{{diffDay}} days ago</mat-card-subtitle>
-        </mat-card-header>
+
       
-        <div style="width:450px; margin-left: 30px;margin-bottom: 10px;">
-          <p style="font-size: 19px;font-weight: 500;">Where would you prefer the upcoming event to be located?</p>
-          <div style="margin-left: 20px;">
-            In the Office<br>
-            Off-site<br>
-            No preference
-            <button class="button" mat-raised-button style="float: right; width:80px">Vote</button>
-          </div>
-        </div>
-
-        <div class="row" style="margin-left: 22px; margin-top: 10px;margin-bottom: 5px;">
-          <div class="col-1" style="margin-left: -25px">
-            <img class="rounded-circle" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(9).webp" style="width:26px">
-          </div>
-          <div class="col-1" style="margin-left: -25px">
-            <img class="rounded-circle" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp" style="width:26px;">
-          </div>
-          <div class="col-1" style="margin-left: -25px">
-            <img class="rounded-circle" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(1).webp" style="width:26px">
-          </div>
-          <div class="col-7" style="margin-left: -8px;margin-top: 5px;"><strong>liked this</strong></div>
-          <div class="col-3"style="margin-top:5px">
-            <mat-icon style="margin-left:22px;height:18px;font-size: 15px;vertical-align: text-bottom;color: #4c73e8;">thumb_up</mat-icon><strong>0 </strong>
-            <mat-icon style="margin-left:8px;height:18px;font-size: 15px;vertical-align: text-bottom;color: rgb(171, 165, 165);">chat_bubble</mat-icon><strong>0</strong>
-          </div>
-        </div>
-        <mat-divider></mat-divider>
-        <mat-card-actions>
-          <button mat-button style="width: 50%"><mat-icon>thumb_up</mat-icon>Like</button>
-          <button mat-button style="width: 50%"><mat-icon> chat_bubble</mat-icon>Comment</button>
-        </mat-card-actions>
-      </mat-card>
     </div>
     <div class="col"  style="float: right;margin-left: 15px;">
       <mat-card style="width: 20rem; height: 15rem; position: fixed;">
@@ -120,7 +140,7 @@
           <mat-card-title>Upcoming Events</mat-card-title>
         </mat-card-header>
         <mat-card-content style="margin-top: 6px;">
-          <div *ngIf="events.length == 0" class="text-center" style="margin: auto;"> 
+          <div *ngIf="events.length === 0" class="text-center" style="margin: auto;"> 
             No upcoming events </div>
           <div class="row event"   *ngFor="let event of events">
             <div class="col-2">
@@ -149,7 +169,7 @@
         </mat-card-header>
         <mat-card-content style="overflow-y: scroll;">
           <div class="row" *ngFor="let member of members" style="margin-top: 8px;">
-            <div class="col-3"><img role="button" routerLink="/{{member.username}}" src="http://localhost:3000/user/{{member.id}}/profile-photo" class="rounded-circle" style="width:50px"></div>
+            <div class="col-3"><img role="button" routerLink="/{{member.username}}" src={{member.image}} class="rounded-circle" style="width:50px"></div>
             <div class="col-5" style="font-size: 16px;font-weight: 600;margin-top: 12px;">{{member.username}}</div>
             <div class="col-2">
               <span title="Send Message" role="button" class="material-symbols-outlined" style="margin-top: 10px;">

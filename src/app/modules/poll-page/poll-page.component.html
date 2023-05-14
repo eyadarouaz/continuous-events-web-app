@@ -17,7 +17,7 @@
                             <h2>{{option.value}}</h2>
                         </div>
                         <div class="col">
-                            <h2>{{option.percentage}}%</h2>
+                            <h2>{{option.percentage.toFixed()}}%</h2>
                         </div>
                     </div>
                     <!-- <mat-progress-bar mode="determinate" value="{{option.percentage}}" style="margin-left: -190px;width:700px;"></mat-progress-bar> -->
@@ -33,8 +33,8 @@
         <div class="col" style="margin-top: 195px;">
             <!-- <a href="/polls">View all polls</a><br> -->
             <div *ngIf="selectedOption === '' && dueDate >= today && !votedDisabled" class="tex-muted" style="font-size: 16px;">Please choose an option</div>
-            <button *ngIf="selectedOption != '' || dueDate < today || votedDisabled" class="button" mat-raised-button style="width:250px; font-size: 16px;height: 50px;
-            " (click)="vote()" [disabled]="votedDisabled || dueDate < today">Submit your vote</button><br>
+            <button *ngIf="selectedOption !== '' || dueDate < today || votedDisabled" class="button" mat-raised-button style="width:250px; font-size: 16px;height: 50px;
+            " (click)="vote(); votedDisabled=true" [disabled]="votedDisabled || dueDate < today">Submit your vote</button><br>
             <mat-hint *ngIf="dueDate < today" style="margin-left: 10px;margin-top: 10px;">This poll has ended ⌛</mat-hint>
             <mat-hint *ngIf="votedDisabled && dueDate >= today" style="margin-left: 10px;margin-top: 10px;">You voted on this poll ✅</mat-hint>
             <mat-card style="margin-top:20px;padding-left: 30px;padding-top: 20px;width:250px; height:150px">

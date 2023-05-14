@@ -1,25 +1,35 @@
-import { Component, Inject, OnInit } from "@angular/core";
+import { Component, Inject } from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
+import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { ToastrService } from "ngx-toastr";
 import { UserService } from "../../../../../core/services/user.service";
 import { ManageMembersComponent } from "../manage-members.component";
-import { MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
-import { ToastrService } from "ngx-toastr";
 
 @Component({
-    selector: 'edit-member-cmp',
+    selector: 'app-edit-member',
     templateUrl: './edit-member.html',
   })
   export class EditMemberComponent {
-    constructor(private userService: UserService,
-      @Inject(MAT_DIALOG_DATA) public data: ManageMembersComponent,
-      public toast: ToastrService,) { }
-
 
     editUserForm = new FormGroup({
       username: new FormControl(this.users.find(element => element.id == this.id)?.username),
       password: new FormControl(),
       confirm_password : new FormControl(),
     })
+
+    get id() {
+      return this.data.selectedId
+    }
+
+    get users() {
+      return this.data.users
+    }
+
+    constructor(
+      private userService: UserService,
+      @Inject(MAT_DIALOG_DATA) public data: ManageMembersComponent,
+      public toast: ToastrService
+    ) {}
 
     confirmPassword(editUserForm: FormGroup) {
       const { password, confirm_password } = editUserForm.value;
@@ -28,20 +38,12 @@ import { ToastrService } from "ngx-toastr";
       } return false
     }
   
-    get id() {
-      return this.data.selectedId
-    }
-
-    get users() {
-      return this.data.users
-    }
-  
     onSubmit(editUserForm: FormGroup) {
       if (this.confirmPassword(editUserForm)) {
         const { username, password } = editUserForm.value;
         console.log({ username, password });
         return this.userService.updateUser(this.id, { username, password })
-          .subscribe((res: any) => {
+          .subscribe(() => {
             this.toast.success('User updated successfully')
           })
       } return

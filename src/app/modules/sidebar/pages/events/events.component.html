@@ -4,13 +4,12 @@
 <section>
     <div class="row">
       <div class="col">
-        <mat-card style="margin-bottom: 25px; height: 180px;border-radius: 10px;overflow: hidden;">
-          <div class="row">
-            <div class="col-1">
+        <mat-card style="margin-bottom: 25px; height: 130px;border-radius: 10px;overflow: hidden;">
+            <!-- <div class="col-1">
               <img src="assets/images/discover-events.png" style="width: 250px;margin-top: 4px;">
-            </div>
-            <div class="col-7" style="margin-top:50px;margin-left:180px;font-size: 36px;text-align: center;color: #5f80e2;">
-              <strong>Discover Our Events</strong>
+            </div> -->
+            <div style="width:500px;margin-top:25px;margin-left:20px;font-size: 28px;color: rgb(72, 71, 71);">
+              <strong>Filter Events</strong>
               <form class="d-flex input-group" style="margin-top: 30px;">
                 <input
                   name="searchInput" [(ngModel)]="searchInput"
@@ -19,14 +18,19 @@
                   placeholder="Search Events"
                   aria-label="Search"
                   aria-describedby="search-addon"
-                  style="width: 300px;"
+                  style="width: 200px;"
                 />
+                <select #status class="form-select" aria-label="Default select example" style="margin-left: 10px;" (change)="onSelected(status.value)">
+                  <option selected>All</option>
+                  <option value="Completed">Completed</option>
+                  <option value="Happening">Happening</option>
+                  <option value="Scheduled">Scheduled</option>
+                </select>
               </form>
-            </div>
           </div>
         </mat-card>
-        <mat-card *ngFor="let event of events | search: searchInput" style="margin-bottom: 12px;">
-          <div class="row" [ngClass]="{myClass: event.status == 'Completed'}" style="padding-top:15px; padding-bottom: 15px;padding-left: 10px;">
+        <mat-card *ngFor="let event of selectedEvents | search: searchInput" style="margin-bottom: 12px;">
+          <div class="row" [ngClass]="{myClass: event.status === 'Completed'}" style="padding-top:15px; padding-bottom: 15px;padding-left: 10px;">
             <div class="col-2" style="width:220px;">
               <img src={{event.image}} style="width: 200px; height:120px; border-radius: 10px;">
             </div>
@@ -51,7 +55,7 @@
           <div style="width: 300px;margin: auto;height:450px; ">
             <mat-calendar [dateClass]="dateClass" [(selected)]="selected" style="width: 100%"></mat-calendar>
             <div *ngFor="let event of events" style="margin-top:10px">
-              <div *ngIf="selected?.toDateString() == event.date">
+              <div *ngIf="selected?.toDateString() === event.date">
                 <strong> 📅 {{event.title}}</strong>
                 <div>🕑 {{event.time}}</div>
                 <div>📍 {{event.location}}</div>

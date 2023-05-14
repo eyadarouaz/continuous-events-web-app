@@ -1,35 +1,29 @@
-import { EventService } from './../../../../core/services/event.service';
 import { Component, OnInit } from "@angular/core";
-import { MatTableDataSource } from "@angular/material/table";
-import { MatDialog } from "@angular/material/dialog";
-import { Events } from '../../../../core/models/event.interface';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from "@angular/material/dialog";
+import { MatTableDataSource } from "@angular/material/table";
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import { ToastrService } from 'ngx-toastr';
+import { Events } from '../../../../core/models/event.interface';
+import { EventService } from './../../../../core/services/event.service';
 import { AddEventComponent } from './add-events/add-events.component';
 import { EditEventComponent } from './edit-events/edit-events.component';
-import { ToastrService } from 'ngx-toastr';
-import { C } from '@fullcalendar/core/internal-common';
 
 
-  @Component({
-    selector: 'app-manage-events',
-    templateUrl: './manage-events.component.html',
-    styleUrls: ['./manage-events.component.css']
-  })
-  export class ManageEventsComponent implements OnInit {
-    constructor(private eventService: EventService,
-      public dialog: MatDialog,
-      public toast: ToastrService,) {
-        this.eventService.updateStatus();
-      }
+@Component({
+  selector: 'app-manage-events',
+  templateUrl: './manage-events.component.html',
+  styleUrls: ['./manage-events.component.css']
+})
+export class ManageEventsComponent implements OnInit {
 
   events: Events[] = [];
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin],
   };
-  selectedId: number = 0;
+  selectedId = 0;
   dataSource = new MatTableDataSource(this.events);
   columns = [
     {
@@ -76,39 +70,41 @@ import { C } from '@fullcalendar/core/internal-common';
   displayedColumns = this.columns.map(c => c.name);
   clickedRows = new Set<Events>();
   status = new FormControl('All');
-  evs: Object[] = [];
+  evs: object[] = [];
+
+  constructor(
+    private eventService: EventService,
+    public dialog: MatDialog,
+    public toast: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.eventService.getEvents()
-      .subscribe((res: any) => {
-        if (res.statusCode) {
-            res.data.list.forEach((element: any) => {
-                this.eventService.getAttendees(element.id)
-                .subscribe((res: any)=> {
-                    if(res.statusCode) {
-                        this.events.push({ id: element.id, title: element.title,
-                            startDate: element.startDate, endDate: element.endDate, 
-                            location: element.location, status: element.status,attendees: res.data.count});
-                      }
-                    this.dataSource = new MatTableDataSource(this.events);
-                });
-                this.evs.push({title: element.title, start: element.startDate, end: element.endDate}); 
-                
-                setTimeout(() => {
-                  this.calendarOptions = {
-                    initialView: 'dayGridMonth',
-                    firstDay: 1,
-                    events: this.evs,
-                    weekends: true,
-                    editable: true,
-                    selectable: true,
-                    selectMirror: true,
-                    dayMaxEvents: true
-                  };
-                }, 2500);
-            });
-        }
+    .subscribe((res: any) => {
+      res.data.list.forEach((element: any) => {
+        this.eventService.getAttendees(element.id)
+        .subscribe((res: any)=> {
+          this.events.push({ id: element.id, title: element.title,
+          startDate: new Date(element.startDate).toLocaleDateString(), 
+          endDate: new Date(element.endDate).toLocaleDateString(),  
+          location: element.location, status: element.status,attendees: res.data.count});
+          this.dataSource = new MatTableDataSource(this.events);
+        });
+
+        // this.evs.push({title: element.title, start: element.startDate, end: element.endDate});    
+        // this.calendarOptions = {
+        //   initialView: 'dayGridMonth',
+        //   firstDay: 1,
+        //   events: this.evs,
+        //   weekends: true,
+        //   editable: true,
+        //   selectable: true,
+        //   selectMirror: true,
+        //   dayMaxEvents: true
+        // };
+
       });
+    });
   }
 
   applyFilter(event: Event) {
@@ -122,27 +118,50 @@ import { C } from '@fullcalendar/core/internal-common';
   }
 
   refresh() {
-    this.eventService.getEvents().subscribe((res: any) => {
-      this.dataSource = new MatTableDataSource(res.data.list);
-    })
+    this.events = []
+    this.eventService.getEvents()
+    .subscribe((res: any) => {
+      res.data.list.forEach((element: any) => {
+        this.eventService.getAttendees(element.id)
+        .subscribe((res: any)=> {
+          this.events.push({ id: element.id, title: element.title,
+          startDate: new Date(element.startDate).toLocaleDateString(), 
+          endDate: new Date(element.endDate).toLocaleDateString(), 
+          location: element.location, status: element.status,attendees: res.data.count});
+          this.dataSource = new MatTableDataSource(this.events);
+        });
+      });
+    });
   }
 
   openAddDialog() {
     const dialogRef = this.dialog.open(AddEventComponent);
+    dialogRef.afterClosed().subscribe(() => {
+      this.waitRefresh()
+    })
   }
 
   openEditDialog(): void {
-      const dialogRef = this.dialog.open(EditEventComponent, {
-          height: '500px',
-          data: { selectedId: this.selectedId }
-      });
+    const dialogRef = this.dialog.open(EditEventComponent, {
+      height: '500px',
+      data: { selectedId: this.selectedId }
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      this.waitRefresh()
+    })
   }
 
   deleteEvent(id: any) {
     this.eventService.deleteEvent(id)
-    .subscribe((res: any) => {
+    .subscribe(() => {
       this.toast.success('Event deleted successfully');
     })
+  }
+
+  waitRefresh() {
+    setTimeout(() => {
+      this.refresh();
+   }, 1000);
   }
     
 }

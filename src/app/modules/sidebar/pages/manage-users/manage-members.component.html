@@ -12,13 +12,13 @@
         </mat-card-header>
         <mat-card-content style=" height: 400px;overflow: auto;margin-bottom: 2vh;">
             <mat-form-field style="width: 30%">
-                <mat-label>Filter</mat-label>
+                <mat-label>Search Members</mat-label>
                 <input matInput (keyup)="applyFilter($event)"  #input>
             </mat-form-field>
             <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z0">
                 <ng-container *ngFor="let column of columns" [matColumnDef]="column.name">
 
-                    <ng-container *ngIf="column.name =='image' ">
+                    <ng-container *ngIf="column.name ==='image' ">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ column.header }} </th>
                         <td mat-cell *matCellDef="let row">
                             <img role="button" src={{column.cell(row)}} 

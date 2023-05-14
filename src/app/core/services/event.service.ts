@@ -31,7 +31,7 @@ export class EventService {
     }
 
     updateStatus() {
-        return this.http.put(ENDPOINT_URL + '/0/update-status', {
+        return this.http.put(ENDPOINT_URL + '/0/update-status', {},{
             headers: {
                 Authorization: `Bearer ${this.authService.userToken}`
             }
