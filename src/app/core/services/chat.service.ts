@@ -10,9 +10,7 @@ const ENDPOINT_URL = env.apiBaseUrl;
 @Injectable({providedIn: "root"})
 export class ChatService {
     constructor(private http: HttpClient,
-        private router: Router, private socket: Socket) {
-            console.log(socket);
-        }
+        private router: Router, private socket: Socket) {}
 
         getMessages() {
             return this.http.get(ENDPOINT_URL + 'api/chat')
@@ -22,8 +20,11 @@ export class ChatService {
             this.socket.emit('sendMessage', message)
         }
 
-        recieveMessages() {
-            this.socket.on
+        recieveMessages(messages: Array<any>) {
+            this.socket.on('recMessage', (message: any) => {
+                console.log(message)
+                messages.push(message)
+            })
         }
 
 }
