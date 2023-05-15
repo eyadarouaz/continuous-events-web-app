@@ -9,17 +9,39 @@
  <title>Chat | Continuous Events</title>
 </head>
  
-
- <div style="height:400px">
-   <div class="mb-3 mt-3" style="height: 400px; overflow-y: scroll;justify-content: right;">
-      <ul>
-        <li class="bg-primary p-2 rounded mb-2 text-light" *ngFor="let message of messages" style="width:fit-content">
-          <span class="fw-bolder">{{message.username}} : </span>
+<div class="row">
+  <!-- Chat window -->
+  <div class="col" style="height:400px" style="width: 800px;margin-left: 30px;">
+    <div class="mb-3 mt-3" style="height: 430px; overflow-y: scroll;">
+      <div *ngFor="let message of messages" style="width:fit-content">
+        <div *ngIf="message.user.username !== 'mo_hammad'" class="p-2 rounded mb-2 text-light" style="margin-left: 50px;background-color: mediumslateblue;">
+          <!-- <img class="rounded-circle" src="http://localhost:3000/user/{{message.user.id}}/profile-photo" style="width:30px"> -->
+          <span class="fw-bolder">{{message.user.username}} : </span>
           {{message.content}}
-        </li>
-      </ul>
+        </div>
+        <div *ngIf="message.user.username === 'mo_hammad'" class="bg-white p-2 rounded mb-2 " style="margin-left: 500px; margin-right: 80px;">
+          <span class="fw-bolder">{{message.user.username}} : </span>
+          {{message.content}}
+        </div>
+      </div>
     </div>
-   <div style="bottom: 0px;width: 100%; ">
-     <input class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Say something..." />
+    <form [formGroup]="messageForm" (ngSubmit)="sendMessage(messageForm)">
+      <div class="row">
+        <input class="col"  type="text"  class="form-control" formControlName="message" placeholder="Say something..." style="width:500px;margin-left: 90px;"/>
+        <button class="col-1" mat-raised-button type="submit" style="margin-left: 20px;">send</button>
+      </div>
+    </form>
+  </div>
+  <!-- /Chat window -->
+  <!-- List of members -->
+  <div class="col-3" style="height:500px;overflow-y: scroll;">
+    <div class="row" *ngFor="let member of members" style="margin-top: 8px;">
+      <div class="col-3">
+        <img role="button" src={{member.image}} routerLink="/{{member.username}}" class="rounded-circle" style="width:45px">
+      </div>
+      <div class="col-5" style="font-size: 16px;font-weight: 600;margin-top: 12px;">{{member.username}}</div>
     </div>
- </div>
+  </div>
+  <!-- /List of members -->
+</div>
+  
