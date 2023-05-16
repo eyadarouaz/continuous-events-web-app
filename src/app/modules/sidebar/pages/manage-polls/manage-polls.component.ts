@@ -63,7 +63,7 @@ import { EditPollComponent } from './edit-poll/edit-poll.component';
         this.surveyService.getVotes(element.id)
         .subscribe((res: any)=> {
           this.polls.push({ id: element.id, question: element.question, 
-          dueDate: element.dueDate, votes: res.data.count});
+          dueDate: new Date(element.dueDate).toLocaleDateString(), votes: res.data.count});
           this.dataSource = new MatTableDataSource(this.polls);
         });
       });
