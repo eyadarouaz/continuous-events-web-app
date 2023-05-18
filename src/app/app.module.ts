@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -20,7 +20,7 @@ import { SidebarModule } from './modules/sidebar/sidebar.module';
 
 const config: SocketIoConfig = { url: env.apiBaseUrl, options: {
   extraHeaders: {
-    Authorization: localStorage.getItem('token')!
+    Authorization: localStorage.getItem('token')+" "
   }
 } };
 
