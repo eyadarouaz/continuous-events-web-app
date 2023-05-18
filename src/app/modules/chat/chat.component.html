@@ -12,23 +12,30 @@
 <div class="row">
   <!-- Chat window -->
   <div class="col" style="height:400px" style="width: 800px;margin-left: 30px;">
-    <div class="mb-3 mt-3" style="height: 430px; overflow-y: scroll;">
+    <div #scrollMe class="mb-3 mt-3" style="height: 430px; overflow-y: scroll;">
       <div *ngFor="let message of messages" style="width:fit-content">
-        <div *ngIf="message.user.username !== 'mo_hammad'" class="p-2 rounded mb-2 text-light" style="margin-left: 50px;background-color: mediumslateblue;">
+        <div *ngIf="message.user.username !== currentUsername" style="margin-left: 50px; margin-bottom: 10px;">
           <!-- <img class="rounded-circle" src="http://localhost:3000/user/{{message.user.id}}/profile-photo" style="width:30px"> -->
-          <span class="fw-bolder">{{message.user.username}} : </span>
-          {{message.content}}
+          <div class="bg-white p-2 rounded mb-1" >
+            <span class="fw-bolder">{{message.user.username}} : </span>
+            {{message.content}}
+          </div>
+          <span style="margin-bottom: 10px;color:rgb(156, 156, 156)">{{message.time}}</span>
         </div>
-        <div *ngIf="message.user.username === 'mo_hammad'" class="bg-white p-2 rounded mb-2 " style="margin-left: 500px; margin-right: 80px;">
-          <span class="fw-bolder">{{message.user.username}} : </span>
-          {{message.content}}
+        <div *ngIf="message.user.username === currentUsername" style="margin-bottom: 10px;">
+          <div class="p-2 rounded mb-1 text-light" style="margin-left: 500px; margin-right: 80px;background-color: mediumslateblue;">
+            <span class="fw-bolder"></span>
+            {{message.content}}
+          </div>
+          <span style="margin-left: 500px;margin-bottom: 10px;color:rgb(156, 156, 156)">{{message.time}}</span>
         </div>
+        
       </div>
     </div>
     <form [formGroup]="messageForm" (ngSubmit)="sendMessage(messageForm)">
       <div class="row">
         <input class="col"  type="text"  class="form-control" formControlName="message" placeholder="Say something..." style="width:500px;margin-left: 90px;"/>
-        <button class="col-1" mat-raised-button type="submit" style="margin-left: 20px;">send</button>
+        <button [disabled]="messageForm.invalid" class="col-1" mat-raised-button type="submit" style="margin-left: 20px;">send</button>
       </div>
     </form>
   </div>
