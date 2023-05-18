@@ -20,7 +20,6 @@ export class LoginComponent {
     }
     const {login, password} = loginForm.value;
     this.authService.login(login, password);
-    return loginForm.reset();
   }
 
   openDialog() {
