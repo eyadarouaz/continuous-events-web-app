@@ -2,174 +2,117 @@
     <title>Dashboard - Analytics | Continuous Events</title>
 </head>
 <p style="color: rgba(2, 1, 17, 0.379);font-size: 24px;">Dashboard / <strong style="font-weight: 550;color: rgba(2, 1, 17, 0.63)">Analytics</strong></p>
-<div class="container" >
+<div class="container" style="width:1000px; margin-top: 50px;">
+    <mat-card style="margin-bottom: 25px; height: 190px;border-radius: 10px;overflow: hidden;">
+        <div class="row">
+            <div class="col-8" style="margin-top:60px;font-size: 32px;margin-left: 60px;">
+                <strong style="color: cornflowerblue;">Welcome back {{currentUser}} 👋</strong><br>
+                <p style="margin-top: 20px;font-size: 20px;color: rgb(88, 86, 86);">Checkout the platfrom's activity in the last month.</p>
+            </div>
+            <div class="col-1">
+                <img src="assets/images/man-with-laptop-light.png" style="width: 180px;margin-top: 45px;">
+            </div>
+        </div>
+    </mat-card>
     <div class="row">
-        <div class="col-8">
-            <mat-card style="margin-bottom: 25px; height: 190px;border-radius: 10px;overflow: hidden;">
-                <div class="row">
-                  <div class="col-8" style="margin-top:30px;font-size: 24px;color: cornflowerblue;margin-left: 20px;">
-                    <strong>Welcome back Mohammad! 👋</strong>
-                  </div>
-                  <div class="col-1">
-                        <img src="assets/images/man-with-laptop-light.png" style="width: 180px;margin-top: 45px;">
-                  </div>
-                </div>
+        <div class="col">
+            <mat-card style="height: 220px;border-radius: 10px">
+                <mat-card-header>
+                    <mat-card-title style="margin-left: 10px;margin-top: 8px;">
+                        <div class="row" style="width:200px">
+                            <div class="col-8">
+                                <div style="background-color: #ff69b422; border-radius: 5px;width:35px; height:35px;">
+                                    <mat-icon style="margin-top:5px;margin-left:4px;font-size: 26px;color: #FF69B4;">supervisor_account</mat-icon>
+                                </div>
+                            </div>
+                            <div class="col-1 dropdown" style="margin-left: 15px;">
+                                <mat-icon style="font-size: 20px;margin-top: 5px;" type="button" data-bs-toggle="dropdown">more_vert</mat-icon>
+                                <ul class="dropdown-menu">
+                                    <li><button class="dropdown-item" (click)="route(7)" routerLink="/manage-members">View all</button></li>
+                                </ul>
+                            </div>
+                        </div>                
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content style="line-height: 35px;margin-top: 20px;margin-left: 10px">
+                    <span class="text-muted" style="font-weight: 500;font-size: 18px;">Members</span><br>
+                    <strong style="font-size: 60px;">{{membersCount}}</strong><br>
+                    <strong *ngIf="membersThisMonth > 0" style="color:#32CD32;"><mat-icon style="font-size: 18px;vertical-align: middle;font-weight: 700;">arrow_upward</mat-icon>{{membersThisMonth}} this month</strong>
+                </mat-card-content>
             </mat-card>
         </div>
-        <div class="col-4">
-            <div class="row">
-                <div class="col">
-                    <mat-card style="height: 190px;border-radius: 10px">
-                        <mat-card-header>
-                            <mat-card-title style="margin-left: 10px;margin-top: 8px;">
-                                <div class="row">
-                                    <div class="col-9">
-                                        <div style="background-color: #ff69b422; border-radius: 5px;width:35px; height:35px;">
-                                            <mat-icon style="margin-top:5px;margin-left:4px;font-size: 26px;color: #FF69B4;">supervisor_account</mat-icon>
-                                        </div>
-                                    </div>
-                                    <div class="col-1 dropdown" style="margin-left: 2px;">
-                                        <mat-icon style="font-size: 20px;margin-top: 5px;" type="button" data-bs-toggle="dropdown">more_vert</mat-icon>
-                                        <ul class="dropdown-menu">
-                                            <li><button class="dropdown-item" (click)="route(7)" routerLink="/manage-members">View all</button></li>
-                                        </ul>
-                                    </div>
-                                </div>                
-                            </mat-card-title>
-                        </mat-card-header>
-                        <mat-card-content style="line-height: 30px;margin-top: 10px;margin-left: 10px">
-                            <span class="text-muted" style="font-weight: 500;">Members</span><br>
-                            <strong style="font-size: 46px;">{{membersCount}}</strong><br>
-                            <strong *ngIf="membersThisMonth.length > 0" style="color:#32CD32;"><mat-icon style="font-size: 18px;vertical-align: middle;font-weight: 700;">arrow_upward</mat-icon>{{membersThisMonth.length}} this month</strong>
-                        </mat-card-content>
-                    </mat-card>
-                </div>
-                <div class="col">
-                    <mat-card style="height: 190px; border-radius: 10px;">
-                        <mat-card-header>
-                            <mat-card-title style="margin-left: 10px;margin-top: 8px;">
-                                <div class="row">
-                                    <div class="col-9">
-                                        <div style="background-color: #00a2ff1a; border-radius: 5px;width:35px; height:35px;">
-                                            <mat-icon style="margin-top:5px;margin-left:3.5px;font-size: 26px;color: #00b3ff;">event</mat-icon>
-                                        </div>
-                                    </div>
-                                    <div class="col-1 dropdown" style="margin-left: 2px;">
-                                        <mat-icon style="font-size: 20px;margin-top: 5px;" type="button" data-bs-toggle="dropdown">more_vert</mat-icon>
-                                        <ul class="dropdown-menu">
-                                            <li><button class="btn dropdown-item" (click)="route(8)" routerLink="/manage-events">View all</button></li>
-                                        </ul>
-                                    </div>
-                                    
-                                </div>                
-                            </mat-card-title>
-                        </mat-card-header>
-                        <mat-card-content style="line-height: 30px;margin-top: 10px;margin-left: 10px">
-                            <span class="text-muted" style="font-weight: 500;">Events</span><br>
-                            <strong style="font-size: 46px;">{{eventsCount}}</strong><br>
-                            <strong *ngIf="eventsThisMonth.length > 0" style="color:#32CD32;"><mat-icon style="font-size: 18px;vertical-align: middle;font-weight: 700;">arrow_upward</mat-icon>{{eventsThisMonth.length}} this month</strong>
-                        </mat-card-content>
-                    </mat-card>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-8">
-            <mat-card style="margin-bottom: 25px; height: 190px;border-radius: 10px;overflow: hidden;">
-                <div class="row">
-                  <div class="col-8" style="margin-top:30px;font-size: 24px;color: #5f80e2;margin-left: 20px;">
-                    
-                  </div>
-                  <div class="col-1">
-                  </div>
-                </div>
+        <div class="col">
+            <mat-card style="height: 220px; border-radius: 10px;">
+                <mat-card-header>
+                    <mat-card-title style="margin-left: 10px;margin-top: 8px;">
+                        <div class="row" style="width:200px">
+                            <div class="col-9">
+                                <div style="background-color: #00a2ff1a; border-radius: 5px;width:35px; height:35px;">
+                                    <mat-icon style="margin-top:5px;margin-left:3.5px;font-size: 26px;color: #00b3ff;">event</mat-icon>
+                                </div>
+                            </div>
+                            <div class="col-1 dropdown" style="margin-left: 2px;">
+                                <mat-icon style="font-size: 20px;margin-top: 5px;" type="button" data-bs-toggle="dropdown">more_vert</mat-icon>
+                                <ul class="dropdown-menu">
+                                    <li><button class="btn dropdown-item" (click)="route(8)" routerLink="/manage-events">View all</button></li>
+                                </ul>
+                            </div>
+                            
+                        </div>                
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content style="line-height: 35px;margin-top: 20px;margin-left: 10px">
+                    <span class="text-muted" style="font-weight: 500;font-size: 18px;">Events</span><br>
+                    <strong style="font-size: 60px;">{{eventsCount}}</strong><br>
+                    <strong *ngIf="eventsThisMonth > 0" style="color:#32CD32;"><mat-icon style="font-size: 22px;vertical-align: middle;font-weight: 700;">arrow_upward</mat-icon>{{eventsThisMonth}} this month</strong>
+                </mat-card-content>
             </mat-card>
         </div>
-        <div class="col-4">
-            <div class="row">
-                <div class="col">
-                    <mat-card style="height: 190px; border-radius: 10px;">
-                        <mat-card-header>
-                            <mat-card-title style="margin-left: 10px;margin-top: 8px;">
-                                <div class="row">
-                                    <div class="col-9">
-                                        <div style="background-color: #8000ff1b; border-radius: 5px;width:35px; height:35px;">
-                                            <mat-icon style="margin-top:5px;margin-left:4px;font-size: 26px;color: #7F00FF;">bar_chart</mat-icon>
-                                        </div>
-                                    </div>
-                                    <div class="col-1 dropdown" style="margin-left: 2px;">
-                                        <mat-icon style="font-size: 20px;margin-top: 5px;" type="button" data-bs-toggle="dropdown">more_vert</mat-icon>
-                                        <ul class="dropdown-menu">
-                                            <li><button class="dropdown-item" (click)="route(9)" routerLink="/polls">View all</button></li>
-                                        </ul>
-                                    </div>
-                                </div>                
-                            </mat-card-title>
-                        </mat-card-header>
-                        <mat-card-content style="line-height: 30px;margin-top: 10px;margin-left: 10px">
-                            <span class="text-muted" style="font-weight: 500;">Polls</span><br>
-                            <strong style="font-size: 46px;">{{surveysCount}}</strong><br>
-                            <strong *ngIf="pollsThisMonth.length > 0" style="color:#32CD32;"><mat-icon style="font-size: 18px;vertical-align: middle;font-weight: 700;">arrow_upward</mat-icon>{{pollsThisMonth.length}} this month</strong>
-                        </mat-card-content>
-                    </mat-card>
-                </div>
-                <div class="col">
-                    <mat-card style="height: 190px; border-radius: 10px;">
-                        <mat-card-header>
-                            <mat-card-title style="margin-left: 10px;margin-top: 8px;">
-                                <div class="row">
-                                    <div class="col-9">
-                                        <div style="background-color: #2ee59c36; border-radius: 5px;width:35px; height:35px;">
-                                            <mat-icon style="margin-top:6px;margin-left:6px;font-size: 22px;color: #2EE59D;">thumb_up</mat-icon>
-                                        </div>
-                                    </div>
-                                </div>                
-                            </mat-card-title>
-                        </mat-card-header>
-                        <mat-card-content style="line-height: 30px;margin-top: 10px;margin-left: 10px">
-                            <span class="text-muted" style="font-weight: 500;">Likes</span><br>
-                            <strong style="font-size: 46px;">34</strong><br>
-                            <!-- <strong *ngIf="pollsThisMonth.length > 0" style="color:#32CD32;"><mat-icon style="font-size: 18px;vertical-align: middle;font-weight: 700;">arrow_upward</mat-icon>12 this month</strong> -->
-                        </mat-card-content>
-                    </mat-card>
-                </div>
-            </div>
+        <div class="col">
+            <mat-card style="height: 220px; border-radius: 10px;">
+                <mat-card-header>
+                    <mat-card-title style="margin-left: 10px;margin-top: 8px;">
+                        <div class="row" style="width:200px">
+                            <div class="col-9">
+                                <div style="background-color: #8000ff1b; border-radius: 5px;width:35px; height:35px;">
+                                    <mat-icon style="margin-top:5px;margin-left:4px;font-size: 26px;color: #7F00FF;">bar_chart</mat-icon>
+                                </div>
+                            </div>
+                            <div class="col-1 dropdown" style="margin-left: 2px;">
+                                <mat-icon style="font-size: 20px;margin-top: 5px;" type="button" data-bs-toggle="dropdown">more_vert</mat-icon>
+                                <ul class="dropdown-menu">
+                                    <li><button class="dropdown-item" (click)="route(9)" routerLink="/polls">View all</button></li>
+                                </ul>
+                            </div>
+                        </div>                
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content style="line-height: 35px;margin-top: 20px;margin-left: 10px">
+                    <span class="text-muted" style="font-weight: 500;font-size: 18px;">Polls</span><br>
+                    <strong style="font-size: 60px;">{{surveysCount}}</strong><br>
+                    <strong *ngIf="pollsThisMonth > 0" style="color:#32CD32;"><mat-icon style="font-size: 18px;vertical-align: middle;font-weight: 700;">arrow_upward</mat-icon>{{pollsThisMonth}} this month</strong>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="col">
+            <mat-card style="height: 220px; border-radius: 10px;">
+                <mat-card-header>
+                    <mat-card-title style="margin-left: 10px;margin-top: 8px;">
+                        <div class="row" style="width:200px">
+                            <div class="col-9">
+                                <div style="background-color: #2ee59c36; border-radius: 5px;width:35px; height:35px;">
+                                    <mat-icon style="margin-top:6px;margin-left:6px;font-size: 22px;color: #2EE59D;">thumb_up</mat-icon>
+                                </div>
+                            </div>
+                        </div>                
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content style="line-height: 35px;margin-top: 20px;margin-left: 10px">
+                    <span class="text-muted" style="font-weight: 500;font-size: 18px;">Likes</span><br>
+                    <strong style="font-size: 60px;">{{likesCount}}</strong><br>
+                    <strong *ngIf="likesThisMonth > 0" style="color:#32CD32;"><mat-icon style="font-size: 18px;vertical-align: middle;font-weight: 700;">arrow_upward</mat-icon>{{likesThisMonth}} this month</strong>
+                </mat-card-content>
+            </mat-card>
         </div>
     </div>
-    
-    <!-- <div>
-        <mat-expansion-panel style="float:left; margin-bottom: 50px;" [expanded]="true">
-            <mat-expansion-panel-header>
-                <mat-panel-title>Members</mat-panel-title>
-            </mat-expansion-panel-header>
-            <div>
-                <img src="assets/images/group.png" style="width: 60px;float: left;" />
-                <p style="font-size: 40px;position: relative; left: 10px; top: 18px">{{membersCount}}</p>
-            </div>
-            <a style="position:absolute;
-            bottom:0;
-            right:0;" href="home">Manage..</a>
-        </mat-expansion-panel>
-        <mat-expansion-panel style="float:left; margin-bottom: 50px;" [expanded]="true">
-            <mat-expansion-panel-header>
-                <mat-panel-title>Events</mat-panel-title>
-            </mat-expansion-panel-header>
-            <div>
-                <img src="assets/images/events.png" style="width: 60px;float: left;" />
-                <p style="font-size: 40px;position: relative; left: 10px; top: 18px">{{eventsCount}}</p>
-            </div>
-        </mat-expansion-panel>
-        <mat-expansion-panel style="float:left; margin-bottom: 50px;" [expanded]="true">
-            <mat-expansion-panel-header>
-                <mat-panel-title>Polls</mat-panel-title>
-            </mat-expansion-panel-header>
-            <div>
-                <img src="assets/images/polling.png" style="width: 60px;float: left;" />
-                <p style="font-size: 40px;position: relative; left: 10px; top: 18px">{{surveysCount}}</p>
-            </div>
-        </mat-expansion-panel>
-    </div> -->
-    
-    
 </div>

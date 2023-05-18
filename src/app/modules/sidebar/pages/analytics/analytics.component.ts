@@ -3,6 +3,8 @@ import { MatSort } from "@angular/material/sort";
 import { EventService } from "../../../../core/services/event.service";
 import { SurveyService } from "../../../../core/services/survey.service";
 import { UserService } from "../../../../core/services/user.service";
+import { AuthService } from "src/app/core/services/auth.service";
+import { PostService } from "src/app/core/services/post.service";
 
 
 @Component({
@@ -15,21 +17,32 @@ export class AnalyticsComponent implements OnInit {
   today = new Date();
   month = this.today.getFullYear() + '/' + (this.today.getMonth());  
 
-  membersCount = new Number;
-  eventsCount = new Number;
-  surveysCount = new Number;
+  membersCount = 0;
+  eventsCount = 0;
+  surveysCount = 0;
+  likesCount = 0;
 
-  membersThisMonth:Array<any> = [];
-  eventsThisMonth:Array<any> = [];
-  pollsThisMonth:Array<any> = [];
+  membersThisMonth = 0;
+  eventsThisMonth = 0;
+  pollsThisMonth = 0;
+  likesThisMonth = 0;
+
+  currentUser = '';
 
   @ViewChild(MatSort) sort = new MatSort;
 
   constructor(
     private userService: UserService,
+    private authService: AuthService,
+    private postService: PostService,
     private eventService: EventService,
     private surveyService: SurveyService
-  ) {}
+  ) {
+    this.authService.currentUser(localStorage.getItem('token'))
+    .subscribe((res: any) => {
+      this.currentUser = res.data.user.firstName;
+    })
+  }
 
   ngOnInit() {
     this.userService.getUsers()
@@ -41,7 +54,7 @@ export class AnalyticsComponent implements OnInit {
         const created = new Date(element.createdAt);
         const createdDate = created.getFullYear() + '/' + created.getMonth();
         return createdDate == this.month;
-      });
+      }).length;
     });
 
     this.eventService.getEvents()
@@ -53,7 +66,7 @@ export class AnalyticsComponent implements OnInit {
         const created = new Date(element.createdAt);
         const createdDate = created.getFullYear() + '/' + created.getMonth();
         return createdDate == this.month;
-      });
+      }).length;
     });
 
     this.surveyService.getSurveys()
@@ -65,8 +78,20 @@ export class AnalyticsComponent implements OnInit {
         const created = new Date(element.createdAt);
         const createdDate = created.getFullYear() + '/' + created.getMonth();
         return createdDate == this.month;
-      });
+      }).length;
     });
+
+    this.postService.getLikes()
+    .subscribe((res: any) => {
+      //Number of polls (total)
+      this.likesCount = res.data.length;
+      //Number of polls (this month)
+      this.likesThisMonth = res.data.filter((element: any) => {
+        const created = new Date(element.createdAt);
+        const createdDate = created.getFullYear() + '/' + created.getMonth();
+        return createdDate == this.month;
+      }).length;
+    })
 
   }
 
