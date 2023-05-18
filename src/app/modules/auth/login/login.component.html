@@ -5,13 +5,14 @@
 <div style="width:820px; height:480px; margin:auto; margin-top:20px;" >
     <mat-grid-list cols="2" rowHeight="100%">
         <mat-grid-tile class="left-grid">
-            <img src="assets/images/Rectangle (2).png" style="width:250px">
+                    <img src="assets/images/Rectangle (2).png" style="width:250px">
         </mat-grid-tile>
         <mat-grid-tile style="background-color: white;">
             <mat-card>
                 <mat-card-header>
                     <mat-card-title>
-                        <img src="assets/images/login-logo.png" style="width:75px;margin-bottom: 20px;margin-left: 12px;"><br>
+                        <img src="assets/images/login-logo.png" style="width:75px;margin-bottom: 20px;margin-left: 12px;margin-right: 8px;">
+                        <span style="color: blueviolet;font-size: 20px;font-weight: 200;vertical-align: super;">continuous events</span><br>
                         <strong style="margin-top: 70px;margin-left:20px">Log In</strong>
                     </mat-card-title>
                     <mat-card-subtitle style="margin-left:20px; font-size: 13px;">Enter your username and password to continue.</mat-card-subtitle>
@@ -42,70 +43,3 @@
     </mat-grid-list>
 </div>
 </body>
-
-<!-- <body>
-  <div class="main-div">
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title>
-                <img src="assets/images/login-logo.png" style="width:120px; margin-left: 90px;"><br>
-                <strong style="margin-left: 18px;margin-top: 50px;">Welcome Back!</strong>
-            </mat-card-title>
-            <mat-card-subtitle>Login to continue</mat-card-subtitle>
-        </mat-card-header>
-        <div class="content-div">
-            <mat-card-content>
-                <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Username or Email</mat-label>
-                        <input matInput class="form-control" ngModel name="login" >
-                    </mat-form-field>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Password</mat-label>
-                        <input matInput type="password" class="form-control" ngModel name="password" >
-                    </mat-form-field>
-                    <button class="login-button" [disabled]="loginForm.invalid" type="submit" mat-raised-button style="width: 100%; margin-bottom: 5px;">Login</button>
-                </form>
-                <br>
-                <div style="text-align: center;">
-                    <button class="forgot-button" mat-button (click)="openDialog()">Forgot Password ?</button>
-                </div>
-            </mat-card-content>
-        </div>
-    </mat-card>
-</div>
-</body> -->
-
-
-
-<!-- <div class="main-div">
-    <mat-card class="login-form">
-        <mat-card-header>
-            <mat-card-title >Welcome Back!</mat-card-title>
-            <mat-card-subtitle>Login to continue</mat-card-subtitle>
-        </mat-card-header>
-        <br>
-        <mat-card-content>
-            <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
-                <div class="mb-3">
-                    <label for="username" class="col-sm-5 col-form-label"><strong>Username or Email</strong></label>
-                    <div class="col-sm-12">
-                    <input type="username" class="form-control" id="login">
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="col-sm-2 col-form-label"><strong>Password</strong></label>
-                    <div class="col-sm-12">
-                    <input type="password" class="form-control" id="password">
-                    <mat-hint><a href="#">Forgot Password?</a></mat-hint>
-                    </div>
-                </div>
-                <br>
-                <div class="d-grid gap-2">
-                    <button class="btn btn-primary" type="submit" [disabled]="loginForm.invalid">Login</button>
-                </div>
-            </form>
-        </mat-card-content>
-    </mat-card>
-</div>
- -->
