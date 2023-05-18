@@ -24,6 +24,11 @@ export class PollsComponent implements OnInit{
           });
         })
       });
+      this.polls.sort((a, b) => {
+        const da = new Date(a.createdAt);
+        const db = new Date(b.createdAt);
+        return db.valueOf() - da.valueOf() 
+      });
     })
   }
 
