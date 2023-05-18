@@ -19,8 +19,16 @@ export class PostService {
         })
     }
 
+    getLikes() {
+        return this.http.get(ENDPOINT_URL + 'like', {
+            headers: {
+                Authorization: `Bearer ${this.authService.userToken}`
+            }
+        })
+    }
+
     likePost(id: any) {
-        return this.http.post(ENDPOINT_URL + `${id}/like`, '', {
+        return this.http.post(ENDPOINT_URL + `like/${id}/like`, '', {
             headers: {
                 Authorization: `Bearer ${this.authService.userToken}`
             }
@@ -28,7 +36,7 @@ export class PostService {
     }
 
     canLike(id: any) {
-        return this.http.get(ENDPOINT_URL + `${id}/getLike`, {
+        return this.http.get(ENDPOINT_URL + `like/${id}/getLike`, {
             headers: {
                 Authorization: `Bearer ${this.authService.userToken}`
             }
@@ -36,15 +44,15 @@ export class PostService {
     }
 
     unlikePost(id: any) {
-        return this.http.delete(ENDPOINT_URL + `${id}/dislike`, {
+        return this.http.delete(ENDPOINT_URL + `like/${id}/dislike`, {
             headers: {
                 Authorization: `Bearer ${this.authService.userToken}`
             }
         })
     }
 
-    getLikes(id: any) {
-        return this.http.get(ENDPOINT_URL + `${id}/likes`, {
+    getLikesPerPost(id: any) {
+        return this.http.get(ENDPOINT_URL + `like/${id}/likes`, {
             headers: {
                 Authorization: `Bearer ${this.authService.userToken}`
             }
