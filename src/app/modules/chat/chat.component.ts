@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "src/app/core/services/auth.service";
 import { ChatService } from "src/app/core/services/chat.service";
@@ -9,7 +9,7 @@ import { UserService } from "src/app/core/services/user.service";
     templateUrl: './chat.component.html',
     styleUrls: []
   })
-  export class ChatComponent implements OnInit{
+  export class ChatComponent implements OnInit, AfterViewChecked{
   
     constructor(
       private chatService: ChatService,
@@ -59,9 +59,7 @@ import { UserService } from "src/app/core/services/user.service";
   } 
 
   scrollToBottom(): void {
-    try {
-      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-    } catch(err) {}              
+    this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;            
   }
   
   sendMessage(form: FormGroup) {

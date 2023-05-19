@@ -54,7 +54,6 @@ export class EventPageComponent implements OnInit {
 
         const splitDate = this.start.split(' ');
         this.topDate = splitDate[0] +' '+ splitDate[2];
-        console.log(this.topDate);
       }
     );
 
@@ -72,8 +71,8 @@ export class EventPageComponent implements OnInit {
   submitPhoto() {
     const formData = new FormData();
     formData.append('image', this.editPhotoForm.get('image')?.value);
-    console.log(this.id)
-    this.eventService.uploadPhoto(this.id, formData);
+    this.eventService.uploadPhoto(this.id, formData)
+    .subscribe(res => console.log(res));
   }
 
   register() {
