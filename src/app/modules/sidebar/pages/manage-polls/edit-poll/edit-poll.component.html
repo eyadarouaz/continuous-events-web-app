@@ -4,8 +4,11 @@
     <div style="width: 410px;">
 
       <label class="text-muted">Question</label>
-      <div class="input-group mb-3" style="top: 1vh;">
+      <div class="input-group mb-2" style="top: 1vh;">
         <input  type="text"  class="form-control" formControlName="question" required>
+      </div>
+      <div class="text-danger" *ngIf="getError('question')" style="margin-bottom: 1vh;">
+        <small>This field is <strong>required</strong></small>
       </div>
 
       <div formArrayName="option">
@@ -27,15 +30,18 @@
       </button><br>
 
       <label class="text-muted">Due date</label>
-      <div class="input-group mb-3" style="top: 1vh;">
+      <div class="input-group mb-2" style="top: 1vh;">
         <input id="end" type="datetime-local"
         class="form-control" formControlName="dueDate"  required>
+      </div>
+      <div class="text-danger" *ngIf="getError('dueDate')" style="margin-bottom: 1vh;">
+        <small>This field is <strong>required</strong></small>
       </div>
 
     </div> 
     <mat-dialog-actions style="justify-content: right;">
       <button mat-button mat-dialog-close>Cancel</button>
-      <button mat-button type="submit" [mat-dialog-close]="true" style="background:#0275d8 ;color: white;">
+      <button mat-button type="submit" [disabled]="editPollForm.invalid" [mat-dialog-close]="true" style="background:#0275d8 ;color: white;">
         Save
       </button>
     </mat-dialog-actions>

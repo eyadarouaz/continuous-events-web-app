@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
-import { FormArray, FormControl, FormGroup } from "@angular/forms";
-import { ToastrService } from "ngx-toastr";
+import { FormArray, FormControl, FormGroup, Validators } from "@angular/forms";
 import { SurveyService } from './../../../../../core/services/survey.service';
+import { NotificationService } from "../../../../../core/services/notification.service";
 
 @Component({
     selector: 'app-add-poll',
@@ -10,13 +10,13 @@ import { SurveyService } from './../../../../../core/services/survey.service';
   export class AddPollComponent {
 
     addPollForm = new FormGroup({
-      question: new FormControl(),
+      question: new FormControl('', Validators.required),
       option: new FormArray([
         new FormGroup({
             value: new FormControl(),
         })
       ]),
-      dueDate : new FormControl(),
+      dueDate : new FormControl('', Validators.required),
     });
 
     get option(): FormArray {
@@ -25,7 +25,7 @@ import { SurveyService } from './../../../../../core/services/survey.service';
 
     constructor(
       private surveyService: SurveyService,
-      public toast: ToastrService
+      private notificationService: NotificationService
     ) {}
 
     onSubmit(form: FormGroup) {
@@ -34,8 +34,12 @@ import { SurveyService } from './../../../../../core/services/survey.service';
           dueDate: due}
       return this.surveyService.createSurvey(data).
       subscribe(() => {
-        this.toast.success('Poll created successfully');
+        this.notificationService.showSuccess('Poll created successfully');
       });
+    }
+
+    getError(control: string) {
+      return this.addPollForm.get(control)?.hasError('required');
     }
 
     addOption() {

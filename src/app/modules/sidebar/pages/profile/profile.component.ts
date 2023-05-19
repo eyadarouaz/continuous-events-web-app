@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
+import { NotificationService } from "../../../../core/services/notification.service";
 import { UserService } from "./../../../../core/services/user.service";
 
 @Component({
@@ -17,27 +17,29 @@ import { UserService } from "./../../../../core/services/user.service";
     lastName = '';
     role = '';
     image='assets/images/default_profile_image.webp';
+    comments = 0;
+    likes = 0;
 
     editPhotoForm!: FormGroup;
 
     editInfoForm = new FormGroup({
-      username: new FormControl(),
+      username: new FormControl('', Validators.required),
       firstName: new FormControl(),
       lastName: new FormControl(),
-      email: new FormControl(),
+      email: new FormControl('', [Validators.required, Validators.email]),
       birthday: new FormControl(),
       mobile: new FormControl(),
     });
 
     editPwdForm = new FormGroup({
       currentPassword: new FormControl('', Validators.required),
-      newPassword: new FormControl('', Validators.required),
+      newPassword: new FormControl('', [Validators.required, Validators.minLength(7)]),
     });
 
     constructor(
       private userService: UserService,
       public dialog: MatDialog,
-      public toast: ToastrService,
+      private notificationService: NotificationService,
       private formBuilder: FormBuilder
     ) {}
 
@@ -68,16 +70,33 @@ import { UserService } from "./../../../../core/services/user.service";
         birthday: bday}
       return this.userService.updateProfile(data) 
       .subscribe(() => {
-        this.toast.success('Profile updated successfully');
+        this.notificationService.showSuccess('Profile updated successfully');
       });
     }
 
     changePassword(form: FormGroup) {
       return this.userService.changePassword(form.value.currentPassword, form.value.newPassword)
-      .subscribe(() => {
-        this.toast.success('Password changed successfully');
+      .subscribe({next: () => {
+        this.notificationService.showSuccess('Password changed successfully');
         form.reset()
-      });
+      },
+      error: () => {
+        const element = document.getElementById('currentPwd');
+        if (element)
+        element.innerHTML = 'Incorrect password'
+      }});
+    }
+
+    getRequiredError(control: string) {
+      return this.editInfoForm.get(control)?.hasError('required');
+    }
+
+    getLengthError() {
+      return this.editPwdForm.get('newPassword')?.hasError('minlength');
+    }
+
+    getEmailError() {
+      return this.editInfoForm.get('email')?.hasError('email');
     }
 
     onFileSelect(event: any) {
@@ -91,7 +110,7 @@ import { UserService } from "./../../../../core/services/user.service";
       const formData = new FormData();
       formData.append('image', this.editPhotoForm.get('image')?.value);
       this.userService.updatePhoto(formData)
-      .subscribe(() => this.toast.success(''));
+      .subscribe(() => this.notificationService.showSuccess('Profile photo updated successfully'));
     }
     
   }

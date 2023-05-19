@@ -4,7 +4,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { ToastrService } from 'ngx-toastr';
+import { NotificationService } from "../../../../core/services/notification.service";
 import { Events } from '../../../../core/models/event.interface';
 import { EventService } from './../../../../core/services/event.service';
 import { AddEventComponent } from './add-events/add-events.component';
@@ -75,7 +75,7 @@ export class ManageEventsComponent implements OnInit {
   constructor(
     private eventService: EventService,
     public dialog: MatDialog,
-    public toast: ToastrService
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -90,19 +90,6 @@ export class ManageEventsComponent implements OnInit {
           location: element.location, status: element.status,attendees: res.data.count});
           this.dataSource = new MatTableDataSource(this.events);
         });
-
-        // this.evs.push({title: element.title, start: element.startDate, end: element.endDate});    
-        // this.calendarOptions = {
-        //   initialView: 'dayGridMonth',
-        //   firstDay: 1,
-        //   events: this.evs,
-        //   weekends: true,
-        //   editable: true,
-        //   selectable: true,
-        //   selectMirror: true,
-        //   dayMaxEvents: true
-        // };
-
       });
     });
   }
@@ -154,7 +141,7 @@ export class ManageEventsComponent implements OnInit {
   deleteEvent(id: any) {
     this.eventService.deleteEvent(id)
     .subscribe(() => {
-      this.toast.success('Event deleted successfully');
+      this.notificationService.showSuccess('Event deleted successfully');
     })
   }
 

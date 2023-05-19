@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { ToastrService } from "ngx-toastr";
-import { EventService } from "src/app/core/services/event.service";
+import { EventService } from "../../../../../core/services/event.service";
+import { NotificationService } from "../../../../../core/services/notification.service";
 import { ManageEventsComponent } from "../manage-events.component";
 
 @Component({
@@ -27,7 +27,7 @@ import { ManageEventsComponent } from "../manage-events.component";
     constructor(
       private eventService: EventService,
       @Inject(MAT_DIALOG_DATA) public data: ManageEventsComponent,
-      public toast: ToastrService
+      private notificationService: NotificationService
     ) {}
 
     ngOnInit(): void {
@@ -65,11 +65,15 @@ import { ManageEventsComponent } from "../manage-events.component";
       );
     }
   
+    getError(control: string) {
+      return this.editEventForm.get(control)?.hasError('required');
+    }
+
     onSubmit(editEventForm: FormGroup) {
       const data = editEventForm.value;
       return this.eventService.updateEvent(this.id, data)
         .subscribe(() => {
-          this.toast.success('Event updated successfully')
+          this.notificationService.showSuccess('Event updated successfully')
         })
     }
   }

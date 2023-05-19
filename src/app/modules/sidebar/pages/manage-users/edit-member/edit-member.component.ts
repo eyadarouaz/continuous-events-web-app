@@ -1,7 +1,7 @@
 import { Component, Inject } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { ToastrService } from "ngx-toastr";
+import { NotificationService } from "../../../../../core/services/notification.service";
 import { UserService } from "../../../../../core/services/user.service";
 import { ManageMembersComponent } from "../manage-members.component";
 
@@ -28,7 +28,7 @@ import { ManageMembersComponent } from "../manage-members.component";
     constructor(
       private userService: UserService,
       @Inject(MAT_DIALOG_DATA) public data: ManageMembersComponent,
-      public toast: ToastrService
+      private notificationService: NotificationService
     ) {}
 
     confirmPassword(editUserForm: FormGroup) {
@@ -44,7 +44,7 @@ import { ManageMembersComponent } from "../manage-members.component";
         console.log({ username, password });
         return this.userService.updateUser(this.id, { username, password })
           .subscribe(() => {
-            this.toast.success('User updated successfully')
+            this.notificationService.showSuccess('Member updated successfully')
           })
       } return
     }

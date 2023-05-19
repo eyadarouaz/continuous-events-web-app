@@ -2,95 +2,60 @@
 <mat-dialog-content >
   <form [formGroup]="addEventForm" (ngSubmit)="onSubmit(addEventForm)">
     <div style="width: 410px;">
-
-      <label class="text-muted">Title</label>
-      <div class="input-group mb-3" style="top: 1vh;">
-        <input  type="text"  class="form-control" formControlName="title" required>
+      <div class="mb-3">
+        <label class="text-muted">Title</label>
+        <input  type="text" class="form-control" formControlName="title" required>
+        <div class="text-danger" *ngIf="getError('title')" style="margin-bottom: 1vh;">
+          <small>This field is <strong>required</strong></small>
+        </div>
       </div>
 
-      <label class="text-muted">Description</label>
-      <div class="input-group mb-3" style="top: 1vh;">
+      <div class="mb-3">
+        <label class="text-muted">Description</label>
         <textarea class="form-control" formControlName="description" rows="3" required></textarea>
+        <div class="text-danger" *ngIf="getError('description')" style="margin-bottom: 1vh;">
+          <small>This field is <strong>required</strong></small>
+        </div>
       </div>
-
-      <label class="text-muted">Start date</label>
-      <div class="input-group mb-3" style="top: 1vh;">
+      
+      <div class="mb-3">
+        <label class="text-muted">Start date</label>
         <input  type="datetime-local" id="start"
         [ngModel]="myModel" (ngModelChange)="valuechange($event)"
         class="form-control" formControlName="startDate" required>
+        <div class="text-danger" *ngIf="getError('startDate')" style="margin-bottom: 1vh;">
+          <small>This field is <strong>required</strong></small>
+        </div>
       </div>
 
-      <label class="text-muted">End date</label>
-      <div class="input-group mb-3" style="top: 1vh;">
+      <div class="mb-3">
+        <label class="text-muted">End date</label>
         <input id="end" type="datetime-local"
         class="form-control" formControlName="endDate"  required>
+        <div class="text-danger" *ngIf="getError('endDate')" style="margin-bottom: 1vh;">
+          <small>This field is <strong>required</strong></small>
+        </div>
       </div>
 
-      <label class="text-muted">Location</label>
-      <div class="input-group mb-3" style="top: 1vh;">
-        <input type="text" style="border-right: 0;" class="form-control" formControlName="location" required>
-        <span class="input-group-text material-symbols-outlined" style="background-color: white; border-left: 0;">
-            location_on
-        </span>
+      <div class="mb-3">  
+        <label class="text-muted">Location</label>
+        <div class="input-group">
+          <input type="text" style="border-right: 0;" class="form-control" formControlName="location" required>
+          <span class="input-group-text material-symbols-outlined" style="background-color: white; border-left: 0;">
+              location_on
+          </span>
+        </div>
+        <div class="text-danger" *ngIf="getError('location')" style="margin-bottom: 1vh;">
+          <small>This field is <strong>required</strong></small>
+        </div>
       </div>
-        
-        <!-- <mat-label>Dates</mat-label>
-        <mat-date-range-input formGroupName="date" style="width:100%" [rangePicker]="picker">
-          <input matStartDate formControlName="startDate" placeholder="Start date">
-          <input matEndDate formControlName="endDate" placeholder="End date">
-        </mat-date-range-input>
-          <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-date-range-picker #picker></mat-date-range-picker> -->
-
-
-      <!-- <div class="row">
-        <div class="col" >
-          <mat-form-field style="width: 192px;" >
-            <mat-label>Start Time</mat-label>
-            <div formGroupName="time">
-              <input  matNativeControl type="time"  formControlName="startTime" style="text-align: center;"> 
-            </div>
-            <span matSuffix class="material-symbols-outlined" style="margin-right: 12px;">
-              schedule
-            </span>
-          </mat-form-field>
-        </div>
-        <div class="col" >
-          <mat-form-field style="width: 192px;" formGroupName="time">
-            <mat-label>End Time</mat-label>
-            <div >
-              <input  matNativeControl type="time"  formControlName="endTime" style="text-align: center;"> 
-            </div>
-            <span matSuffix class="material-symbols-outlined" style="margin-right: 12px;">
-              schedule
-            </span>
-          </mat-form-field>
-        </div>
-      </div> -->
-
-      <!-- <mat-form-field style="width: 100%">
-        <mat-label>Location</mat-label>
-        <input matInput formControlName="location">
-        <span matSuffix class="material-symbols-outlined" style="margin-right: 12px;">
-          location_on
-        </span>
-      </mat-form-field> -->
 
     </div> 
     <mat-dialog-actions style="justify-content: right;">
       <button mat-button mat-dialog-close>Cancel</button>
-      <button mat-button type="submit" [mat-dialog-close]="true" style="background:#0275d8 ;color: white;">
+      <button mat-button type="submit" [disabled]="addEventForm.invalid" [mat-dialog-close]="true" style="background:#0275d8 ;color: white;">
         Save
       </button>
     </mat-dialog-actions>
-  
-    
   </form>
-  <!-- <mat-form-field>
-      <input  matNativeControl  [matDatepicker]="picker3" type="datetime-local">
-      <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
-  <mat-datepicker #picker3></mat-datepicker>
-  </mat-form-field> -->
-
 </mat-dialog-content>

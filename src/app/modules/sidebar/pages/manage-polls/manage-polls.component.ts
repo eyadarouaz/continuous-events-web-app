@@ -4,9 +4,9 @@ import { Component, OnInit } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatDialog } from "@angular/material/dialog";
 import { FormControl } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
 import { AddPollComponent } from './add-poll/add-poll.component';
 import { EditPollComponent } from './edit-poll/edit-poll.component';
+import { NotificationService } from '../../../../core/services/notification.service';
 
 
 @Component({
@@ -53,7 +53,7 @@ import { EditPollComponent } from './edit-poll/edit-poll.component';
     constructor(
       private surveyService: SurveyService,
       public dialog: MatDialog,
-      public toast: ToastrService
+      private notificationService: NotificationService
     ) {}
 
   ngOnInit(): void {
@@ -115,7 +115,7 @@ import { EditPollComponent } from './edit-poll/edit-poll.component';
   deletePoll(id: any) {
     this.surveyService.deleteSurvey(id)
     .subscribe(() => {
-      this.toast.success('Poll deleted successfully');
+      this.notificationService.showSuccess('Poll deleted successfully');
     })
   }
 

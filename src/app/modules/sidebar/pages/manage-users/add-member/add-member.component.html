@@ -1,12 +1,12 @@
 
 <h1 mat-dialog-title><mat-icon style="vertical-align: sub; margin-right: 5px;">perm_identity</mat-icon>Add a new member</h1>
 <mat-dialog-content>
-  <form #addUserForm="ngForm" (ngSubmit)="save(addUserForm)">
-    <div style="width: 410px; height: 320px">
+  <form [formGroup]="addMemberForm" (ngSubmit)="save(addMemberForm)">
+    <div style="width: 410px; height: 370px">
       <div> 
         <label for="username" style="font-size: small;">Role</label>
-        <div class="input-group mb-3">
-          <select class="form-select" name="role" aria-label="Default select example" style="margin-top: 1vh;" [(ngModel)]="selectedRole">
+        <div class="input-group mb-2">
+          <select class="form-select" formControlName="role"  aria-label="Default select example" style="margin-top: 1vh;" >
           <option selected>User</option>
           <option value="Admin">Admin</option>
           </select>
@@ -15,35 +15,53 @@
       
       <div>
         <label for="username" style="font-size: small;">Username</label>
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" ngModel name="username" placeholder="username" aria-label="username" aria-describedby="basic-addon1" style="top: 1vh;" >
+        <div class="input-group mb-2">
+          <input type="text" class="form-control" formControlName="username" placeholder="username" aria-label="username" aria-describedby="basic-addon1" style="top: 1vh;" >
         </div>
       </div>
+      <div class="text-danger" *ngIf="getRequiredError('username')" style="margin-bottom: 1vh;">
+        <small>This field is <strong>required</strong></small>
+      </div>
+
       <div>
         <label for="email" style="font-size: small;">Email Address</label>
-        <div class="input-group mb-3">
-          <input type="email" class="form-control" ngModel name="email" placeholder="email address" aria-label="email" aria-describedby="basic-addon1" style="top: 1vh;">
+        <div class="input-group mb-2">
+          <input type="email" class="form-control" formControlName="email" placeholder="email address" aria-label="email" aria-describedby="basic-addon1" style="top: 1vh;">
         </div> 
       </div>
+      <div class="text-danger" *ngIf="getRequiredError('email')" style="margin-bottom: 1vh;">
+        <small>This field is <strong>required</strong></small>
+      </div>
+      <div class="text-danger" *ngIf="getEmailError()" style="margin-bottom: 1vh;">
+        <small>Please enter a valid <strong>email</strong></small>
+      </div>
+
       <div class="row">
         <div class="col">
           <label for="password" style="font-size: small;">Password</label>
-          <div class="input-group mb-3">
-            <input type="password" class="form-control" ngModel name="password" placeholder="password" aria-label="password" aria-describedby="basic-addon1" style="top: 1vh;">
+          <div class="input-group mb-2">
+            <input type="password" class="form-control" formControlName="password" placeholder="password" aria-label="password" aria-describedby="basic-addon1" style="top: 1vh;">
           </div> 
-        </div>
-        <div class="col">
-          <label for="confirm_password" style="font-size: small;">Confirm password</label>
-          <div class="input-group mb-3">
-            <input type="password" class="form-control" ngModel name="confirm_password" placeholder="confirm password" aria-label="onfirm_password" aria-describedby="basic-addon1" style="top: 1vh;">
+          <div class="text-danger" *ngIf="getRequiredError('password')" style="margin-bottom: 1vh;">
+            <small>This field is <strong>required</strong></small>
           </div>
         </div>
-        <mat-error *ngIf="!confirmPassword(addUserForm)">Password not matching</mat-error>
+
+        <div class="col">
+          <label for="confirm_password" style="font-size: small;">Confirm password</label>
+          <div class="input-group mb-2">
+            <input type="password" class="form-control" formControlName="confirmPassword" placeholder="confirm password" aria-label="onfirm_password" aria-describedby="basic-addon1" style="top: 1vh;">
+          </div>
+        </div>
+        <div class="text-danger" *ngIf="getLengthError()" style="margin-bottom: 1vh;">
+          <small>Password must contain at least <strong>7 characters</strong></small>
+        </div>
+        <small class="text-danger" *ngIf="!confirmPassword(addMemberForm) && !getLengthError()">Password not matching</small>
       </div>
     </div> 
     <mat-dialog-actions style="justify-content: right;">
       <button mat-button mat-dialog-close>Cancel</button>
-      <button mat-button type="submit" [disabled]="!confirmPassword(addUserForm)" [mat-dialog-close]="true" style="background:#0275d8 ;color: white;">
+      <button mat-button type="submit" [disabled]="addMemberForm.invalid || !confirmPassword(addMemberForm)" [mat-dialog-close]="true" style="background:#0275d8 ;color: white;">
         Save
       </button>
     </mat-dialog-actions>

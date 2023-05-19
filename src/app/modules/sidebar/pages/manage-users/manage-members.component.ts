@@ -5,7 +5,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { User } from "../../../../core/models/user.interface";
 import { EditMemberComponent } from './edit-member/edit-member.component';
 import { AddMemberComponent } from "./add-member/add-member.component";
-import { ToastrService } from "ngx-toastr";
+import { NotificationService } from "../../../../core/services/notification.service";
 
   @Component({
     selector: 'app-manage-members',
@@ -53,7 +53,8 @@ import { ToastrService } from "ngx-toastr";
 
     constructor(
       private userService: UserService,
-      public dialog: MatDialog,public toast: ToastrService
+      public dialog: MatDialog,
+      private notificationService: NotificationService
     ) {}
 
     ngOnInit(): void {
@@ -111,7 +112,7 @@ import { ToastrService } from "ngx-toastr";
     deleteUser(id: number) {
       this.userService.deleteUser(id)
       .subscribe(() => {
-        this.toast.success('User deleted successfully')
+        this.notificationService.showSuccess('Member deleted successfully')
       });
     }
 

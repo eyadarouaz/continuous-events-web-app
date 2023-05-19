@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from "@angular/core";
-import { FormArray, FormControl, FormGroup } from "@angular/forms";
+import { FormArray, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ToastrService } from "ngx-toastr";
 import { ManagePollsComponent } from '../manage-polls.component';
 import { SurveyService } from './../../../../../core/services/survey.service';
+import { NotificationService } from "../../../../../core/services/notification.service";
 
 @Component({
     selector: 'app-edit-poll',
@@ -12,9 +12,9 @@ import { SurveyService } from './../../../../../core/services/survey.service';
   export class EditPollComponent implements OnInit{
 
     editPollForm = new FormGroup({
-        question: new FormControl(),
+        question: new FormControl('', Validators.required),
         option: new FormArray([]),
-        dueDate : new FormControl(),
+        dueDate : new FormControl('', Validators.required),
     });
 
     get id() {
@@ -26,8 +26,8 @@ import { SurveyService } from './../../../../../core/services/survey.service';
     }
 
     constructor(private surveyService: SurveyService,
-      public toast: ToastrService,
-      @Inject(MAT_DIALOG_DATA) public data: ManagePollsComponent
+      @Inject(MAT_DIALOG_DATA) public data: ManagePollsComponent,
+      private notificationService: NotificationService
     ) {}
 
     ngOnInit(): void {
@@ -51,9 +51,12 @@ import { SurveyService } from './../../../../../core/services/survey.service';
             dueDate: due}
         this.surveyService.updateSurvey(this.id, data)
         .subscribe(() => {
-            this.toast.success('Poll updated successfully');
-        })
-        
+            this.notificationService.showSuccess('Poll updated successfully');
+        })   
+    }
+
+    getError(control: string) {
+        return this.editPollForm.get(control)?.hasError('required');
     }
 
     addOption() {

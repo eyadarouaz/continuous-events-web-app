@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { ToastrService } from "ngx-toastr";
-import { EventService } from "src/app/core/services/event.service";
+import { EventService } from "../../../../../core/services/event.service";
+import { NotificationService } from "../../../../../core/services/notification.service";
 
 @Component({
     selector: 'app-add-event',
@@ -26,7 +26,7 @@ import { EventService } from "src/app/core/services/event.service";
   
     constructor(
       private eventService:EventService,
-      public toast: ToastrService
+      private notificationService:NotificationService,
     ) {}
   
     ngOnInit(): void {
@@ -54,7 +54,6 @@ import { EventService } from "src/app/core/services/event.service";
         ].join(':')
       );
     }
-
   
     onSubmit (form: FormGroup) {
       const start: Date = new Date(form.value.startDate);
@@ -63,9 +62,13 @@ import { EventService } from "src/app/core/services/event.service";
         startDate: start, endDate: end, location : form.value.location}
       return this.eventService.addEvent(data)
       .subscribe(() => {
-        this.toast.success('Event added successfully');
+        this.notificationService.showSuccess('Event created successfully');
       }
       )
+    }
+
+    getError(control: string) {
+      return this.addEventForm.get(control)?.hasError('required');
     }
 
     onStartChange() {
@@ -76,5 +79,4 @@ import { EventService } from "src/app/core/services/event.service";
       document.getElementById('end')?.setAttribute("min", newValue);
 
     }
-  
   }

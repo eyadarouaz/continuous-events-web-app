@@ -5,39 +5,55 @@
     <div style="width: 410px;">
 
       <label class="text-muted">Title</label>
-      <div class="input-group mb-3" style="top: 1vh;">
+      <div class="input-group mb-2" style="top: 1vh;">
         <input  type="text"  class="form-control" formControlName="title" required>
+      </div>
+      <div class="text-danger" *ngIf="getError('title')">
+        <small>This field is <strong>required</strong></small>
       </div>
 
       <label class="text-muted">Description</label>
-      <div class="input-group mb-3" style="top: 1vh;">
+      <div class="input-group mb-2" style="top: 1vh;">
         <textarea class="form-control" formControlName="description" rows="3" required></textarea>
+      </div>
+      <div class="text-danger" *ngIf="getError('description')">
+        <small>This field is <strong>required</strong></small>
       </div>
 
       <label class="text-muted">Start date</label>
-      <div class="input-group mb-3" style="top: 1vh;">
+      <div class="input-group mb-2" style="top: 1vh;">
         <input id="start" type="datetime-local" 
         class="form-control" formControlName="startDate" required>
       </div>
+      <div class="text-danger" *ngIf="getError('startDate')">
+        <small>This field is <strong>required</strong></small>
+      </div>
 
       <label class="text-muted">End date</label>
-      <div class="input-group mb-3" style="top: 1vh;">
+      <div class="input-group mb-2" style="top: 1vh;">
         <input id="end" type="datetime-local"
         class="form-control" formControlName="endDate" required>
       </div>
+      <div class="text-danger" *ngIf="getError('endDate')">
+        <small>This field is <strong>required</strong></small>
+      </div>
 
       <label class="text-muted">Location</label>
-      <div class="input-group mb-3" style="top: 1vh;">
+      <div class="input-group mb-2" style="top: 1vh;">
         <input type="text" style="border-right: 0;" class="form-control" formControlName="location" required>
         <span class="input-group-text material-symbols-outlined" style="background-color: white; border-left: 0;">
             location_on
         </span>
       </div>
+      <div class="text-danger" *ngIf="getError('location')">
+        <small>This field is <strong>required</strong></small>
+      </div>
+
     </div> 
   </fieldset>
     <mat-dialog-actions style="justify-content: right;">
       <button mat-button mat-dialog-close>Cancel</button>
-      <button mat-button type="submit" [mat-dialog-close]="true" style="background:#0275d8 ;color: white;">
+      <button mat-button type="submit" [disabled]="editEventForm.invalid" [mat-dialog-close]="true" style="background:#0275d8 ;color: white;">
         Save
       </button>
     </mat-dialog-actions>

@@ -21,12 +21,12 @@
                     <p class="mb-3" style="font-size: 25px;font-weight: 700; color: #6F8FAF">{{firstName}} {{lastName}}</p>
                     <p class="text-muted" style="font-size: 17px;">@{{username}}</p>
                     <hr />
-                    <div class="row text-center">
-                        <div class="col-md-4 mb-5 mb-md-0">
-                            <p>16</p>Comments
+                    <div class="row text-center" style="margin-top: 20px">
+                        <div class="col">
+                            <p style="font-size: 42px;color: #606367;">16</p><span style="font-size: 15px;">Comments</span>
                         </div>
-                        <div class="col-md-4 mb-5 mb-md-0">
-                            <p>21</p>Likes
+                        <div class="col">
+                            <p style="font-size: 42px;color: #606367;">21</p><span style="font-size: 15px;">Likes</span>
                         </div>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
 
 
         <div class="col-md-4 mb-md-0" style="margin-left: 60px;">
-            <div class="card testimonial-card" style="height:350px;width:642px">
+            <div class="card testimonial-card" style="height:390px;width:642px">
               <div class="card-body" style="text-align: left;">
                 <h1>Edit profile</h1>
                 <form [formGroup]="editInfoForm" (ngSubmit)="updateProfile(editInfoForm)">      
@@ -44,29 +44,38 @@
                             <label for="username" class="text-muted">Username</label>
                             <div class="input-group mb-3" style="top: 1vh;">
                                 <span class="input-group-text" id="basic-addon1">@</span>
-                                <input  type="text"  class="form-control" formControlName="username" aria-label="username" aria-describedby="basic-addon1">
+                                <input  type="text"  class="form-control" formControlName="username" required> 
+                            </div>
+                            <div class="text-danger" *ngIf="getRequiredError('username')" style="margin-bottom: 1vh;">
+                                <small>This field is <strong>required</strong></small>
                             </div>
                         </div>
     
                         <div class="col">
-                            <label for="lastname" class="text-muted">Email address</label>
+                            <label for="email" class="text-muted">Email address</label>
                             <div class="input-group mb-3" >
-                                <input type="email" class="form-control" formControlName="email" aria-label="email" aria-describedby="basic-addon1" style="top: 1vh;">
+                                <input type="email" class="form-control" formControlName="email" style="top: 1vh;" required>
                             </div> 
+                            <div class="text-danger" *ngIf="getRequiredError('email')" style="margin-bottom: 1vh;">
+                                <small>This field is <strong>required</strong></small>
+                            </div>
+                            <div class="text-danger" *ngIf="getEmailError()" style="margin-bottom: 1vh;">
+                                <small>Please enter a valid <strong>email</strong></small>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
                             <label for="firstname" class="text-muted">First Name</label>
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" formControlName="firstName" aria-label="firstname" aria-describedby="basic-addon1" style="top: 1vh;" >
+                                <input type="text" class="form-control" formControlName="firstName" style="top: 1vh;" >
                             </div>
                         </div>
     
                         <div class="col">
                             <label for="lastname" class="text-muted">Last Name</label>
                             <div class="input-group mb-3" >
-                                <input type="text" class="form-control" formControlName="lastName" aria-label="lastname" aria-describedby="basic-addon1" style="top: 1vh;">
+                                <input type="text" class="form-control" formControlName="lastName" style="top: 1vh;">
                             </div> 
                         </div>
                     </div>
@@ -75,23 +84,23 @@
                             <label for="mobile" class="text-muted">Mobile</label>
                             <div class="input-group mb-3" style="top: 1vh">
                                 <span class="input-group-text" id="basic-addon1" >+216</span>
-                                <input type="string" class="form-control" formControlName="mobile"  aria-label="mobile" aria-describedby="basic-addon1">
+                                <input type="string" class="form-control" formControlName="mobile" >
                             </div>
                         </div>
                         <div class="col">
                             <label for="birthday" class="text-muted">Birthday</label>
                             <div class="input-group mb-3">
-                                <input type="date" class="form-control" formControlName="birthday" aria-label="birthday" aria-describedby="basic-addon1" style="top: 1vh">
+                                <input type="date" class="form-control" formControlName="birthday" style="top: 1vh">
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn" style="background: #4f9eed; color: white; border-radius: 2cm;">Update profile</button>
+                    <button type="submit" [disabled]="editInfoForm.invalid" class="btn" style="background: #4f9eed; color: white; border-radius: 2cm;margin-top: 25px;">Update profile</button>
                 </form>
               </div>
             </div>
         </div>
     </div>
-    <div style="margin-left: 422px;">
+    <div style="margin-left: 422px;margin-top: 20px;">
         <div class="card testimonial-card">
           <div class="card-body" style="text-align: left;">
             <h1>Change password</h1>
@@ -100,18 +109,22 @@
                     <div class="col">
                         <label for="currentpwd" class="text-muted">Current password</label>
                         <div class="input-group mb-3">
-                            <input type="password" class="form-control" formControlName="currentPassword" aria-label="currentpwd" aria-describedby="basic-addon1" style="top: 1vh;">
+                            <input type="password" class="form-control" formControlName="currentPassword" style="top: 1vh;">
                         </div>
+                        <small class="text-danger" id="currentPwd"></small>
                     </div>
     
                     <div class="col" >
                         <label for="newpwd" class="text-muted">New password</label>
                         <div class="input-group mb-3">
-                            <input type="password" class="form-control" formControlName="newPassword" aria-label="firstname" aria-describedby="basic-addon1" style="top: 1vh;" >
+                            <input type="password" class="form-control" formControlName="newPassword" style="top: 1vh;" >
+                        </div>
+                        <div class="text-danger" *ngIf="getLengthError()" style="margin-bottom: 1vh;">
+                            <small>Password must contain at least <strong>7 characters</strong></small>
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn" style="background: #4f9eed; color: white; border-radius: 2cm;">Change password</button>
+                <button type="submit" [disabled]="editPwdForm.invalid" class="btn" style="background: #4f9eed; color: white; border-radius: 2cm;">Change password</button>
             </form>
           </div>
         </div>
