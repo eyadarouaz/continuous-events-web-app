@@ -27,6 +27,14 @@ export class PostService {
         })
     }
 
+    getCommentsPerPost(id: any) {
+        return this.http.get(ENDPOINT_URL + `comment/${id}`, {
+            headers: {
+                Authorization: `Bearer ${this.authService.userToken}`
+            }
+        })
+    }
+
     likePost(id: any) {
         return this.http.post(ENDPOINT_URL + `like/${id}/like`, '', {
             headers: {
