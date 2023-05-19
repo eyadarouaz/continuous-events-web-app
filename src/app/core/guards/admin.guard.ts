@@ -14,7 +14,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 
         if(this.authService.userRole !=='Admin'){
             console.log(this.authService.userRole)
-          this.router.navigateByUrl('/**').then();
+          this.router.navigateByUrl('/page-not-found').then();
           return false;
         }
         return true;
