@@ -2,6 +2,10 @@
     <title>Login | Continuous Events</title>
 </head>
 <body style="background-color: rgb(228, 228, 228);">
+    <mat-button-toggle-group #langSelect="matButtonToggleGroup" (change)="translate.use(langSelect.value); changeLanguage(langSelect.value)" style="font-size: 12px;height:40px;margin-top:10px; left: 90%">
+        <mat-button-toggle value="en" style="margin-top: -5px;" [checked]="getCurrentLanguage('en')">EN</mat-button-toggle>
+        <mat-button-toggle value="fr" style="margin-top: -5px;"[checked]="getCurrentLanguage('fr')">FR</mat-button-toggle>
+    </mat-button-toggle-group>
 <div style="width:820px; height:480px; margin:auto; margin-top:20px;" >
     <mat-grid-list cols="2" rowHeight="100%">
         <mat-grid-tile class="left-grid">
@@ -13,27 +17,27 @@
                     <mat-card-title>
                         <img src="assets/images/login-logo.png" style="width:75px;margin-bottom: 20px;margin-left: 12px;margin-right: 8px;">
                         <span style="color: blueviolet;font-size: 20px;font-weight: 200;vertical-align: super;">continuous events</span><br>
-                        <strong style="margin-top: 70px;margin-left:20px">Log In</strong>
+                        <strong style="margin-top: 70px;margin-left:20px">{{ 'LOGIN.TITLE' | translate }}</strong>
                     </mat-card-title>
-                    <mat-card-subtitle style="margin-left:20px; font-size: 13px;">Enter your username and password to continue.</mat-card-subtitle>
+                    <mat-card-subtitle style="margin-left:20px; font-size: 13px;">{{ 'LOGIN.SUBTITLE' | translate }}</mat-card-subtitle>
                 </mat-card-header>
                 <div class="content-div">
                     <mat-card-content>
                         <div style=" width: 335px;">
                         <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
                             <mat-form-field appearance="outline">
-                                <mat-label>Username or Email</mat-label>
+                                <mat-label>{{ 'LOGIN.FORM.EMAIL' | translate }}</mat-label>
                                 <input matInput class="form-control" ngModel name="login" >
                             </mat-form-field>
                             <mat-form-field appearance="outline">
-                                <mat-label>Password</mat-label>
+                                <mat-label>{{ 'LOGIN.FORM.PASSWORD' | translate }}</mat-label>
                                 <input matInput type="password" class="form-control" ngModel name="password" >
                             </mat-form-field>
-                            <button class="login-button" [disabled]="loginForm.invalid" type="submit" mat-raised-button style="width: 100%; margin-bottom: 5px;">Login</button>
+                            <button class="login-button" [disabled]="loginForm.invalid" type="submit" mat-raised-button style="width: 100%; margin-bottom: 5px;">{{ 'LOGIN.LOGIN' | translate }}</button>
                         </form>
                         <br>
                         <div style="text-align: center;">
-                            <button class="forgot-button" mat-button (click)="openDialog()">Forgot Password ?</button>
+                            <button class="forgot-button" mat-button (click)="openDialog()">{{ 'LOGIN.FORGOT' | translate }}</button>
                         </div>
                     </div>
                     </mat-card-content>

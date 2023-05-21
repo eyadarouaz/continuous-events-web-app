@@ -1,5 +1,4 @@
 body {
-    padding-top: 50px;
     background: whitesmoke;
 }
 
@@ -72,3 +71,9 @@ mat-card-title{
     color: #fff;
     transform: translateY(-5px);
   }
+
+.mat-button-toggle-checked {
+    background-color: #4169E1;
+    color: #ffff;
+    font-weight: 600
+}
