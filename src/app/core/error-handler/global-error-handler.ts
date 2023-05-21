@@ -1,9 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { NotificationService } from '../services/notification.service';
-import { ErrorHandler, Injectable, Injector } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ErrorService } from '../services/error.service';
+import { ErrorHandler, Injectable, Injector } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { ErrorService } from '../services/error.service';
+import { NotificationService } from '../services/notification.service';
 
 
 @Injectable()
