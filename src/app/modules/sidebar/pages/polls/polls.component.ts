@@ -10,6 +10,9 @@ import { Component, OnInit} from '@angular/core';
 export class PollsComponent implements OnInit{
 
   polls : Array<any> = [];
+  selectedPolls: Array<any> = [];
+  searchInput = '';
+  today = new Date();
 
   constructor(private surveyService: SurveyService) {}
 
@@ -20,16 +23,27 @@ export class PollsComponent implements OnInit{
         this.surveyService.getVotes(element.id)
         .subscribe((res: any) => {
           this.polls.push({id: element.id, question: element.question,
-            dueDate: new Date(element.dueDate).toDateString(), votes: res.data.count
+            dueDate: new Date(element.dueDate), votes: res.data.count
           });
+          this.polls.sort((a, b) => {
+            const da = a.dueDate;
+            const db = b.dueDate;
+            return db.valueOf() - da.valueOf() 
+          });
+          this.selectedPolls = this.polls;
         })
       });
-      this.polls.sort((a, b) => {
-        const da = new Date(a.createdAt);
-        const db = new Date(b.createdAt);
-        return db.valueOf() - da.valueOf() 
-      });
     })
+  }
+
+  onSelected(value:string): void {
+    this.selectedPolls = this.polls.filter((element: any) => {
+      if(value === 'Live') {
+        return element.dueDate >= this.today
+      }else {
+        return element.dueDate < this.today
+      }
+    });
   }
 
 }
