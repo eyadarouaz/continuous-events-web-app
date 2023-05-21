@@ -13,7 +13,10 @@ export class SearchPipe implements PipeTransform {
        searchInput = searchInput.toLowerCase();
        return result.filter(
          element => {
+            if(element.title)
             return element.title.toLowerCase().includes(searchInput)
+            else
+            return element.question.toLowerCase().includes(searchInput)
          });
      }
 }
