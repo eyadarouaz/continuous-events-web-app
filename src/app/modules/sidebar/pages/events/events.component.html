@@ -10,7 +10,7 @@
             </div> -->
             <div style="width:500px;margin-top:25px;margin-left:20px;font-size: 28px;color: rgb(72, 71, 71);">
               <strong>Filter Events</strong>
-              <form class="d-flex input-group" style="margin-top: 30px;">
+              <form class="d-flex input-group" style="margin-top: 30px;width:600px">
                 <input
                   name="searchInput" [(ngModel)]="searchInput"
                   type="search"
@@ -20,12 +20,14 @@
                   aria-describedby="search-addon"
                   style="width: 200px;"
                 />
-                <select #status class="form-select" aria-label="Default select example" style="margin-left: 10px;" (change)="onSelected(status.value)">
-                  <option selected>All</option>
-                  <option value="Completed">Completed</option>
-                  <option value="Happening">Happening</option>
-                  <option value="Scheduled">Scheduled</option>
-                </select>
+                <div style="margin-left: 20px;" >
+                  <select #status class="form-select" aria-label="Default select example" (change)="onSelected(status.value)">
+                    <option selected>Status</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Happening">Happening</option>
+                    <option value="Scheduled">Scheduled</option>
+                  </select>
+                  </div>
               </form>
           </div>
         </mat-card>
