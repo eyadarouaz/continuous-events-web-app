@@ -4,8 +4,8 @@ import { Events } from '../../../../core/models/event.interface';
 import { EventService } from '../../../../core/services/event.service';
 import { UserService } from "../../../../core/services/user.service";
 import { PostService } from './../../../../core/services/post.service';
-//@ts-ignore
 import * as confetti from 'canvas-confetti';
+import { AuthService } from "./../../../../core/services/auth.service";
 
 @Component({
     selector: 'app-feed',
@@ -14,7 +14,12 @@ import * as confetti from 'canvas-confetti';
   })
 export class FeedComponent implements OnInit{
 
+  currentUser = {
+    username: '', 
+    image: 'assets/images/default_profile_image.webp'
+  };
   posts: Array<any> = [];
+  likedPosts: Array<any> = []
   members: Array<any> = [];
   postedOn: Date = new Date(2023,0o3,22,20,50)
   diffMin = 0;
@@ -33,11 +38,18 @@ export class FeedComponent implements OnInit{
     private userService: UserService,
     private postService: PostService,
     public dialog: MatDialog,
-    public renderer2: Renderer2
+    public renderer2: Renderer2,
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
     const today: Date = new Date();
+
+    this.authService.currentUser(localStorage.getItem('token'))
+    .subscribe((res:any) => {
+      this.currentUser.image = `http://localhost:3000/user/${res.data.user.id}/profile-photo`;
+      this.currentUser.username = res.data.user.username;
+    })
 
     this.eventService.getEvents()
     .subscribe((res: any) => {
@@ -62,8 +74,9 @@ export class FeedComponent implements OnInit{
         if (element.profileImage) {
           pic = `http://localhost:3000/user/${element.id}/profile-photo`;
         }
-        this.members.push({ id: element.id, image: pic, username: element.username});
+        this.members.push({ id: element.id, firstName: element.firstName, image: pic, username: element.username, birthday: element.birthday});
       });
+      this.members = this.members.filter((element: any) => element.username != this.currentUser.username)
       const tab2 = this.members.find(element => this.formatDate(new Date(element.birthday)) == this.formatDate(today));
       this.birthday.firstName = tab2?.firstName;
       this.birthday.username = tab2?.username;
@@ -73,13 +86,61 @@ export class FeedComponent implements OnInit{
     this.postService.getPosts()
     .subscribe((res: any)=> {
       res.data.forEach((element:any) => {
-        this.postService.getLikes(element.id)
+        let pic = "assets/images/default-event.jpg"
+        if(element.eventPost){
+          if(element.eventPost.image)
+            pic = `http://localhost:3000/event/${element.eventPost.id}/image`
+        }
+        this.postService.getLikesPerPost(element.id)
         .subscribe((res: any) => {
           this.posts.push({...element, postedOn: this.timePosted(new Date(element.createdAt)), 
-            nbLikes: res.data.count, users: res.data.list});
+            image: pic, nbLikes: res.data.count, firstUsers: res.data.list.slice(0,3), 
+            users: res.data.list});
+          this.posts.sort((a, b) => {
+            const da = new Date(a.createdAt);
+            const db = new Date(b.createdAt);
+            return db.valueOf() - da.valueOf() 
+          });
+        });
+
+        this.postService.canLike(element.id) 
+        .subscribe((res: any) => {
+          if (!Array.isArray(res.data)) {
+            this.likedPosts.push({id: res.data.post.id});
+            this.likedPosts.forEach((element: any)=> {
+              const elem = document.getElementById(element.id);
+              if(elem) {
+                elem.style.color = '#4c73e8';
+                elem.children[2].innerHTML = 'Liked'
+              }
+            })
+          }
         });
       });
     });
+  }
+
+
+  likeOrUnlike(id: any) {
+    const element = document.getElementById(`${id}`);
+    const buttonText = element?.children[2];
+    if(!this.isLiked(id)) {
+      this.postService.likePost(id).subscribe();
+      if(element && buttonText) {
+        element.style.color = "#4c73e8";
+        buttonText.innerHTML = 'Liked'
+      }
+    }else {
+      this.postService.unlikePost(id).subscribe();
+      if(element && buttonText) {
+        element.style.color = "black";
+        buttonText.innerHTML = 'Like'
+      }
+    }  
+  } 
+
+  isLiked(id: any) {
+    return this.likedPosts.some(el => el.id === id)
   }
     
   timePosted(time: Date) {
@@ -110,14 +171,17 @@ export class FeedComponent implements OnInit{
   }
 
   surprise() {
-    const myConfetti = confetti.create(this.canvas, {
-      resize: true,
-      spread: 70,
-      origin: {
-          y: 1.2
-      }
-    });
-    myConfetti();
+
+    // if(this.canvas) {
+    //   const myConfetti = confetti.create(this.canvas, {
+    //     resize: true,
+    //     spread: 70,
+    //     origin: {
+    //         y: 1.2
+    //     }
+    //   });
+    //   myConfetti();
+    // }
   }
   
 }
