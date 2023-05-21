@@ -3,6 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { UserService } from "../../core/services/user.service";
 import { Menu } from "./../../core/models/menu.interface";
+import { TranslateService } from '@ngx-translate/core';
 
 
 
@@ -112,14 +113,36 @@ export class SidebarComponent implements OnInit{
   constructor(
     private userService: UserService, 
     public router: Router, 
-    public route: ActivatedRoute) {
+    public route: ActivatedRoute,
+    public translate: TranslateService) {
     this.menus.map(menu => {
-      if (menu.name == localStorage.getItem('activeRoute')) {menu.active = true;}
+      if (menu.id == localStorage.getItem('activeRoute')) {menu.active = true;}
       else if (this.hasMenus(menu)) {
         menu.menus.map(sub => {
-          if (sub.name == localStorage.getItem('activeRoute')) {sub.active = true;}
+          if (sub.id == localStorage.getItem('activeRoute')) {sub.active = true;}
         });
       }
+    });
+    translate.get('LAYOUT.SIDEBAR').subscribe((res: any) => {
+      const result = Object.keys(res).map((key) => [key, res[key]]);
+      console.log(result)
+      this.menus.map(menu => {
+        result.forEach((element: Array<string>) => {
+          if (menu.name.toUpperCase() == element[0]) {
+            console.log(menu.name + element[0]);
+            menu.name = element[1];
+          }
+        })
+        if (this.hasMenus(menu)) {
+          result.forEach((element: Array<string>)=> {
+            menu.menus.map(sub => {
+              if (sub.name.toUpperCase() == element[0]) {
+                sub.name = element[1]
+              }
+            });
+          })
+        }
+      });
     });
   }
 
@@ -141,7 +164,7 @@ export class SidebarComponent implements OnInit{
   }
 
   activate(id: any, name: any): void {
-    localStorage.setItem('activeRoute', name);
+    localStorage.setItem('activeRoute', id);
     this.menus = this.menus.map(menu => {
       if(this.hasMenus(menu)){
         menu.menus.map(sub => {

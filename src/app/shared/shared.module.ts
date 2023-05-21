@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -10,6 +11,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { MatMenuModule } from '@angular/material/menu';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 
 @NgModule({
@@ -17,9 +19,11 @@ import {MatGridListModule} from '@angular/material/grid-list';
     NavbarComponent
   ],
   imports: [
+    CommonModule,
     MatMenuModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
+    MatButtonToggleModule
   ],
   exports: [
     MatFormFieldModule,
@@ -32,7 +36,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
     MatCardModule,
     MatMenuModule,
     NavbarComponent,
-    MatGridListModule
+    MatGridListModule,
+    MatButtonToggleModule
   ],
 })
 export class SharedModule { }

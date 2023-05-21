@@ -1,4 +1,4 @@
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,6 +17,8 @@ import { MemberProfileModule } from './modules/member-profile/member-profile.mod
 import { PageNotFoundModule } from './modules/page-not-found/page-not-found.module';
 import { PollPageModule } from './modules/poll-page/poll-page.module';
 import { SidebarModule } from './modules/sidebar/sidebar.module';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 const config: SocketIoConfig = { url: env.apiBaseUrl, options: {
   extraHeaders: {
@@ -31,6 +33,13 @@ const config: SocketIoConfig = { url: env.apiBaseUrl, options: {
   imports: [
     BrowserModule,
     HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+      }
+    }),
     AppRoutingModule,
     BrowserAnimationsModule,
     SocketIoModule.forRoot(config),
@@ -47,9 +56,12 @@ const config: SocketIoConfig = { url: env.apiBaseUrl, options: {
     MemberProfileModule,
     EventPageModule,
     PollPageModule,
-    ChatModule
+    ChatModule,
   ],
   providers: [AuthService, {provide: ErrorHandler, useClass: GlobalErrorHandler}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(http);
+}

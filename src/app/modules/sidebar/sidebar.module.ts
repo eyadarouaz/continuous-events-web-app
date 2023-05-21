@@ -26,6 +26,7 @@ import { ManageMembersComponent } from './pages/manage-users/manage-members.comp
 import { PollsComponent } from './pages/polls/polls.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { SidebarComponent } from './sidebar.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { SidebarComponent } from './sidebar.component';
     MatNativeDateModule,
     MatSelectModule,
     FullCalendarModule,
-    MatDividerModule
+    MatDividerModule,
+    TranslateModule,
   ],
   exports: [
     SidebarComponent

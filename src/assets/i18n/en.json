@@ -1,0 +1,33 @@
+{
+    "LOGIN": {
+        "TITLE": "Log In",
+        "SUBTITLE": "Enter your username and password to continue.",
+        "FORM": {
+            "EMAIL": "Username or Email",
+            "PASSWORD": "Password"
+        },
+        "LOGIN": "Login",
+        "FORGOT": "Forgot Password ?"
+    },
+    "LAYOUT": {
+        "SIDEBAR": {
+            "HOME": "Home",
+            "PROFILE": "Profile",
+            "EVENTS": "Events",
+            "POLLS": "Polls",
+            "CHAT_ROOM": "Chat Room",
+            "DASHBOARD": "Dashboard",
+            "ANALYTICS": "Analytics",
+            "MANAGE MEMBERS": "Manage Members",
+            "MANAGE EVENTS": "Manage Events",
+            "MANAGE POLLS": "Manage Polls"
+        },
+        "HOME": {
+            "UPCOMING": "Upcoming Events",
+            "MEMBERS": "Members",
+            "BIRTHDAY": "It's {{name}}'s birthday",
+            "LIKE": "Like",
+            "COMMENT": "Comment"
+        }
+    }
+}

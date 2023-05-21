@@ -1,0 +1,33 @@
+{
+    "LOGIN": {
+        "TITLE": "Connexion",
+        "SUBTITLE": "Entrez votre email et mot de passe pour continuer.",
+        "FORM": {
+            "EMAIL": "Nom d'utilisateur ou Email",
+            "PASSWORD": "Mot de passe"
+        },
+        "LOGIN": "Se connecter",
+        "FORGOT": "Mot de passe oublié ?"
+    },
+    "LAYOUT": {
+        "SIDEBAR": {
+            "HOME": "Accueil",
+            "PROFILE": "Profil",
+            "EVENTS": "Événements",
+            "POLLS": "Sondages",
+            "CHAT_ROOM": "Chat Room",
+            "DASHBOARD": "Tableau de bord",
+            "ANALYTICS": "Analytiques",
+            "MANAGE MEMBERS": "Gérer Membres",
+            "MANAGE EVENTS": "Gérer Événements",
+            "MANAGE POLLS": "Gérer Sondages"
+        },
+        "HOME": {
+            "UPCOMING": "Prochains Événements",
+            "MEMBERS": "Membres",
+            "BIRTHDAY": "C'est l'anniversaire de {{name}}",
+            "LIKE": "J'aime",
+            "COMMENT": "Commentaire"
+        }
+    }
+}
