@@ -53,17 +53,18 @@ export class AuthService {
     login(login: string, password: string) {
         this.http.post(ENDPOINT_URL + '/login', {login, password})
         .subscribe(
-            (res: any) => {
+            {next: (res: any) => {
                 const token = res.data.access_token;
                 localStorage.setItem('token', token);
-                localStorage.setItem('activeRoute', 'Home');
+                localStorage.setItem('activeRoute', '1');
                 this.currentUser(token)
                 .subscribe({ 
                     next: (res: any) => localStorage.setItem('role', res.data.user.role)
                 })
                 this.notificationService.showSuccess('Logged in successfully')
                 setTimeout(() => this.router.navigateByUrl('/home').then(), 1000) 
-            }
+            },
+            error: () => this.notificationService.showError('Invalid credentials')}
         ) 
     }
 
