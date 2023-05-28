@@ -20,32 +20,6 @@ export class AuthService {
         return localStorage.getItem('token');
     }
 
-    // validateToken() {
-    //     const fetchedToken = localStorage.getItem('token');
-    //     if (fetchedToken) {
-    //         try {
-    //             const decryptedToken = (fetchedToken);
-    //             this.verifyToken(decryptedToken).toPromise().then((res: any) => {
-    //             if (res.statusCode) {
-    //                 localStorage.setItem('token', fetchedToken);
-    //             }
-    //             }).catch((err: HttpErrorResponse) => {
-    //             if (err) {
-    //                 localStorage.removeItem('token');
-    //                 localStorage.removeItem('role');
-    //                 this.router.navigateByUrl('/login').then();
-    //             }
-    //             });
-    //         }
-    //             // @ts-ignore
-    //         catch (err: DOMException) {
-    //             localStorage.removeItem('token');
-    //             localStorage.removeItem('role');
-    //             console.log('Authentication failed');
-    //         }
-    //     }
-    // }
-
     currentUser(token: any) {
         return this.http.post(ENDPOINT_URL + '/verify-token', {token});
     }
@@ -62,7 +36,7 @@ export class AuthService {
                     next: (res: any) => localStorage.setItem('role', res.data.user.role)
                 })
                 this.notificationService.showSuccess('Logged in successfully')
-                setTimeout(() => this.router.navigateByUrl('/home').then(), 1000) 
+                this.router.navigateByUrl('/home').then();
             },
             error: () => this.notificationService.showError('Invalid credentials')}
         ) 
@@ -75,13 +49,7 @@ export class AuthService {
     }
 
     forgotPassword(email: string) {
-        this.http.post(ENDPOINT_URL + '/forgot', {email})
-        .subscribe((res: any) => {
-            this.notificationService.showSuccess('Email sent')
-            localStorage.setItem('reset_token', res.data.token);
-            localStorage.setItem('reset_code', res.data.verif_code);
-            localStorage.setItem('email', email); 
-        })
+        return this.http.post(ENDPOINT_URL + '/forgot', {email})
     }
 
     resetPassword(password: any, verifCode: any, token: any) {
@@ -90,10 +58,8 @@ export class AuthService {
             this.notificationService.showSuccess('Password changed successfully')
             localStorage.removeItem('reset_code');
             localStorage.removeItem('reset_token');
+            localStorage.removeItem('email');
             this.router.navigateByUrl('/login').then()
         })
     }
-
-    
-
 }
