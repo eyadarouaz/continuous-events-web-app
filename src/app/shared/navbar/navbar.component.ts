@@ -1,8 +1,8 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
-import { AuthService } from "src/app/core/services/auth.service";
-import { UserService } from "src/app/core/services/user.service";
+import { AuthService } from "./../../core/services/auth.service";
+import { UserService } from "./../../core/services/user.service";
 
 @Component({
     selector: 'app-nav',
@@ -27,7 +27,7 @@ import { UserService } from "src/app/core/services/user.service";
       });
       translate.addLangs(['en', 'fr']);
       translate.setDefaultLang('en');
-      translate.use(localStorage.getItem('lang')+"");
+      translate.use(localStorage.getItem('lang')? localStorage.getItem('lang')+"" : "en");
     }
 
     changeLanguage(value: any) {
