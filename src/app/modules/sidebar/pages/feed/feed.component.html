@@ -4,17 +4,18 @@
 
 <section style="margin-left: 8px;">
   <div class="row">
+    <!-- Activity Stream -->
     <div class="col">
-      <!-- Birthday -->
+      <!-- Birthday Section -->
       <mat-card style="width:680px;margin-bottom: 25px; height: 180px;border-radius: 10px;overflow: hidden;margin-left: 30px;" *ngIf="birthday.firstName || birthday.username">
         <div class="row">
           <div class="col-4" style="margin-left: 70px;margin-top: 15px;">
             <img src={{birthday.image}} class="rounded-circle" style="width: 150px;box-shadow: 0px 5px 8px rgba(100, 148, 237, 0.5);"
             alt="Avatar" />
           </div>
-          <div class="col" style="margin-top: 60px;font-size: 28px;font-weight: 600;" *ngIf="birthday.firstName">
-            <div> It's {{birthday.firstName}}'s birthday <span role="button" title="click for surprise" (click)="surprise()">🎉</span></div><br>
-            <button mat-raised-button class="button">Wish {{birthday.firstName}} a happy birthday</button>
+          <div class="col text-center" style="margin-top: 40px;font-size: 28px;font-weight: 600;line-height: 30px" *ngIf="birthday.firstName">
+            <div>{{ 'LAYOUT.HOME.BIRTHDAY' | translate : { name: birthday.firstName } }}<span role="button" title="click for surprise" (click)="surprise()">🎉</span></div><br>
+            <button mat-raised-button routerLink="/chat" class="button">Wish {{birthday.firstName}} a happy birthday</button>
           </div>
           <div class="col" style="margin-top: 60px;font-size: 28px;font-weight: 600;" *ngIf="birthday.username && !birthday.firstName">
             <div> It's {{birthday.username}}'s birthday <span role="button" title="click for surprise" (click)="surprise()">🎉</span></div><br>
@@ -22,79 +23,112 @@
           </div>
         </div>
       </mat-card>
+      <!-- /Birthday Section -->
+
       <!-- Posts -->
-      <div *ngFor="let post of posts">
+      <div *ngFor="let post of posts; let i = index">
         <!-- Event Post -->
         <mat-card class="example-card" *ngIf="post.eventPost">
+
+          <!-- User Info -->
           <mat-card-header>
             <div mat-card-avatar class="example-header-image"></div>
             <mat-card-title class="row" style="font-size: 16px;">
               {{post.user.firstName}} {{post.user.lastName}}
               <span class="text-muted" style="font-size: 14px;margin-left: -8px;">created an event.</span>
             </mat-card-title>
-            <!-- <mat-card-subtitle *ngIf="diffMin < 60">{{diffMin}} minutes ago</mat-card-subtitle>
-            <mat-card-subtitle title="{{postedOn}}" *ngIf="diffMin >= 60 && diffMin < 1440">{{diffHour}} hours ago</mat-card-subtitle>
-            <mat-card-subtitle *ngIf="diffMin >= 1440">{{diffDay}} days ago</mat-card-subtitle> -->
             <mat-card-subtitle>{{post.postedOn}}</mat-card-subtitle>
           </mat-card-header>
-        
-          
-            <div class="card-up">
-              <img src="http://localhost:3000/event/1/image" style="width: 500px; height:350px; margin-top: -7%;">
+          <!-- /User Info -->
+
+          <!-- Event  Info-->
+          <div class="card-up">
+            <img src={{post.image}} style="width: 500px; height:350px; margin-top: -7%;">
+          </div>
+          <div class="row details" role="button" routerLink="/events/{{post.eventPost.id}}">
+            <div class="col-9" style="margin-left: 10px;margin-top: 8px;">
+              <div style="color: red;font-weight: 500;">{{post.eventPost.startDate}}</div>
+              <strong style="font-size: 20px;">{{post.eventPost.title}}</strong>
+              <div style="color: gray;font-weight: 400;">{{post.eventPost.location}}</div>
             </div>
-            <div class="row details" role="button" routerLink="/events/{{post.eventPost.id}}">
-              <div class="col-9" style="margin-left: 10px;margin-top: 8px;">
-                <div style="color: red;font-weight: 500;">{{post.eventPost.startDate}}</div>
-                <strong style="font-size: 20px;">{{post.eventPost.title}}</strong>
-                <div style="color: gray;font-weight: 400;">{{post.eventPost.location}}</div>
-              </div>
-              <div class="col">
-                
-              </div>
+            <div class="col">
+              
             </div>
-            <div class="row" style="margin-left: 22px; margin-top: 10px;margin-bottom: 5px;">
-              <div class="col-1" style="margin-left: -25px">
-                <img class="rounded-circle" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(9).webp" style="width:26px">
-              </div>
-              <div class="col-1" style="margin-left: -25px">
-                <img class="rounded-circle" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp" style="width:26px;">
-              </div>
-              <div class="col-1" style="margin-left: -25px">
-                <img class="rounded-circle" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(1).webp" style="width:26px">
-              </div>
-              <div class="col-7" style="margin-left: -8px;margin-top: 5px;"><strong>like this</strong></div>
-              <div class="col-3"style="margin-top:5px">
-                <mat-icon style="margin-left:22px;height:18px;font-size: 15px;vertical-align: text-bottom;color: #4c73e8;">
-                  thumb_up
-                </mat-icon>
-                <strong>{{post.nbLikes}}</strong>
-                <mat-icon style="margin-left:8px;height:18px;font-size: 15px;vertical-align: text-bottom;color: rgb(171, 165, 165);">
-                  chat_bubble
-                </mat-icon>
-                <strong>0</strong>
+          </div>
+          <div class="row" style="margin-left: 30px; margin-top: 10px;margin-bottom: 5px;">
+            <div class="col-8">
+              <div class="row">
+                <div class="col-1" style="margin-left: -10px" *ngFor="let user of post.firstUsers">
+                  <img *ngIf="post.firstUsers.length>0" class="rounded-circle" src="http://localhost:3000/user/{{user.user.id}}/profile-photo" style="width:26px;">
+                </div>
+                <div class="col-7" style="margin-top: 5px;margin-left: 8px;"><strong *ngIf="post.firstUsers.length>0">like this</strong></div>
               </div>
             </div>
-            <mat-divider></mat-divider>
-            <mat-card-actions>
-            <button mat-button style="width: 50%"><mat-icon>thumb_up</mat-icon>Like</button>
-            <button mat-button style="width: 50%"><mat-icon> chat_bubble</mat-icon>Comment</button>
+            <div class="col-3" style="margin-top:5px;display: flex;">
+              <mat-icon style="margin-left:22px;height:18px;font-size: 15px;vertical-align: text-bottom;color: #4c73e8;">
+                thumb_up
+              </mat-icon>
+              <strong>{{post.nbLikes}}</strong>
+              <mat-icon style="margin-left:8px;height:18px;font-size: 15px;vertical-align: text-bottom;color: rgb(171, 165, 165);">
+                chat_bubble
+              </mat-icon>
+              <strong>0</strong>
+            </div>
+          </div>
+          <!-- /Event Info -->
+
+          <mat-divider></mat-divider>
+
+          <!-- Post Actions -->
+          <mat-card-actions>
+            <button #like id="{{ 'post' + post.id }}" mat-button (click)="likeOrUnlike(post.id)" style="color: black;width: 50%"><mat-icon>thumb_up</mat-icon><span>Like</span></button>
+          <button mat-button style="width: 50%" data-bs-toggle="collapse" data-bs-target="#post.id"><mat-icon> chat_bubble</mat-icon>Comment</button>
           </mat-card-actions>
+          <!-- /Post Actions -->
+
+          <mat-divider></mat-divider>
+
+          <!-- Comments Section -->
+          
+            <div *ngFor="let comment of post.comments" class="p-2 rounded" style="width:90%; background-color: whitesmoke; margin-top: 5px;margin-bottom: 5px; margin-left: 25px;">
+              <img  class="rounded-circle" src="http://localhost:3000/user/{{comment.user.id}}/profile-photo" style="width: 35px;">
+              <span style="margin-left: 8px;">{{comment.body}}</span>
+              <!-- <span>{{comment.createdAt}}</span> -->
+            </div>
+          <form [formGroup]="commentForm" (ngSubmit)="addComment(post.id)">
+            <div class="collapse row" id="post.id" style="margin: 10px;">
+              <div class="col-1">
+                <img class="rounded-circle" src={{currentUser.image}} style="width: 35px;">
+              </div>
+              <div class="col-9" style="margin-left: 8px;">
+                <input type="text" class="form-control" formControlName="body" placeholder="Add a comment" style="margin-left: 8px;">
+              </div>
+              <div class="col-1">
+                <button type="submit" mat-mini-fab color="primary">
+                  <mat-icon>send</mat-icon>
+                </button>
+              </div>
+            </div>
+          </form>
+          <!-- /Comments Section -->
         </mat-card>
         <!-- /Event Post -->
+
         <!-- Poll Post -->
         <mat-card class="example-card" *ngIf="post.surveyPost">
+
+          <!-- User Info -->
           <mat-card-header>
             <div mat-card-avatar class="example-header-image"></div>
             <mat-card-title class="row" style="font-size: 16px;">
               {{post.user.firstName}} {{post.user.lastName}}
               <span class="text-muted" style="font-size: 14px;margin-left: -8px;">created a poll.</span>
             </mat-card-title>
-            <!-- <mat-card-subtitle *ngIf="diffMin < 60">{{diffMin}} minutes ago</mat-card-subtitle>
-            <mat-card-subtitle title="{{postedOn}}" *ngIf="diffMin >= 60 && diffMin < 1440">{{diffHour}} hours ago</mat-card-subtitle>
-            <mat-card-subtitle *ngIf="diffMin >= 1440">{{diffDay}} days ago</mat-card-subtitle> -->
             <mat-card-subtitle> {{post.postedOn}}</mat-card-subtitle>
           </mat-card-header>
+          <!-- /User Info -->
         
+          <!-- Poll Info -->
           <div style="width:450px; margin-left: 30px;margin-bottom: 10px;">
             <p style="font-size: 19px;font-weight: 500;">{{post.surveyPost.question}}</p>
             <div style="margin-left: 20px;">
@@ -106,11 +140,15 @@
           </div>
   
           <div class="row" style="margin-left: 30px; margin-top: 10px;margin-bottom: 5px;">
-            <div class="col-1" style="margin-left: -25px" *ngFor="let user of post.users">
-              <img class="rounded-circle" src="http://localhost:3000/user/{{user.id}}/profile-photo" style="width:26px">
+            <div class="col-8">
+              <div class="row">
+                <div class="col-1" style="margin-left: -10px" *ngFor="let user of post.firstUsers">
+                  <img *ngIf="post.firstUsers.length>0" class="rounded-circle" src="http://localhost:3000/user/{{user.user.id}}/profile-photo" style="width:26px;">
+                </div>
+                <div class="col-7" style="margin-top: 5px;margin-left: 8px;"><strong *ngIf="post.firstUsers.length>0">like this</strong></div>
+              </div>
             </div>
-            <div class="col-7" style="margin-left: -8px;margin-top: 5px;"><strong>like this</strong></div>
-            <div class="col-3"style="margin-top:5px">
+            <div class="col-3" style="margin-top:5px;display: flex;">
               <mat-icon style="margin-left:22px;height:18px;font-size: 15px;vertical-align: text-bottom;color: #4c73e8;">
                 thumb_up
               </mat-icon>
@@ -121,23 +159,46 @@
               <strong>0</strong>
             </div>
           </div>
+          <!-- /Poll Info -->
+
           <mat-divider></mat-divider>
+
+          <!-- Post Actions -->
           <mat-card-actions>
-            <button mat-button style="width: 50%"><mat-icon>thumb_up</mat-icon>Like</button>
-            <button mat-button style="width: 50%"><mat-icon> chat_bubble</mat-icon>Comment</button>
+            <button #like id="{{ 'post' + post.id }}" mat-button (click)="likeOrUnlike(post.id)" style="color: black;width: 50%"><mat-icon>thumb_up</mat-icon><span>Like</span></button>
+            <button mat-button style="width: 50%" data-bs-toggle="collapse" data-bs-target="#post.id"><mat-icon> chat_bubble</mat-icon>Comment</button>
           </mat-card-actions>
+          <!-- /Post Actions -->
+
+          <mat-divider></mat-divider>
+
+          <!-- Comments Section -->
+          <form>
+            <div class="collapse row" id="post.id" style="margin: 10px;">
+              <div class="col-1">
+                <img class="rounded-circle" src={{currentUser.image}} style="width: 35px;">
+              </div>
+              <div class="col-10" style="margin-left: 8px;">
+                <input type="text" class="form-control" placeholder="Add a comment">
+              </div>
+              <span type="submit" class="col-1 material-symbols-outlined" style="margin-left: -15px;margin-top:5px">
+                send
+              </span>
+            </div>
+          </form>
+          <!-- Comments Section -->
         </mat-card>
-        <!-- /Poll Event -->
+        <!-- /Poll Post -->
       </div>
-      <!-- /Posts -->
-
-
-      
+      <!-- /Posts -->      
     </div>
+    <!-- /Activity Stream -->
+
     <div class="col"  style="float: right;margin-left: 15px;">
+      <!-- Upcoming Events Section -->
       <mat-card style="width: 20rem; height: 15rem; position: fixed;">
         <mat-card-header>
-          <mat-card-title>Upcoming Events</mat-card-title>
+          <mat-card-title>{{ 'LAYOUT.HOME.UPCOMING' | translate }}</mat-card-title>
         </mat-card-header>
         <mat-card-content style="margin-top: 6px;">
           <div *ngIf="events.length === 0" class="text-center" style="margin: auto;"> 
@@ -163,23 +224,21 @@
           </div>
         </mat-card-content>
       </mat-card>
+      <!-- /Upcoming Events Section -->
+
+      <!-- Members List -->
       <mat-card id="custom-canvas" style="width: 20rem;height: 17rem ;position: fixed; margin-top: 250px;">
         <mat-card-header>
-          <mat-card-title>Members</mat-card-title>
+          <mat-card-title>{{ 'LAYOUT.HOME.MEMBERS' | translate }}</mat-card-title>
         </mat-card-header>
         <mat-card-content style="overflow-y: scroll;">
           <div class="row" *ngFor="let member of members" style="margin-top: 8px;">
             <div class="col-3"><img role="button" routerLink="/{{member.username}}" src={{member.image}} class="rounded-circle" style="width:50px"></div>
             <div class="col-5" style="font-size: 16px;font-weight: 600;margin-top: 12px;">{{member.username}}</div>
-            <div class="col-2">
-              <span title="Send Message" role="button" class="material-symbols-outlined" style="margin-top: 10px;">
-                chat
-              </span>
-            </div>
           </div>
       </mat-card-content>
       </mat-card>
+      <!-- /Members List -->
     </div>
   </div>
 </section>
-

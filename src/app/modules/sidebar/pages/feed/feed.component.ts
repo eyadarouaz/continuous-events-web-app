@@ -1,20 +1,21 @@
-import { Component, OnInit, Renderer2 } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, OnInit, QueryList, Renderer2, ViewChildren } from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
 import { MatDialog } from '@angular/material/dialog';
 import { Events } from '../../../../core/models/event.interface';
 import { EventService } from '../../../../core/services/event.service';
 import { UserService } from "../../../../core/services/user.service";
-import { PostService } from './../../../../core/services/post.service';
-import * as confetti from 'canvas-confetti';
 import { AuthService } from "./../../../../core/services/auth.service";
+import { PostService } from './../../../../core/services/post.service';
 
 @Component({
     selector: 'app-feed',
     templateUrl: './feed.component.html',
     styleUrls: ['./feed.component.css']
   })
-export class FeedComponent implements OnInit{
+export class FeedComponent implements AfterViewInit{
 
   currentUser = {
+    id: 0,
     username: '', 
     image: 'assets/images/default_profile_image.webp'
   };
@@ -32,6 +33,11 @@ export class FeedComponent implements OnInit{
     image: ''
   } 
   canvas = document.getElementById('custom-canvas');
+  commentForm = new FormGroup({
+    body: new FormControl()
+  })
+
+  @ViewChildren('like', {read: ElementRef}) likes!: QueryList<ElementRef>;
 
   constructor( 
     private eventService: EventService,
@@ -42,13 +48,14 @@ export class FeedComponent implements OnInit{
     private authService: AuthService,
   ) {}
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     const today: Date = new Date();
 
     this.authService.currentUser(localStorage.getItem('token'))
     .subscribe((res:any) => {
       this.currentUser.image = `http://localhost:3000/user/${res.data.user.id}/profile-photo`;
       this.currentUser.username = res.data.user.username;
+      this.currentUser.id = res.data.user.id;
     })
 
     this.eventService.getEvents()
@@ -91,15 +98,21 @@ export class FeedComponent implements OnInit{
           if(element.eventPost.image)
             pic = `http://localhost:3000/event/${element.eventPost.id}/image`
         }
-        this.postService.getLikesPerPost(element.id)
+
+        this.postService.getCommentsPerPost(element.id)
         .subscribe((res: any) => {
-          this.posts.push({...element, postedOn: this.timePosted(new Date(element.createdAt)), 
-            image: pic, nbLikes: res.data.count, firstUsers: res.data.list.slice(0,3), 
-            users: res.data.list});
-          this.posts.sort((a, b) => {
-            const da = new Date(a.createdAt);
-            const db = new Date(b.createdAt);
-            return db.valueOf() - da.valueOf() 
+          const comments = res.data;
+
+          this.postService.getLikesPerPost(element.id)
+          .subscribe((res: any) => {
+            this.posts.push({...element, postedOn: this.timePosted(new Date(element.createdAt)), 
+              image: pic, nbLikes: res.data.count, firstUsers: res.data.list.slice(0,3), 
+              users: res.data.list, comments: comments});
+            this.posts.sort((a, b) => {
+              const da = new Date(a.createdAt);
+              const db = new Date(b.createdAt);
+              return db.valueOf() - da.valueOf() 
+            });
           });
         });
 
@@ -107,12 +120,15 @@ export class FeedComponent implements OnInit{
         .subscribe((res: any) => {
           if (!Array.isArray(res.data)) {
             this.likedPosts.push({id: res.data.post.id});
-            this.likedPosts.forEach((element: any)=> {
-              const elem = document.getElementById(element.id);
-              if(elem) {
-                elem.style.color = '#4c73e8';
-                elem.children[2].innerHTML = 'Liked'
-              }
+            this.likedPosts.forEach((el: any)=> {
+              this.likes.changes.subscribe(a => {
+                a.forEach((b: any) => {
+                  if(b.nativeElement.id === 'post'+el.id){
+                    b.nativeElement.children[2].innerHTML = 'Liked';
+                    b.nativeElement.style.color = '#4169E1'
+                  }
+                })
+              });
             })
           }
         });
@@ -122,22 +138,51 @@ export class FeedComponent implements OnInit{
 
 
   likeOrUnlike(id: any) {
-    const element = document.getElementById(`${id}`);
+    const element = document.getElementById(`post${id}`);
     const buttonText = element?.children[2];
     if(!this.isLiked(id)) {
-      this.postService.likePost(id).subscribe();
+      this.postService.likePost(id)
+      .subscribe(() => {
+        const res = this.posts.find((obj:any) => {
+          return obj.id === id
+        })
+        const indx = this.posts.indexOf(res)
+        this.posts[indx].nbLikes ++;
+      });
+      
       if(element && buttonText) {
         element.style.color = "#4c73e8";
         buttonText.innerHTML = 'Liked'
       }
     }else {
-      this.postService.unlikePost(id).subscribe();
+      this.postService.unlikePost(id)
+      .subscribe(() => {
+        const res = this.posts.find((obj:any) => {
+          return obj.id === id
+        })
+        const indx = this.posts.indexOf(res)
+        this.posts[indx].nbLikes --;
+      });
+      
       if(element && buttonText) {
         element.style.color = "black";
         buttonText.innerHTML = 'Like'
       }
     }  
   } 
+
+  addComment(id: any) {
+    const body = this.commentForm.value;
+    this.postService.addComment(id, body)
+    .subscribe(() => {
+      const res = this.posts.find((obj:any) => {
+        return obj.id === id
+      })
+      const indx = this.posts.indexOf(res)
+      this.posts[indx].comments.push({body: body.body, user: {id: this.currentUser.id}});
+      this.commentForm.reset()
+    })
+  }
 
   isLiked(id: any) {
     return this.likedPosts.some(el => el.id === id)
@@ -183,7 +228,6 @@ export class FeedComponent implements OnInit{
     //   myConfetti();
     // }
   }
-  
 }
   
   
