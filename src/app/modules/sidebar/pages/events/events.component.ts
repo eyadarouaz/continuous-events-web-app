@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
-import { EventService } from 'src/app/core/services/event.service';
+import { EventService } from './../../../../core/services/event.service';
 
 @Component({
   selector: 'app-events',
@@ -63,7 +63,13 @@ export class EventsComponent implements OnInit{
   }
 
   onSelected(value:string): void {
-    this.selectedEvents = this.events.filter(element => element.status === value);
+    this.selectedEvents = this.events.filter(element => {
+      if(value === 'All') {
+        return element
+      }else {
+        return element.status === value
+      }
+    });
   }
 
   dateClass: MatCalendarCellClassFunction<Date> = () => {
