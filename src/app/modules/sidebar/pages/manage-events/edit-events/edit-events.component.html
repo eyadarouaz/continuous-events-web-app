@@ -1,7 +1,7 @@
 <h1 mat-dialog-title><mat-icon style="vertical-align: sub; margin-right: 5px;">edit_calendar</mat-icon>Edit event</h1>
 <mat-dialog-content >
   <form [formGroup]="editEventForm" (ngSubmit)="onSubmit(editEventForm)">
-    <fieldset [disabled]="status === 'Completed'">
+    <!-- <fieldset [disabled]="status === 'Completed'"> -->
     <div style="width: 410px;">
 
       <label class="text-muted">Title</label>
@@ -50,7 +50,7 @@
       </div>
 
     </div> 
-  </fieldset>
+  <!-- </fieldset> -->
     <mat-dialog-actions style="justify-content: right;">
       <button mat-button mat-dialog-close>Cancel</button>
       <button mat-button type="submit" [disabled]="editEventForm.invalid" [mat-dialog-close]="true" style="background:#0275d8 ;color: white;">

@@ -1,9 +1,9 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { TranslateService } from '@ngx-translate/core';
 import { UserService } from "../../core/services/user.service";
 import { Menu } from "./../../core/models/menu.interface";
-import { TranslateService } from '@ngx-translate/core';
 
 
 
@@ -125,11 +125,9 @@ export class SidebarComponent implements OnInit{
     });
     translate.get('LAYOUT.SIDEBAR').subscribe((res: any) => {
       const result = Object.keys(res).map((key) => [key, res[key]]);
-      console.log(result)
       this.menus.map(menu => {
         result.forEach((element: Array<string>) => {
           if (menu.name.toUpperCase() == element[0]) {
-            console.log(menu.name + element[0]);
             menu.name = element[1];
           }
         })
@@ -163,7 +161,7 @@ export class SidebarComponent implements OnInit{
     return menu.menus.length > 0;
   }
 
-  activate(id: any, name: any): void {
+  activate(id: any): void {
     localStorage.setItem('activeRoute', id);
     this.menus = this.menus.map(menu => {
       if(this.hasMenus(menu)){

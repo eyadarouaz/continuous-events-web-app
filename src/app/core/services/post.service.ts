@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { environment as env } from "src/environment";
+import { environment as env } from "./../../../environment";
 import { AuthService } from "./auth.service";
 
 
@@ -11,29 +11,6 @@ export class PostService {
     constructor(private http: HttpClient,
         private authService: AuthService) {}
 
-    getPosts() {
-        return this.http.get(ENDPOINT_URL + 'post', {
-            headers: {
-                Authorization: `Bearer ${this.authService.userToken}`
-            }
-        })
-    }
-
-    getLikes() {
-        return this.http.get(ENDPOINT_URL + 'like', {
-            headers: {
-                Authorization: `Bearer ${this.authService.userToken}`
-            }
-        })
-    }
-
-    getCommentsPerPost(id: any) {
-        return this.http.get(ENDPOINT_URL + `comment/${id}`, {
-            headers: {
-                Authorization: `Bearer ${this.authService.userToken}`
-            }
-        })
-    }
 
     likePost(id: any) {
         return this.http.post(ENDPOINT_URL + `like/${id}/like`, '', {
@@ -59,6 +36,14 @@ export class PostService {
         })
     }
 
+    addComment(id: any, body: any) {
+        return this.http.post(ENDPOINT_URL + `comment/${id}`, body, {
+            headers: {
+                Authorization: `Bearer ${this.authService.userToken}`
+            }
+        })
+    }
+
     getLikesPerPost(id: any) {
         return this.http.get(ENDPOINT_URL + `like/${id}/likes`, {
             headers: {
@@ -66,4 +51,29 @@ export class PostService {
             }
         })
     }
+
+    getPosts() {
+        return this.http.get(ENDPOINT_URL + 'post', {
+            headers: {
+                Authorization: `Bearer ${this.authService.userToken}`
+            }
+        })
+    }
+
+    getLikes() {
+        return this.http.get(ENDPOINT_URL + 'like', {
+            headers: {
+                Authorization: `Bearer ${this.authService.userToken}`
+            }
+        })
+    }
+
+    getCommentsPerPost(id: any) {
+        return this.http.get(ENDPOINT_URL + `comment/${id}`, {
+            headers: {
+                Authorization: `Bearer ${this.authService.userToken}`
+            }
+        })
+    }
+
 }

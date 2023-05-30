@@ -18,7 +18,7 @@
         <div style="height:81%;overflow-y: auto;;">
             <div class="list-group list-group-flush mx-3 mt-4" *ngFor="let menu of menus" role="tablist">
                 <div *ngIf="!hasMenus(menu)">
-                    <a id= "menu.id" [routerLink]="menu.route" (click)="activate(menu.id, menu.name)" 
+                    <a id= "menu.id" [routerLink]="menu.route" (click)="activate(menu.id)" 
                     [ngClass]="menu.active ? 'list-group-item list-group-item-action py-2 ripple active' 
                     : 'list-group-item list-group-item-action py-2 ripple inactive'">
                         <mat-icon>{{menu.icon}}</mat-icon><span>{{menu.name}}</span>
@@ -39,7 +39,7 @@
                     </a>
                     <div class="collapse show" style="margin-bottom: 20px;" id="adminPanel" *ngFor="let sub of menu.menus" aria-expanded="true">
                         <div class="list-group list-group-flush mx-3 mt-4">
-                            <a id= "sub.id" [routerLink]="sub.route" (click)="activate(sub.id, sub.name)" 
+                            <a id= "sub.id" [routerLink]="sub.route" (click)="activate(sub.id)" 
                             [ngClass]="sub.active ? 'list-group-item list-group-item-action py-2 ripple active' 
                             : 'list-group-item list-group-item-action py-2 ripple inactive'">
                                 {{sub.name}}

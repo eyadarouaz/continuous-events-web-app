@@ -24,26 +24,30 @@
                 </div>
                 <div style="margin-top: 30px;">
                     <h3 style="color: rgb(104, 108, 238);"><strong>{{topDate}}</strong></h3>
-                    <div style="min-height:50px;font-size: 32px;font-weight: 700;line-height: 37px;margin-bottom: 25px;">
+                    <div style="min-height:70px;font-size: 32px;font-weight: 700;line-height: 37px;margin-bottom: 25px;">
                         {{title}}
                         <span class="badge badge-default" [ngClass]="{'text-bg-primary': status === 'Scheduled', 'text-bg-secondary': status === 'Completed', 'text-bg-success': status === 'Happening' }"
                         style="vertical-align: middle;font-size: 12px;">{{status}}</span>
                     </div>
                     <div style="min-height:80px;">
-                        <div class="row" style="margin-left: 10px;" *ngIf="attendees.length > 0">
-                            <div class="col-1" style="margin-left: -10px;" *ngFor="let attendee of attendees; let i=index">
-                                <img title={{attendee.user.firstName}} src="http://localhost:3000/user/{{attendee.user.id}}/profile-photo" 
-                                class="rounded-circle shadow-4"
-                                style="width: 32px;" alt="Avatar" *ngIf="i<3" />
+                        <div style="margin-left: 10px;" *ngIf="attendees.length > 0">
+                            <div class="row" style="width: 85px;overflow: hidden;">
+                                <div class="col-1" style="margin-left: -3px;" *ngFor="let attendee of attendees; let i=index">
+                                    <img title={{attendee.user.firstName}} src="http://localhost:3000/user/{{attendee.user.id}}/profile-photo" 
+                                    class="rounded-circle shadow-4"
+                                    style="width: 32px;" alt="Avatar" *ngIf="i<3" />
+                                </div>
                             </div>
-                            <div class="col-8" style="margin-top: 5px; " role="button" data-bs-toggle="modal" data-bs-target="#registrationsModal">
-                                <strong style="color: rgb(104, 108, 238);"><span *ngIf="attendees.length > 3" >+ {{attendeesNumber}} others</span> registered</strong>
+                            <div style="margin-top: 5px; " role="button" data-bs-toggle="modal" data-bs-target="#registrationsModal">
+                                <strong style="color: rgb(104, 108, 238);">
+                                    <span *ngIf="attendees.length > 3" >+ {{attendeesNumber}} others</span> 
+                                    <span> registered</span>
+                                </strong>
                             </div>
                         </div>
                     </div>
                     
-                    <button class="button" [disabled]="status === 'Completed'" mat-raised-button (click)="register()" style="width:93%; margin-bottom: 5px;">Register</button><br>
-                    <!-- <button mat-raised-button style="width:93%;">Join group chat</button> -->
+                    <button id="registerBtn" class="button" [disabled]="status === 'Completed' || isRegistered || clicked" mat-raised-button (click)="register()" style="width:93%; margin-bottom: 5px;">Register</button><br>
                     <div style="font-size: 16px;font-weight: 700; margin-top:50px">Date and Time</div>
                     <p>{{start}} - {{end}}</p>
                     <div style="font-size: 16px;font-weight: 700;">Location</div>
@@ -80,7 +84,7 @@
     <div class="modal-dialog">
       <div class="modal-content" style="padding-bottom: 10px;">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Registrations</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Attendees</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div style="overflow-y: scroll;overflow-x: hidden;max-height:450px;">
