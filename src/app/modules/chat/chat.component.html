@@ -14,20 +14,24 @@
   <div class="col" style="height:400px" style="width: 800px;margin-left: 30px;">
     <div #scrollMe class="mb-3 mt-3" style="height: 430px; overflow-y: scroll;">
       <div *ngFor="let message of messages" style="width:fit-content">
-        <div *ngIf="message.user.username !== currentUsername" style="margin-left: 50px; margin-bottom: 10px;">
-          <!-- <img class="rounded-circle" src="http://localhost:3000/user/{{message.user.id}}/profile-photo" style="width:30px"> -->
-          <div class="bg-white p-2 rounded mb-1" >
-            <span class="fw-bolder">{{message.user.username}} : </span>
-            {{message.content}}
+        <div class="row" *ngIf="message.user.username !== currentUsername" style="margin-left: 50px; margin-bottom: 10px;">
+          <div class="col-1" style="margin-right: 10px;">
+            <img class="rounded-circle" src="http://localhost:3000/user/{{message.user.id}}/profile-photo" style="width:30px">
           </div>
-          <span style="margin-bottom: 10px;color:rgb(156, 156, 156)">{{message.time}}</span>
+          <div class="col" style="width: 200px">
+            <div class="bg-white p-2 rounded mb-1" style="margin-right: 50px; width: fit-content;">
+              <!-- <span class="fw-bolder">{{message.user.username}} : </span> -->
+              {{message.content}}
+            </div>
+          </div>
+          <span style="margin-left: 45px;margin-bottom: 10px;color:rgb(156, 156, 156)">{{message.time}}</span>
         </div>
         <div *ngIf="message.user.username === currentUsername" style="margin-bottom: 10px;">
-          <div class="p-2 rounded mb-1 text-light" style="margin-left: 500px; margin-right: 80px;background-color: mediumslateblue;">
+          <div class="p-2 rounded mb-1 text-light" style="margin-left: 450px;margin-right: 50px;float: right ;background-color: mediumslateblue;">
             <span class="fw-bolder"></span>
             {{message.content}}
           </div>
-          <span style="margin-left: 500px;margin-bottom: 10px;color:rgb(156, 156, 156)">{{message.time}}</span>
+          <span style="margin-left: 685px;margin-bottom: 10px;color:rgb(156, 156, 156)">{{message.time}}</span>
         </div>
         
       </div>
