@@ -1,5 +1,5 @@
+import { Component, OnInit } from '@angular/core';
 import { SurveyService } from '../../../../core/services/survey.service';
-import { Component, OnInit} from '@angular/core';
 
 
 @Component({
@@ -40,8 +40,10 @@ export class PollsComponent implements OnInit{
     this.selectedPolls = this.polls.filter((element: any) => {
       if(value === 'Live') {
         return element.dueDate >= this.today
-      }else {
+      }else if(value === 'Ended'){
         return element.dueDate < this.today
+      }else {
+        return element
       }
     });
   }
