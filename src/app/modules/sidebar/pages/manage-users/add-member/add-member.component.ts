@@ -37,7 +37,7 @@ import { UserService } from "../../../../../core/services/user.service";
         const data = {role: addUserForm.value.role, username: addUserForm.value.username,
         email: addUserForm.value.email, password: addUserForm.value.password};
         console.log(data)
-        return this.userService.addUser({data})
+        return this.userService.addUser(data)
           .subscribe(() => {
             this.notificationService.showSuccess('Member added successfully')
           })
