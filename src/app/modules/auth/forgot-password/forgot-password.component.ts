@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { FormControl, Validators } from "@angular/forms";
 import { AuthService } from "./../../../core/services/auth.service";
+import { NotificationService } from "./../../../core/services/notification.service";
 
 @Component({
     selector: 'app-forgot-password',
@@ -9,14 +10,20 @@ import { AuthService } from "./../../../core/services/auth.service";
   })
   export class ForgotPasswordComponent {
   
-    constructor(private authService: AuthService,) {}
+    constructor(private authService: AuthService, private notificationService: NotificationService) {}
   
     emailAddress = new FormControl('', [Validators.email]);
   
     sendLink(){
       const email  = this.emailAddress.getRawValue();
       if(email){
-        return this.authService.forgotPassword(email);
+        this.authService.forgotPassword(email)
+        .subscribe({next: (res: any) => {
+          this.notificationService.showSuccess('Email sent')
+          localStorage.setItem('reset_token', res.data.token);
+          localStorage.setItem('reset_code', res.data.verif_code);
+          localStorage.setItem('email', email); 
+        }, error: () => this.notificationService.showError('Account not found')})
       }
     }
   
